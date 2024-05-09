@@ -34,6 +34,11 @@
             treeView1 = new TreeView();
             pictureBox1 = new PictureBox();
             tabPage2 = new TabPage();
+            numericUpDown2 = new NumericUpDown();
+            numericUpDown1 = new NumericUpDown();
+            label2 = new Label();
+            label1 = new Label();
+            checkBox1 = new CheckBox();
             button1 = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -43,6 +48,8 @@
             splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
             // tabControl1
@@ -109,6 +116,12 @@
             // 
             // tabPage2
             // 
+            tabPage2.AutoScroll = true;
+            tabPage2.Controls.Add(numericUpDown2);
+            tabPage2.Controls.Add(numericUpDown1);
+            tabPage2.Controls.Add(label2);
+            tabPage2.Controls.Add(label1);
+            tabPage2.Controls.Add(checkBox1);
             tabPage2.Controls.Add(button1);
             tabPage2.Location = new Point(4, 34);
             tabPage2.Name = "tabPage2";
@@ -118,9 +131,53 @@
             tabPage2.Text = "tabPage2";
             tabPage2.UseVisualStyleBackColor = true;
             // 
+            // numericUpDown2
+            // 
+            numericUpDown2.Location = new Point(141, 75);
+            numericUpDown2.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            numericUpDown2.Name = "numericUpDown2";
+            numericUpDown2.Size = new Size(120, 33);
+            numericUpDown2.TabIndex = 7;
+            // 
+            // numericUpDown1
+            // 
+            numericUpDown1.Location = new Point(141, 36);
+            numericUpDown1.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            numericUpDown1.Name = "numericUpDown1";
+            numericUpDown1.Size = new Size(120, 33);
+            numericUpDown1.TabIndex = 6;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(8, 77);
+            label2.Name = "label2";
+            label2.Size = new Size(130, 25);
+            label2.TabIndex = 5;
+            label2.Text = "Верхній поріг";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(8, 38);
+            label1.Name = "label1";
+            label1.Size = new Size(127, 25);
+            label1.TabIndex = 3;
+            label1.Text = "Нижній поріг";
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(8, 6);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(84, 29);
+            checkBox1.TabIndex = 1;
+            checkBox1.Text = "Canny";
+            checkBox1.UseVisualStyleBackColor = true;
+            // 
             // button1
             // 
-            button1.Location = new Point(8, 6);
+            button1.Location = new Point(6, 411);
             button1.Name = "button1";
             button1.Size = new Size(139, 104);
             button1.TabIndex = 0;
@@ -144,6 +201,9 @@
             splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             tabPage2.ResumeLayout(false);
+            tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
         }
 
@@ -156,5 +216,10 @@
         private SplitContainer splitContainer1;
         private TreeView treeView1;
         private PictureBox pictureBox1;
+        private CheckBox checkBox1;
+        private Label label2;
+        private Label label1;
+        private NumericUpDown numericUpDown1;
+        private NumericUpDown numericUpDown2;
     }
 }

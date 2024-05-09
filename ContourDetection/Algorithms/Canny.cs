@@ -7,9 +7,9 @@ namespace ContourDetection.Algorithms
     {
         public string Name => "Canny";
 
-        public Contour Apply(MyImage image)
+        public Contour Apply(MyImage image, double th, double thL)
         {
-            var imgCanny = new Image<Bgr, byte>(image.FilePath).Canny(50, 20);
+            var imgCanny = new Image<Bgr, byte>(image.FilePath).Canny(th, thL);
             var contour = new Contour(this, imgCanny.ToBitmap());
             image.Contours.Add(contour);
             return contour;
