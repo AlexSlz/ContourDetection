@@ -1,7 +1,3 @@
-using Emgu.CV.Structure;
-using Emgu.CV;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using ContourDetection.Algorithms;
 
 namespace ContourDetection
