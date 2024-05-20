@@ -18,6 +18,15 @@ namespace ContourDetection
             Contours = new List<Contour>();
         }
 
+        public void DisplayOnTreeView(TreeView treeView)
+        {
+            treeView.Nodes.Find(Id, false)[0].Nodes.Clear();
+            foreach (var contour in Contours)
+            {
+                treeView.Nodes.Find(Id, false)[0].Nodes.Add(contour.Id, contour.GetName());
+            }
+        }
+
         private static Bitmap ConvolutionFilter(Bitmap sourceBitmap,
                                      double[,] filterMatrix,
                                           double factor = 1,

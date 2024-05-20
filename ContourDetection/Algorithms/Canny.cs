@@ -1,5 +1,6 @@
 ﻿using Emgu.CV;
 using Emgu.CV.Structure;
+using System.Windows.Forms;
 
 namespace ContourDetection.Algorithms
 {
@@ -7,12 +8,36 @@ namespace ContourDetection.Algorithms
     {
         public string Name => "Canny";
 
-        public Contour Apply(MyImage image, double th, double thL)
+        private double _th;
+        private double _thL;
+
+        public override string ToString()
         {
-            var imgCanny = new Image<Bgr, byte>(image.FilePath).Canny(th, thL);
-            var contour = new Contour(this, imgCanny.ToBitmap());
-            image.Contours.Add(contour);
-            return contour;
+            return $"{Name}\n{_th}\n{_thL}";
+        }
+
+        public Canny(double th, double thL)
+        {
+            SetParameters(th, thL);
+        }
+
+        public void SetParameters(double th, double thL)
+        {
+            _th = th;
+            _thL = thL;
+        }
+
+        public Contour Apply(GraphicElement image)
+        {
+            using (Image<Bgr, byte> img = image.Bitmap.ToImage<Bgr, byte>())
+            {
+                using (Mat dst = new Mat())
+                {
+                    CvInvoke.Canny(img, dst, _th, _thL);
+                    var contour = new Contour(this, dst.ToBitmap());
+                    return contour;
+                }
+            }
         }
     }
 }

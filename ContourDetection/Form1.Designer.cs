@@ -32,8 +32,12 @@
             tabPage1 = new TabPage();
             splitContainer1 = new SplitContainer();
             treeView1 = new TreeView();
+            label3 = new Label();
             pictureBox1 = new PictureBox();
             tabPage2 = new TabPage();
+            checkBox3 = new CheckBox();
+            listBox1 = new ListBox();
+            checkBox2 = new CheckBox();
             numericUpDown2 = new NumericUpDown();
             numericUpDown1 = new NumericUpDown();
             label2 = new Label();
@@ -88,6 +92,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(label3);
             splitContainer1.Panel2.Controls.Add(pictureBox1);
             splitContainer1.Panel2MinSize = 550;
             splitContainer1.Size = new Size(770, 517);
@@ -103,6 +108,14 @@
             treeView1.TabIndex = 0;
             treeView1.NodeMouseClick += treeView1_NodeMouseClick;
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(0, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(0, 25);
+            label3.TabIndex = 1;
+            // 
             // pictureBox1
             // 
             pictureBox1.BackColor = Color.DarkGray;
@@ -117,6 +130,9 @@
             // tabPage2
             // 
             tabPage2.AutoScroll = true;
+            tabPage2.Controls.Add(checkBox3);
+            tabPage2.Controls.Add(listBox1);
+            tabPage2.Controls.Add(checkBox2);
             tabPage2.Controls.Add(numericUpDown2);
             tabPage2.Controls.Add(numericUpDown1);
             tabPage2.Controls.Add(label2);
@@ -130,6 +146,37 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "tabPage2";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox3
+            // 
+            checkBox3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            checkBox3.AutoSize = true;
+            checkBox3.Location = new Point(422, 141);
+            checkBox3.Name = "checkBox3";
+            checkBox3.Size = new Size(346, 29);
+            checkBox3.TabIndex = 10;
+            checkBox3.Text = "Відобразити контури на зображенні";
+            checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // listBox1
+            // 
+            listBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            listBox1.FormattingEnabled = true;
+            listBox1.ItemHeight = 25;
+            listBox1.Location = new Point(422, 6);
+            listBox1.Name = "listBox1";
+            listBox1.Size = new Size(346, 129);
+            listBox1.TabIndex = 9;
+            // 
+            // checkBox2
+            // 
+            checkBox2.AutoSize = true;
+            checkBox2.Location = new Point(8, 105);
+            checkBox2.Name = "checkBox2";
+            checkBox2.Size = new Size(78, 29);
+            checkBox2.TabIndex = 8;
+            checkBox2.Text = "Sobel";
+            checkBox2.UseVisualStyleBackColor = true;
             // 
             // numericUpDown2
             // 
@@ -177,11 +224,12 @@
             // 
             // button1
             // 
-            button1.Location = new Point(6, 411);
+            button1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            button1.Location = new Point(422, 176);
             button1.Name = "button1";
-            button1.Size = new Size(139, 104);
+            button1.Size = new Size(346, 57);
             button1.TabIndex = 0;
-            button1.Text = "button1";
+            button1.Text = "Застосувати";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
@@ -197,6 +245,7 @@
             tabPage1.ResumeLayout(false);
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel2.ResumeLayout(false);
+            splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -216,10 +265,14 @@
         private SplitContainer splitContainer1;
         private TreeView treeView1;
         private PictureBox pictureBox1;
-        private CheckBox checkBox1;
         private Label label2;
         private Label label1;
         private NumericUpDown numericUpDown1;
         private NumericUpDown numericUpDown2;
+        private CheckBox checkBox2;
+        private CheckBox checkBox1;
+        private ListBox listBox1;
+        private Label label3;
+        private CheckBox checkBox3;
     }
 }
