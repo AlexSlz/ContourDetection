@@ -1,9 +1,4 @@
-﻿using Emgu.CV.Structure;
-using Emgu.CV;
-using System.Drawing;
-using Emgu.CV.Reg;
-
-namespace ContourDetection
+﻿namespace ContourDetection
 {
     internal abstract class GraphicElement
     {
