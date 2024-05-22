@@ -4,6 +4,11 @@
     {
         public string Name => "Sobel";
 
+        public override string ToString()
+        {
+            return $"{Name}3x3 - Horizontal + Vertical";
+        }
+
         public static double[,] Sobel3x3Horizontal
         {
             get {
@@ -34,15 +39,6 @@
                                     Sobel3x3Vertical, 1.0, 0, true);
 
             return new Contour(this, resultBitmap);
-            /*            using (Image<Bgr, byte> img = image.Bitmap.ToImage<Bgr, byte>())
-                        {
-                            using (Mat dst = new Mat())
-                            {
-                                CvInvoke.Sobel(img, dst, Emgu.CV.CvEnum.DepthType.Cv64F, 1, 1, 3);
-                                var contour = new Contour(this, dst.ToBitmap());
-                                return contour;
-                            }
-                        }*/
         }
     }
 }

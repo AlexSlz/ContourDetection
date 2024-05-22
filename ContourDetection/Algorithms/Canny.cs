@@ -13,7 +13,7 @@ namespace ContourDetection.Algorithms
 
         public override string ToString()
         {
-            return $"{Name}\n{_th}\n{_thL}";
+            return $"{Name}\nНижній поріг - {_th}\nВерхній поріг - {_thL}";
         }
 
         public Canny(double th, double thL)

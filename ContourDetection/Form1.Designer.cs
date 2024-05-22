@@ -32,9 +32,16 @@
             tabPage1 = new TabPage();
             splitContainer1 = new SplitContainer();
             treeView1 = new TreeView();
-            label3 = new Label();
+            DescriptionLabel = new Label();
             pictureBox1 = new PictureBox();
             tabPage2 = new TabPage();
+            label3 = new Label();
+            numericUpDown3 = new NumericUpDown();
+            comboBox2 = new ComboBox();
+            comboBox1 = new ComboBox();
+            label4 = new Label();
+            checkBox4 = new CheckBox();
+            button2 = new Button();
             checkBox3 = new CheckBox();
             listBox1 = new ListBox();
             checkBox2 = new CheckBox();
@@ -52,6 +59,7 @@
             splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
@@ -92,8 +100,10 @@
             // 
             // splitContainer1.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(label3);
+            splitContainer1.Panel2.BackColor = Color.DarkGray;
+            splitContainer1.Panel2.Controls.Add(DescriptionLabel);
             splitContainer1.Panel2.Controls.Add(pictureBox1);
+            splitContainer1.Panel2.DoubleClick += splitContainer1_Panel2_DoubleClick;
             splitContainer1.Panel2MinSize = 550;
             splitContainer1.Size = new Size(770, 517);
             splitContainer1.SplitterDistance = 200;
@@ -108,21 +118,22 @@
             treeView1.TabIndex = 0;
             treeView1.NodeMouseClick += treeView1_NodeMouseClick;
             // 
-            // label3
+            // DescriptionLabel
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(0, 0);
-            label3.Name = "label3";
-            label3.Size = new Size(0, 25);
-            label3.TabIndex = 1;
+            DescriptionLabel.AutoSize = true;
+            DescriptionLabel.BackColor = Color.Transparent;
+            DescriptionLabel.Location = new Point(0, 0);
+            DescriptionLabel.Name = "DescriptionLabel";
+            DescriptionLabel.Size = new Size(0, 25);
+            DescriptionLabel.TabIndex = 1;
             // 
             // pictureBox1
             // 
             pictureBox1.BackColor = Color.DarkGray;
-            pictureBox1.Dock = DockStyle.Fill;
-            pictureBox1.Location = new Point(0, 0);
+            pictureBox1.Enabled = false;
+            pictureBox1.Location = new Point(45, 33);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(566, 517);
+            pictureBox1.Size = new Size(181, 133);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             pictureBox1.DoubleClick += pictureBox1_DoubleClick;
@@ -130,6 +141,13 @@
             // tabPage2
             // 
             tabPage2.AutoScroll = true;
+            tabPage2.Controls.Add(label3);
+            tabPage2.Controls.Add(numericUpDown3);
+            tabPage2.Controls.Add(comboBox2);
+            tabPage2.Controls.Add(comboBox1);
+            tabPage2.Controls.Add(label4);
+            tabPage2.Controls.Add(checkBox4);
+            tabPage2.Controls.Add(button2);
             tabPage2.Controls.Add(checkBox3);
             tabPage2.Controls.Add(listBox1);
             tabPage2.Controls.Add(checkBox2);
@@ -146,6 +164,76 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "tabPage2";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(8, 218);
+            label3.Name = "label3";
+            label3.Size = new Size(75, 25);
+            label3.TabIndex = 18;
+            label3.Text = "Фактор";
+            // 
+            // numericUpDown3
+            // 
+            numericUpDown3.Location = new Point(89, 216);
+            numericUpDown3.Maximum = new decimal(new int[] { 1024, 0, 0, 0 });
+            numericUpDown3.Name = "numericUpDown3";
+            numericUpDown3.Size = new Size(172, 33);
+            numericUpDown3.TabIndex = 17;
+            numericUpDown3.Value = new decimal(new int[] { 8, 0, 0, 0 });
+            // 
+            // comboBox2
+            // 
+            comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Items.AddRange(new object[] { "None", "3x3", "5x5-1", "5x5-2" });
+            comboBox2.Location = new Point(156, 177);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(105, 33);
+            comboBox2.TabIndex = 16;
+            comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
+            // 
+            // comboBox1
+            // 
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox1.FormattingEnabled = true;
+            comboBox1.ImeMode = ImeMode.NoControl;
+            comboBox1.Items.AddRange(new object[] { "3x3", "5x5" });
+            comboBox1.Location = new Point(125, 138);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(136, 33);
+            comboBox1.TabIndex = 15;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(8, 180);
+            label4.Name = "label4";
+            label4.Size = new Size(142, 25);
+            label4.TabIndex = 14;
+            label4.Text = "Матриця Гауса";
+            // 
+            // checkBox4
+            // 
+            checkBox4.AutoSize = true;
+            checkBox4.Location = new Point(8, 140);
+            checkBox4.Name = "checkBox4";
+            checkBox4.Size = new Size(111, 29);
+            checkBox4.TabIndex = 12;
+            checkBox4.Text = "Laplacian";
+            checkBox4.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            button2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            button2.Location = new Point(627, 176);
+            button2.Name = "button2";
+            button2.Size = new Size(141, 41);
+            button2.TabIndex = 11;
+            button2.Text = "Налаштувати";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // checkBox3
             // 
@@ -185,6 +273,7 @@
             numericUpDown2.Name = "numericUpDown2";
             numericUpDown2.Size = new Size(120, 33);
             numericUpDown2.TabIndex = 7;
+            numericUpDown2.Value = new decimal(new int[] { 200, 0, 0, 0 });
             // 
             // numericUpDown1
             // 
@@ -193,6 +282,7 @@
             numericUpDown1.Name = "numericUpDown1";
             numericUpDown1.Size = new Size(120, 33);
             numericUpDown1.TabIndex = 6;
+            numericUpDown1.Value = new decimal(new int[] { 100, 0, 0, 0 });
             // 
             // label2
             // 
@@ -225,7 +315,7 @@
             // button1
             // 
             button1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button1.Location = new Point(422, 176);
+            button1.Location = new Point(422, 223);
             button1.Name = "button1";
             button1.Size = new Size(346, 57);
             button1.TabIndex = 0;
@@ -251,6 +341,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown3).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown2).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
@@ -272,7 +363,14 @@
         private CheckBox checkBox2;
         private CheckBox checkBox1;
         private ListBox listBox1;
-        private Label label3;
+        private Label DescriptionLabel;
         private CheckBox checkBox3;
+        private Button button2;
+        private CheckBox checkBox4;
+        private Label label4;
+        private ComboBox comboBox1;
+        private ComboBox comboBox2;
+        private Label label3;
+        private NumericUpDown numericUpDown3;
     }
 }
