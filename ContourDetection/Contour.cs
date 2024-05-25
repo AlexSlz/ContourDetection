@@ -2,6 +2,7 @@
 {
     internal class Contour : GraphicElement
     {
+        public TimeSpan TimeToFind = TimeSpan.Zero;
         public List<IAlgorithm> Algorithms;
         public Contour(IAlgorithm algorithm, Bitmap bitmap)
         {
@@ -24,6 +25,29 @@
         public string GetDescription()
         {
             return String.Join("\n", Algorithms.Select(item => item.ToString()));
+        }
+
+
+        public string GetTime()
+        {
+            string result = "";
+            if (TimeToFind.Hours > 0)
+            {
+                result += $"{TimeToFind.Hours} год. ";
+            }
+            if (TimeToFind.Minutes > 0)
+            {
+                result += $"{TimeToFind.Minutes} хв. ";
+            }
+            if (TimeToFind.Seconds > 0)
+            {
+                result += $"{TimeToFind.Seconds} сек. ";
+            }
+            if (TimeToFind.Milliseconds > 0)
+            {
+                result += $"{TimeToFind.Milliseconds} мс.";
+            }
+            return result;
         }
 
     }

@@ -11,6 +11,7 @@ namespace ContourDetection
 
         List<MyImage> Images = new List<MyImage>();
         MyImage SelectedImage = null;
+        Contour SelectedContour = null;
 
         List<string> ListAlgorithms = new List<string>();
 
@@ -60,6 +61,7 @@ namespace ContourDetection
         {
             if (SelectedImage == null || ListAlgorithms.Count == 0)
             {
+                MessageBox.Show("Треба вибрати зображення та алгоритм.");
                 return;
             }
 
@@ -96,10 +98,12 @@ namespace ContourDetection
                 var find = image.Contours.Find(contour => contour.Id == e.Node.Name);
                 find.Show(pictureBox);
                 DescriptionLabel.Text = find.GetDescription();
+                SelectedContour = find;
             }
             else
             {
                 image.Show(pictureBox);
+                SelectedContour = null;
             }
 
             SelectedImage = image;
@@ -140,6 +144,23 @@ namespace ContourDetection
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             numericUpDown3.Enabled = comboBox2.SelectedIndex > 0;
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(tabControl1.SelectedIndex == 2)
+            {
+                if(SelectedContour != null)
+                {
+                    label5.Text = $"Вибраний контур: {SelectedContour.GetName()} на зображенні: {SelectedImage.FileName}\n";
+                    label5.Text += $"\n{SelectedContour.GetDescription()}\n";
+                    label5.Text += $"\nКонтури були знайдені за {SelectedContour?.GetTime()}.";
+                }
+                else
+                {
+                    label5.Text = "Потрібно вибрати контур.";
+                }
+            }
         }
     }
 }

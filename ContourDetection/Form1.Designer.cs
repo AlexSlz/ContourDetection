@@ -51,6 +51,8 @@
             label1 = new Label();
             checkBox1 = new CheckBox();
             button1 = new Button();
+            tabPage3 = new TabPage();
+            label5 = new Label();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -62,12 +64,14 @@
             ((System.ComponentModel.ISupportInitialize)numericUpDown3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            tabPage3.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
             // 
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
+            tabControl1.Controls.Add(tabPage3);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 204);
             tabControl1.Location = new Point(0, 0);
@@ -75,6 +79,7 @@
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(784, 561);
             tabControl1.TabIndex = 0;
+            tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             // 
             // tabPage1
             // 
@@ -84,7 +89,7 @@
             tabPage1.Padding = new Padding(3);
             tabPage1.Size = new Size(776, 523);
             tabPage1.TabIndex = 0;
-            tabPage1.Text = "tabPage1";
+            tabPage1.Text = "Головна";
             tabPage1.UseVisualStyleBackColor = true;
             // 
             // splitContainer1
@@ -121,7 +126,7 @@
             // DescriptionLabel
             // 
             DescriptionLabel.AutoSize = true;
-            DescriptionLabel.BackColor = Color.Transparent;
+            DescriptionLabel.BackColor = Color.WhiteSmoke;
             DescriptionLabel.Location = new Point(0, 0);
             DescriptionLabel.Name = "DescriptionLabel";
             DescriptionLabel.Size = new Size(0, 25);
@@ -162,7 +167,7 @@
             tabPage2.Padding = new Padding(3);
             tabPage2.Size = new Size(776, 523);
             tabPage2.TabIndex = 1;
-            tabPage2.Text = "tabPage2";
+            tabPage2.Text = "Алгоритми";
             tabPage2.UseVisualStyleBackColor = true;
             // 
             // label3
@@ -323,12 +328,32 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // tabPage3
+            // 
+            tabPage3.Controls.Add(label5);
+            tabPage3.Location = new Point(4, 34);
+            tabPage3.Name = "tabPage3";
+            tabPage3.Size = new Size(776, 523);
+            tabPage3.TabIndex = 2;
+            tabPage3.Text = "Аналіз";
+            tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(8, 14);
+            label5.Name = "label5";
+            label5.Size = new Size(63, 25);
+            label5.TabIndex = 0;
+            label5.Text = "label5";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(784, 561);
             Controls.Add(tabControl1);
+            MinimumSize = new Size(800, 600);
             Name = "Form1";
             Text = "Form1";
             tabControl1.ResumeLayout(false);
@@ -344,6 +369,8 @@
             ((System.ComponentModel.ISupportInitialize)numericUpDown3).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown2).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
+            tabPage3.ResumeLayout(false);
+            tabPage3.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -372,5 +399,7 @@
         private ComboBox comboBox2;
         private Label label3;
         private NumericUpDown numericUpDown3;
+        private TabPage tabPage3;
+        private Label label5;
     }
 }
