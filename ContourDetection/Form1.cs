@@ -7,11 +7,16 @@ namespace ContourDetection
     {
         ContourDetector _contourDetector = new ContourDetector();
         ContourDisplay _contourDisplay = new ContourDisplay();
+
+        Analysis _analysis = new Analysis();
+
         MyCustomPictureBox pictureBox;
 
         List<MyImage> Images = new List<MyImage>();
         MyImage SelectedImage = null;
         Contour SelectedContour = null;
+
+        List<Contour> SelectedContourList = new List<Contour>();
 
         List<string> ListAlgorithms = new List<string>();
 
@@ -148,19 +153,61 @@ namespace ContourDetection
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(tabControl1.SelectedIndex == 2)
+            if (tabControl1.SelectedIndex == 2)
             {
-                if(SelectedContour != null)
+                if (SelectedContour != null)
                 {
-                    label5.Text = $"Вибраний контур: {SelectedContour.GetName()} на зображенні: {SelectedImage.FileName}\n";
-                    label5.Text += $"\n{SelectedContour.GetDescription()}\n";
-                    label5.Text += $"\nКонтури були знайдені за {SelectedContour?.GetTime()}.";
+                    AnalysisLabel.Text = $"Вибраний контур: {SelectedContour.GetName()} на зображенні: {SelectedImage.FileName}\n";
+                    AnalysisLabel.Text += $"\n{SelectedContour.GetDescription()}\n";
+                    AnalysisLabel.Text += $"\nКонтури були знайдені за {SelectedContour?.GetTime()}.";
                 }
                 else
                 {
-                    label5.Text = "Потрібно вибрати контур.";
+                    AnalysisLabel.Text = "Потрібно вибрати контур.";
                 }
             }
+        }
+
+        bool EditAnalysisMode = false;
+
+        private void AnalysisButton_Click(object sender, EventArgs e)
+        {
+            if (SelectedContourList.Count == 0 && !EditAnalysisMode)
+            {
+                EditAnalysisMode = true;
+                tabControl1.SelectTab(0);
+                treeView1.NodeMouseClick += treeView1_SelectAnalysis;
+            }
+            else
+            {
+                EditAnalysisMode = false;
+                treeView1.NodeMouseClick -= treeView1_SelectAnalysis;
+                AnalysisList.Items.Clear();
+                SelectedContourList.Clear();
+                AnalysisButton.Text = "Вибрати контури";
+            }
+        }
+
+        private void treeView1_SelectAnalysis(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            var find = SelectedContourList.Find(item => item.Id == SelectedContour?.Id);
+            if (SelectedContour != null && find == null && SelectedContourList.Count < 2)
+            {
+                AnalysisButton.Text = "Очистити";
+                SelectedContourList.Add(SelectedContour);
+                AnalysisList.Items.Add(SelectedContour.GetName());
+                if(SelectedContourList.Count == 2)
+                {
+                    tabControl1.SelectTab(2);
+                }
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (SelectedContourList.Count == 0) return;
+            var (precision, recall, f1Score) = _analysis.EvaluateContours(SelectedContourList[0].Bitmap, SelectedContourList[1].Bitmap);
+            AnalysisLabel.Text = $"Precision: {precision}\nRecall: {recall}\nF1Score: {f1Score}";
         }
     }
 }

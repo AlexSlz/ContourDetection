@@ -24,7 +24,7 @@
 
         public string GetDescription()
         {
-            return String.Join("\n", Algorithms.Select(item => item.ToString()));
+            return String.Join("\n", Algorithms.Select(item => item.ToString()))+ $"\nКонтури були знайдені за {GetTime()}";
         }
 
 

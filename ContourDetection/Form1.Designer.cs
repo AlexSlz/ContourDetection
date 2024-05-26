@@ -52,7 +52,10 @@
             checkBox1 = new CheckBox();
             button1 = new Button();
             tabPage3 = new TabPage();
-            label5 = new Label();
+            button3 = new Button();
+            AnalysisList = new ListBox();
+            AnalysisButton = new Button();
+            AnalysisLabel = new Label();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -330,7 +333,10 @@
             // 
             // tabPage3
             // 
-            tabPage3.Controls.Add(label5);
+            tabPage3.Controls.Add(button3);
+            tabPage3.Controls.Add(AnalysisList);
+            tabPage3.Controls.Add(AnalysisButton);
+            tabPage3.Controls.Add(AnalysisLabel);
             tabPage3.Location = new Point(4, 34);
             tabPage3.Name = "tabPage3";
             tabPage3.Size = new Size(776, 523);
@@ -338,14 +344,43 @@
             tabPage3.Text = "Аналіз";
             tabPage3.UseVisualStyleBackColor = true;
             // 
-            // label5
+            // button3
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(8, 14);
-            label5.Name = "label5";
-            label5.Size = new Size(63, 25);
-            label5.TabIndex = 0;
-            label5.Text = "label5";
+            button3.Location = new Point(8, 212);
+            button3.Name = "button3";
+            button3.Size = new Size(314, 57);
+            button3.TabIndex = 3;
+            button3.Text = "Аналізувати";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
+            // AnalysisList
+            // 
+            AnalysisList.FormattingEnabled = true;
+            AnalysisList.ItemHeight = 25;
+            AnalysisList.Location = new Point(8, 14);
+            AnalysisList.Name = "AnalysisList";
+            AnalysisList.Size = new Size(314, 129);
+            AnalysisList.TabIndex = 2;
+            // 
+            // AnalysisButton
+            // 
+            AnalysisButton.Location = new Point(8, 149);
+            AnalysisButton.Name = "AnalysisButton";
+            AnalysisButton.Size = new Size(314, 57);
+            AnalysisButton.TabIndex = 1;
+            AnalysisButton.Text = "Вибрати контури";
+            AnalysisButton.UseVisualStyleBackColor = true;
+            AnalysisButton.Click += AnalysisButton_Click;
+            // 
+            // AnalysisLabel
+            // 
+            AnalysisLabel.AutoSize = true;
+            AnalysisLabel.Location = new Point(328, 14);
+            AnalysisLabel.Name = "AnalysisLabel";
+            AnalysisLabel.Size = new Size(63, 25);
+            AnalysisLabel.TabIndex = 0;
+            AnalysisLabel.Text = "label5";
             // 
             // Form1
             // 
@@ -400,6 +435,9 @@
         private Label label3;
         private NumericUpDown numericUpDown3;
         private TabPage tabPage3;
-        private Label label5;
+        private Label AnalysisLabel;
+        private Button AnalysisButton;
+        private ListBox AnalysisList;
+        private Button button3;
     }
 }
