@@ -32,6 +32,11 @@ namespace ContourDetection
             checkBox1.CheckedChanged += (object sender, EventArgs e) => checkBox_CheckedChanged(checkBox1, "Canny");
             checkBox2.CheckedChanged += (object sender, EventArgs e) => checkBox_CheckedChanged(checkBox2, "Sobel");
             checkBox4.CheckedChanged += (object sender, EventArgs e) => checkBox_CheckedChanged(checkBox4, "Laplacian");
+
+            KirschcheckBox.CheckedChanged += (object sender, EventArgs e) => checkBox_CheckedChanged(KirschcheckBox, "Kirsch");
+            PrewittcheckBox.CheckedChanged += (object sender, EventArgs e) => checkBox_CheckedChanged(PrewittcheckBox, "Prewitt");
+            DexiNedcheckBox.CheckedChanged += (object sender, EventArgs e) => checkBox_CheckedChanged(DexiNedcheckBox, "DexiNed");
+
         }
 
         private void LoadNewImage()
@@ -74,7 +79,10 @@ namespace ContourDetection
             {
                 new Canny((double)numericUpDown1.Value, (double)numericUpDown2.Value),
                 new Sobel(),
-                new Laplacian(comboBox1.SelectedIndex, comboBox2.SelectedIndex, (int)numericUpDown3.Value)
+                new Laplacian(comboBox1.SelectedIndex, comboBox2.SelectedIndex, (int)numericUpDown3.Value),
+                new Kirsch(),
+                new Prewitt(),
+                new DexiNed()
             };
             temp.RemoveAll(item => !ListAlgorithms.Contains(item.Name));
 
@@ -196,7 +204,7 @@ namespace ContourDetection
                 AnalysisButton.Text = "Очистити";
                 SelectedContourList.Add(SelectedContour);
                 AnalysisList.Items.Add(SelectedContour.GetName());
-                if(SelectedContourList.Count == 2)
+                if (SelectedContourList.Count == 2)
                 {
                     tabControl1.SelectTab(2);
                 }
@@ -207,7 +215,16 @@ namespace ContourDetection
         {
             if (SelectedContourList.Count == 0) return;
             var (precision, recall, f1Score) = _analysis.EvaluateContours(SelectedContourList[0].Bitmap, SelectedContourList[1].Bitmap);
-            AnalysisLabel.Text = $"Precision: {precision}\nRecall: {recall}\nF1Score: {f1Score}";
+            var IoUScore = _analysis.CalculateIoU(SelectedContourList[0].Bitmap, SelectedContourList[1].Bitmap);
+            AnalysisLabel.Text = $"Precision: {precision}\nRecall: {recall}\nF1 Score: {f1Score}";
+            AnalysisLabel.Text += $"\nIoU Score: {IoUScore}";
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            var t = new Algorithms.DNN();
+            t.Apply(SelectedImage).Show(pictureBox);
+
         }
     }
 }

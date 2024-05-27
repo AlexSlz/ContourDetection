@@ -35,6 +35,9 @@
             DescriptionLabel = new Label();
             pictureBox1 = new PictureBox();
             tabPage2 = new TabPage();
+            DexiNedcheckBox = new CheckBox();
+            KirschcheckBox = new CheckBox();
+            PrewittcheckBox = new CheckBox();
             label3 = new Label();
             numericUpDown3 = new NumericUpDown();
             comboBox2 = new ComboBox();
@@ -56,6 +59,7 @@
             AnalysisList = new ListBox();
             AnalysisButton = new Button();
             AnalysisLabel = new Label();
+            button4 = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -149,6 +153,10 @@
             // tabPage2
             // 
             tabPage2.AutoScroll = true;
+            tabPage2.Controls.Add(button4);
+            tabPage2.Controls.Add(DexiNedcheckBox);
+            tabPage2.Controls.Add(KirschcheckBox);
+            tabPage2.Controls.Add(PrewittcheckBox);
             tabPage2.Controls.Add(label3);
             tabPage2.Controls.Add(numericUpDown3);
             tabPage2.Controls.Add(comboBox2);
@@ -172,6 +180,36 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Алгоритми";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // DexiNedcheckBox
+            // 
+            DexiNedcheckBox.AutoSize = true;
+            DexiNedcheckBox.Location = new Point(8, 325);
+            DexiNedcheckBox.Name = "DexiNedcheckBox";
+            DexiNedcheckBox.Size = new Size(103, 29);
+            DexiNedcheckBox.TabIndex = 21;
+            DexiNedcheckBox.Text = "DexiNed";
+            DexiNedcheckBox.UseVisualStyleBackColor = true;
+            // 
+            // KirschcheckBox
+            // 
+            KirschcheckBox.AutoSize = true;
+            KirschcheckBox.Location = new Point(8, 290);
+            KirschcheckBox.Name = "KirschcheckBox";
+            KirschcheckBox.Size = new Size(82, 29);
+            KirschcheckBox.TabIndex = 20;
+            KirschcheckBox.Text = "Kirsch";
+            KirschcheckBox.UseVisualStyleBackColor = true;
+            // 
+            // PrewittcheckBox
+            // 
+            PrewittcheckBox.AutoSize = true;
+            PrewittcheckBox.Location = new Point(8, 255);
+            PrewittcheckBox.Name = "PrewittcheckBox";
+            PrewittcheckBox.Size = new Size(90, 29);
+            PrewittcheckBox.TabIndex = 19;
+            PrewittcheckBox.Text = "Prewitt";
+            PrewittcheckBox.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
@@ -382,6 +420,17 @@
             AnalysisLabel.TabIndex = 0;
             AnalysisLabel.Text = "label5";
             // 
+            // button4
+            // 
+            button4.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            button4.Location = new Point(6, 458);
+            button4.Name = "button4";
+            button4.Size = new Size(71, 57);
+            button4.TabIndex = 22;
+            button4.Text = "TTT";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -439,5 +488,9 @@
         private Button AnalysisButton;
         private ListBox AnalysisList;
         private Button button3;
+        private CheckBox PrewittcheckBox;
+        private CheckBox KirschcheckBox;
+        private CheckBox DexiNedcheckBox;
+        private Button button4;
     }
 }

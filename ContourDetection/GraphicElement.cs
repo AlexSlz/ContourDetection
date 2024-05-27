@@ -14,8 +14,8 @@ namespace ContourDetection
 
         public void Show(MyCustomPictureBox pictureBox)
         {
-            pictureBox.PictureBox.Left = 0;
-            pictureBox.PictureBox.Top = 0;
+            pictureBox.PictureBox.Left = 10;
+            pictureBox.PictureBox.Top = 10;
             pictureBox.PictureBox.Size = Bitmap.Size;
             pictureBox.PictureBox.Image = Bitmap;
             pictureBox.ResetZoom();
