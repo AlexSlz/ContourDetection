@@ -35,6 +35,7 @@
             DescriptionLabel = new Label();
             pictureBox1 = new PictureBox();
             tabPage2 = new TabPage();
+            HedcheckBox = new CheckBox();
             DexiNedcheckBox = new CheckBox();
             KirschcheckBox = new CheckBox();
             PrewittcheckBox = new CheckBox();
@@ -59,7 +60,6 @@
             AnalysisList = new ListBox();
             AnalysisButton = new Button();
             AnalysisLabel = new Label();
-            button4 = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -153,7 +153,7 @@
             // tabPage2
             // 
             tabPage2.AutoScroll = true;
-            tabPage2.Controls.Add(button4);
+            tabPage2.Controls.Add(HedcheckBox);
             tabPage2.Controls.Add(DexiNedcheckBox);
             tabPage2.Controls.Add(KirschcheckBox);
             tabPage2.Controls.Add(PrewittcheckBox);
@@ -180,6 +180,16 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Алгоритми";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // HedcheckBox
+            // 
+            HedcheckBox.AutoSize = true;
+            HedcheckBox.Location = new Point(8, 360);
+            HedcheckBox.Name = "HedcheckBox";
+            HedcheckBox.Size = new Size(65, 29);
+            HedcheckBox.TabIndex = 23;
+            HedcheckBox.Text = "Hed";
+            HedcheckBox.UseVisualStyleBackColor = true;
             // 
             // DexiNedcheckBox
             // 
@@ -420,17 +430,6 @@
             AnalysisLabel.TabIndex = 0;
             AnalysisLabel.Text = "label5";
             // 
-            // button4
-            // 
-            button4.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button4.Location = new Point(6, 458);
-            button4.Name = "button4";
-            button4.Size = new Size(71, 57);
-            button4.TabIndex = 22;
-            button4.Text = "TTT";
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -491,6 +490,6 @@
         private CheckBox PrewittcheckBox;
         private CheckBox KirschcheckBox;
         private CheckBox DexiNedcheckBox;
-        private Button button4;
+        private CheckBox HedcheckBox;
     }
 }

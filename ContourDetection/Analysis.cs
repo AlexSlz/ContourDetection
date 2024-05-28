@@ -2,7 +2,7 @@
 {
     internal class Analysis
     {
-        int LowerThreshold = 255;
+        int LowerThreshold = 150;
 
         public (double Precision, double Recall, double F1Score) EvaluateContours(Bitmap detectedContours, Bitmap groundTruthContours)
         {

@@ -36,7 +36,7 @@ namespace ContourDetection
             KirschcheckBox.CheckedChanged += (object sender, EventArgs e) => checkBox_CheckedChanged(KirschcheckBox, "Kirsch");
             PrewittcheckBox.CheckedChanged += (object sender, EventArgs e) => checkBox_CheckedChanged(PrewittcheckBox, "Prewitt");
             DexiNedcheckBox.CheckedChanged += (object sender, EventArgs e) => checkBox_CheckedChanged(DexiNedcheckBox, "DexiNed");
-
+            HedcheckBox.CheckedChanged += (object sender, EventArgs e) => checkBox_CheckedChanged(HedcheckBox, "Hed");
         }
 
         private void LoadNewImage()
@@ -82,7 +82,8 @@ namespace ContourDetection
                 new Laplacian(comboBox1.SelectedIndex, comboBox2.SelectedIndex, (int)numericUpDown3.Value),
                 new Kirsch(),
                 new Prewitt(),
-                new DexiNed()
+                new DexiNed(),
+                new Hed()
             };
             temp.RemoveAll(item => !ListAlgorithms.Contains(item.Name));
 
@@ -218,13 +219,6 @@ namespace ContourDetection
             var IoUScore = _analysis.CalculateIoU(SelectedContourList[0].Bitmap, SelectedContourList[1].Bitmap);
             AnalysisLabel.Text = $"Precision: {precision}\nRecall: {recall}\nF1 Score: {f1Score}";
             AnalysisLabel.Text += $"\nIoU Score: {IoUScore}";
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            var t = new Algorithms.DNN();
-            t.Apply(SelectedImage).Show(pictureBox);
-
         }
     }
 }
