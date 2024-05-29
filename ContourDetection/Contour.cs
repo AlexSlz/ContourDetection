@@ -3,6 +3,9 @@
     internal class Contour : GraphicElement
     {
         public TimeSpan TimeToFind = TimeSpan.Zero;
+
+        public Bitmap ContourOnImage;
+
         public List<IAlgorithm> Algorithms;
         public Contour(IAlgorithm algorithm, Bitmap bitmap)
         {

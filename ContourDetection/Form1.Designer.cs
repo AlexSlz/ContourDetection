@@ -32,6 +32,8 @@
             tabPage1 = new TabPage();
             splitContainer1 = new SplitContainer();
             treeView1 = new TreeView();
+            button4 = new Button();
+            ShowContourCheckBox = new CheckBox();
             DescriptionLabel = new Label();
             pictureBox1 = new PictureBox();
             tabPage2 = new TabPage();
@@ -45,8 +47,6 @@
             comboBox1 = new ComboBox();
             label4 = new Label();
             checkBox4 = new CheckBox();
-            button2 = new Button();
-            checkBox3 = new CheckBox();
             listBox1 = new ListBox();
             checkBox2 = new CheckBox();
             numericUpDown2 = new NumericUpDown();
@@ -113,6 +113,8 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.BackColor = Color.DarkGray;
+            splitContainer1.Panel2.Controls.Add(button4);
+            splitContainer1.Panel2.Controls.Add(ShowContourCheckBox);
             splitContainer1.Panel2.Controls.Add(DescriptionLabel);
             splitContainer1.Panel2.Controls.Add(pictureBox1);
             splitContainer1.Panel2.DoubleClick += splitContainer1_Panel2_DoubleClick;
@@ -129,6 +131,29 @@
             treeView1.Size = new Size(200, 517);
             treeView1.TabIndex = 0;
             treeView1.NodeMouseClick += treeView1_NodeMouseClick;
+            // 
+            // button4
+            // 
+            button4.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            button4.Location = new Point(355, 481);
+            button4.Name = "button4";
+            button4.Size = new Size(30, 30);
+            button4.TabIndex = 13;
+            button4.Text = "+";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
+            // ShowContourCheckBox
+            // 
+            ShowContourCheckBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            ShowContourCheckBox.AutoSize = true;
+            ShowContourCheckBox.Location = new Point(3, 483);
+            ShowContourCheckBox.Name = "ShowContourCheckBox";
+            ShowContourCheckBox.Size = new Size(346, 29);
+            ShowContourCheckBox.TabIndex = 12;
+            ShowContourCheckBox.Text = "Відобразити контури на зображенні";
+            ShowContourCheckBox.UseVisualStyleBackColor = true;
+            ShowContourCheckBox.CheckedChanged += ShowContourCheckBox_CheckedChanged;
             // 
             // DescriptionLabel
             // 
@@ -163,8 +188,6 @@
             tabPage2.Controls.Add(comboBox1);
             tabPage2.Controls.Add(label4);
             tabPage2.Controls.Add(checkBox4);
-            tabPage2.Controls.Add(button2);
-            tabPage2.Controls.Add(checkBox3);
             tabPage2.Controls.Add(listBox1);
             tabPage2.Controls.Add(checkBox2);
             tabPage2.Controls.Add(numericUpDown2);
@@ -280,28 +303,6 @@
             checkBox4.Text = "Laplacian";
             checkBox4.UseVisualStyleBackColor = true;
             // 
-            // button2
-            // 
-            button2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button2.Location = new Point(627, 176);
-            button2.Name = "button2";
-            button2.Size = new Size(141, 41);
-            button2.TabIndex = 11;
-            button2.Text = "Налаштувати";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
-            // 
-            // checkBox3
-            // 
-            checkBox3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            checkBox3.AutoSize = true;
-            checkBox3.Location = new Point(422, 141);
-            checkBox3.Name = "checkBox3";
-            checkBox3.Size = new Size(346, 29);
-            checkBox3.TabIndex = 10;
-            checkBox3.Text = "Відобразити контури на зображенні";
-            checkBox3.UseVisualStyleBackColor = true;
-            // 
             // listBox1
             // 
             listBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -371,7 +372,7 @@
             // button1
             // 
             button1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button1.Location = new Point(422, 223);
+            button1.Location = new Point(422, 138);
             button1.Name = "button1";
             button1.Size = new Size(346, 57);
             button1.TabIndex = 0;
@@ -474,8 +475,6 @@
         private CheckBox checkBox1;
         private ListBox listBox1;
         private Label DescriptionLabel;
-        private CheckBox checkBox3;
-        private Button button2;
         private CheckBox checkBox4;
         private Label label4;
         private ComboBox comboBox1;
@@ -491,5 +490,7 @@
         private CheckBox KirschcheckBox;
         private CheckBox DexiNedcheckBox;
         private CheckBox HedcheckBox;
+        private CheckBox ShowContourCheckBox;
+        private Button button4;
     }
 }

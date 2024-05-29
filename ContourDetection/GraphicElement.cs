@@ -20,5 +20,14 @@ namespace ContourDetection
             pictureBox.PictureBox.Image = Bitmap;
             pictureBox.ResetZoom();
         }
+
+        public static void Show(MyCustomPictureBox pictureBox, Bitmap bitmap)
+        {
+            pictureBox.PictureBox.Left = 10;
+            pictureBox.PictureBox.Top = 10;
+            pictureBox.PictureBox.Size = bitmap.Size;
+            pictureBox.PictureBox.Image = bitmap;
+            pictureBox.ResetZoom();
+        }
     }
 }

@@ -95,8 +95,6 @@ namespace ContourDetection
 
             SelectedImage.Contours.Add(contour);
 
-            if (checkBox3.Checked) _contourDisplay.DrawContours(SelectedImage, contour);
-
             SelectedImage.DisplayOnTreeView(treeView1);
 
             GC.Collect();
@@ -105,6 +103,7 @@ namespace ContourDetection
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
+            ShowContourCheckBox.Checked = false;
             MyImage image = Images.Find(image => image.Id == e.Node.Name);
             if (image == null)
             {
@@ -135,24 +134,6 @@ namespace ContourDetection
                 ListAlgorithms.Remove(Name);
                 listBox1.Items.Remove(Name);
             }
-        }
-        private Form2 form2Instance;
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (form2Instance == null || form2Instance.IsDisposed)
-            {
-                form2Instance = new Form2(_contourDisplay);
-                form2Instance.FormClosed += Form2Instance_FormClosed;
-                form2Instance.Show();
-            }
-            else
-            {
-                form2Instance.BringToFront();
-            }
-        }
-        private void Form2Instance_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            form2Instance = null;
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
@@ -219,6 +200,42 @@ namespace ContourDetection
             var IoUScore = _analysis.CalculateIoU(SelectedContourList[0].Bitmap, SelectedContourList[1].Bitmap);
             AnalysisLabel.Text = $"Precision: {precision}\nRecall: {recall}\nF1 Score: {f1Score}";
             AnalysisLabel.Text += $"\nIoU Score: {IoUScore}";
+        }
+
+        private void ShowContourCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            var state = ShowContourCheckBox.Checked;
+            if (SelectedContour == null) return;
+
+            if (state)
+            {
+                SelectedContour.ContourOnImage = _contourDisplay.DrawContours(SelectedImage, SelectedContour);
+                GraphicElement.Show(pictureBox, SelectedContour.ContourOnImage);
+            }
+            if (!state)
+            {
+                SelectedContour.Show(pictureBox);
+            }
+        }
+
+        private Form2 form2Instance;
+        private void Form2Instance_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            form2Instance = null;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (form2Instance == null || form2Instance.IsDisposed)
+            {
+                form2Instance = new Form2(_contourDisplay);
+                form2Instance.FormClosed += Form2Instance_FormClosed;
+                form2Instance.Show();
+            }
+            else
+            {
+                form2Instance.BringToFront();
+            }
         }
     }
 }

@@ -6,7 +6,7 @@
         public int Thickness = 0;
         public int LowerThreshold = 150;
 
-        public void DrawContours(MyImage image, Contour contour)
+        public Bitmap DrawContours(MyImage image, Contour contour)
         {
             int width = image.Bitmap.Width;
             int height = image.Bitmap.Height;
@@ -44,7 +44,7 @@
                 }
             }
 
-            contour.Bitmap = result;
+            return result;
         }
     }
 }
