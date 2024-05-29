@@ -1,5 +1,6 @@
 using ContourDetection.Algorithms;
 using ContourDetection.Settings;
+using System.Windows.Forms;
 
 namespace ContourDetection
 {
@@ -14,6 +15,9 @@ namespace ContourDetection
 
         List<MyImage> Images = new List<MyImage>();
         MyImage SelectedImage = null;
+
+        MyImage GroundTruthContourImage = null;
+
         Contour SelectedContour = null;
 
         List<Contour> SelectedContourList = new List<Contour>();
@@ -25,6 +29,8 @@ namespace ContourDetection
             InitializeComponent();
 
             pictureBox = new MyCustomPictureBox(pictureBox1);
+
+            treeView1.ContextMenuStrip = contextMenuStrip1;
 
             comboBox1.SelectedIndex = 0;
             comboBox2.SelectedIndex = 0;
@@ -38,33 +44,40 @@ namespace ContourDetection
             DexiNedcheckBox.CheckedChanged += (object sender, EventArgs e) => checkBox_CheckedChanged(DexiNedcheckBox, "DexiNed");
             HedcheckBox.CheckedChanged += (object sender, EventArgs e) => checkBox_CheckedChanged(HedcheckBox, "Hed");
         }
-
-        private void LoadNewImage()
+        string filter = "Image Files(*.jpg; *.jpeg; *.png; *.bmp)|*.jpg; *.jpeg; *.png; *.bmp";
+        private MyImage OpenDialogImage()
         {
             using (OpenFileDialog fileDialog = new OpenFileDialog())
             {
-                fileDialog.Filter = "Image Files(*.jpg; *.jpeg; *.png; *.bmp)|*.jpg; *.jpeg; *.png; *.bmp";
+                fileDialog.Filter = filter;
                 if (fileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    MyImage temp = new MyImage(fileDialog.FileName);
-                    temp.Show(pictureBox);
-
-                    Images.Add(temp);
-                    SelectedImage = Images.Last();
-                    treeView1.Nodes.Add(temp.Id, temp.FileName);
-                    pictureBox1.Enabled = true;
+                    return new MyImage(fileDialog.FileName);
                 }
+                return null;
             }
+        }
+
+        private void LoadDefaultImage()
+        {
+            var temp = OpenDialogImage();
+            if (temp == null) return;
+            temp.Show(pictureBox);
+
+            Images.Add(temp);
+            SelectedImage = Images.Last();
+            treeView1.Nodes.Add(temp.Id, temp.FileName);
+            pictureBox1.Enabled = true;
         }
 
         private void pictureBox1_DoubleClick(object sender, EventArgs e)
         {
-            LoadNewImage();
+            LoadDefaultImage();
         }
 
         private void splitContainer1_Panel2_DoubleClick(object sender, EventArgs e)
         {
-            LoadNewImage();
+            LoadDefaultImage();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -145,61 +158,34 @@ namespace ContourDetection
         {
             if (tabControl1.SelectedIndex == 2)
             {
-                if (SelectedContour != null)
-                {
-                    AnalysisLabel.Text = $"Вибраний контур: {SelectedContour.GetName()} на зображенні: {SelectedImage.FileName}\n";
-                    AnalysisLabel.Text += $"\n{SelectedContour.GetDescription()}\n";
-                    AnalysisLabel.Text += $"\nКонтури були знайдені за {SelectedContour?.GetTime()}.";
-                }
-                else
-                {
-                    AnalysisLabel.Text = "Потрібно вибрати контур.";
-                }
+                string res = "Потрібно вибрати зображення.";
+
+                if (SelectedImage != null)
+                    res = $"Вибране зображення: {SelectedImage.FileName}";
+                if (GroundTruthContourImage != null)
+                    res += $" | {GroundTruthContourImage.FileName}";
+
+                AnalysisLabel.Text = res;
             }
         }
-
-        bool EditAnalysisMode = false;
-
-        private void AnalysisButton_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
-            if (SelectedContourList.Count == 0 && !EditAnalysisMode)
-            {
-                EditAnalysisMode = true;
-                tabControl1.SelectTab(0);
-                treeView1.NodeMouseClick += treeView1_SelectAnalysis;
-            }
-            else
-            {
-                EditAnalysisMode = false;
-                treeView1.NodeMouseClick -= treeView1_SelectAnalysis;
-                AnalysisList.Items.Clear();
-                SelectedContourList.Clear();
-                AnalysisButton.Text = "Вибрати контури";
-            }
-        }
+            if (SelectedImage == null) return;
+            GroundTruthContourImage = OpenDialogImage();
+            if (GroundTruthContourImage == null) return;
 
-        private void treeView1_SelectAnalysis(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            var find = SelectedContourList.Find(item => item.Id == SelectedContour?.Id);
-            if (SelectedContour != null && find == null && SelectedContourList.Count < 2)
-            {
-                AnalysisButton.Text = "Очистити";
-                SelectedContourList.Add(SelectedContour);
-                AnalysisList.Items.Add(SelectedContour.GetName());
-                if (SelectedContourList.Count == 2)
-                {
-                    tabControl1.SelectTab(2);
-                }
-            }
+            AnalysisLabel.Text += $" | {GroundTruthContourImage.FileName}";
         }
-
         private void button3_Click(object sender, EventArgs e)
         {
-            if (SelectedContourList.Count == 0) return;
-            var (precision, recall, f1Score) = _analysis.EvaluateContours(SelectedContourList[0].Bitmap, SelectedContourList[1].Bitmap);
-            var IoUScore = _analysis.CalculateIoU(SelectedContourList[0].Bitmap, SelectedContourList[1].Bitmap);
-            AnalysisLabel.Text = $"Precision: {precision}\nRecall: {recall}\nF1 Score: {f1Score}";
-            AnalysisLabel.Text += $"\nIoU Score: {IoUScore}";
+            if (GroundTruthContourImage == null) return;
+            dataGridView1.Rows.Clear();
+            foreach (var contour in SelectedImage.Contours)
+            {
+                var (precision, recall, f1Score) = _analysis.EvaluateContours(GroundTruthContourImage.Bitmap, contour.Bitmap);
+                var IoUScore = _analysis.CalculateIoU(GroundTruthContourImage.Bitmap, contour.Bitmap);
+                dataGridView1.Rows.Add(contour.GetName(), precision, recall, f1Score, IoUScore);
+            }
         }
 
         private void ShowContourCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -235,6 +221,66 @@ namespace ContourDetection
             else
             {
                 form2Instance.BringToFront();
+            }
+        }
+
+        private void ВидалитиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode != null)
+            {
+                if (MessageBox.Show($"Бажаєте видалити {treeView1.SelectedNode.Text}?", "???", MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    return;
+                }
+                MyImage image = Images.Find(image => image.Id == treeView1.SelectedNode.Name);
+                if (image == null)
+                {
+                    image = Images.Find(image => image.Id == treeView1.SelectedNode.Parent.Name);
+                    var find = image.Contours.Find(contour => contour.Id == treeView1.SelectedNode.Name);
+                    image.Contours.Remove(find);
+                }
+                else
+                {
+                    Images.Remove(image);
+                }
+                treeView1.Nodes.Remove(treeView1.SelectedNode);
+                SelectedImage = null;
+                SelectedContour = null;
+                pictureBox.PictureBox.Image = null;
+            }
+        }
+
+        private void ЗберегтиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode != null)
+            {
+                var saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = filter;
+                if (saveFileDialog.ShowDialog() != DialogResult.Cancel)
+                {
+                    try
+                    {
+                        MyImage image = Images.Find(image => image.Id == treeView1.SelectedNode.Name);
+                        if (image == null)
+                        {
+                            image = Images.Find(image => image.Id == treeView1.SelectedNode.Parent.Name);
+                            var find = image.Contours.Find(contour => contour.Id == treeView1.SelectedNode.Name);
+
+                            if (find.ContourOnImage != null)
+                                find.ContourOnImage.Save(saveFileDialog.FileName);
+                            else
+                                find.Bitmap.Save(saveFileDialog.FileName);
+                        }
+                        else
+                        {
+                            image.Bitmap.Save(saveFileDialog.FileName);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
             }
         }
     }

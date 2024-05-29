@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             splitContainer1 = new SplitContainer();
@@ -56,10 +57,18 @@
             checkBox1 = new CheckBox();
             button1 = new Button();
             tabPage3 = new TabPage();
+            button2 = new Button();
+            dataGridView1 = new DataGridView();
+            AlgorithmName = new DataGridViewTextBoxColumn();
+            Precision = new DataGridViewTextBoxColumn();
+            Recall = new DataGridViewTextBoxColumn();
+            F1Score = new DataGridViewTextBoxColumn();
+            IoU = new DataGridViewTextBoxColumn();
             button3 = new Button();
-            AnalysisList = new ListBox();
-            AnalysisButton = new Button();
             AnalysisLabel = new Label();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            ВидалитиToolStripMenuItem = new ToolStripMenuItem();
+            ЗберегтиToolStripMenuItem = new ToolStripMenuItem();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -72,6 +81,8 @@
             ((System.ComponentModel.ISupportInitialize)numericUpDown2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
@@ -382,9 +393,9 @@
             // 
             // tabPage3
             // 
+            tabPage3.Controls.Add(button2);
+            tabPage3.Controls.Add(dataGridView1);
             tabPage3.Controls.Add(button3);
-            tabPage3.Controls.Add(AnalysisList);
-            tabPage3.Controls.Add(AnalysisButton);
             tabPage3.Controls.Add(AnalysisLabel);
             tabPage3.Location = new Point(4, 34);
             tabPage3.Name = "tabPage3";
@@ -393,9 +404,64 @@
             tabPage3.Text = "Аналіз";
             tabPage3.UseVisualStyleBackColor = true;
             // 
+            // button2
+            // 
+            button2.Location = new Point(8, 39);
+            button2.Name = "button2";
+            button2.Size = new Size(314, 57);
+            button2.TabIndex = 5;
+            button2.Text = "Вибрати Справжнє Зображення";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { AlgorithmName, Precision, Recall, F1Score, IoU });
+            dataGridView1.Location = new Point(8, 165);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowTemplate.Height = 25;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            dataGridView1.Size = new Size(760, 350);
+            dataGridView1.TabIndex = 4;
+            // 
+            // AlgorithmName
+            // 
+            AlgorithmName.HeaderText = "AlgorithmName";
+            AlgorithmName.Name = "AlgorithmName";
+            AlgorithmName.Width = 171;
+            // 
+            // Precision
+            // 
+            Precision.HeaderText = "Precision";
+            Precision.Name = "Precision";
+            Precision.Width = 114;
+            // 
+            // Recall
+            // 
+            Recall.HeaderText = "Recall";
+            Recall.Name = "Recall";
+            Recall.Width = 86;
+            // 
+            // F1Score
+            // 
+            F1Score.HeaderText = "F1Score";
+            F1Score.Name = "F1Score";
+            F1Score.Width = 103;
+            // 
+            // IoU
+            // 
+            IoU.HeaderText = "IoU";
+            IoU.Name = "IoU";
+            IoU.Width = 66;
+            // 
             // button3
             // 
-            button3.Location = new Point(8, 212);
+            button3.Location = new Point(8, 102);
             button3.Name = "button3";
             button3.Size = new Size(314, 57);
             button3.TabIndex = 3;
@@ -403,33 +469,34 @@
             button3.UseVisualStyleBackColor = true;
             button3.Click += button3_Click;
             // 
-            // AnalysisList
-            // 
-            AnalysisList.FormattingEnabled = true;
-            AnalysisList.ItemHeight = 25;
-            AnalysisList.Location = new Point(8, 14);
-            AnalysisList.Name = "AnalysisList";
-            AnalysisList.Size = new Size(314, 129);
-            AnalysisList.TabIndex = 2;
-            // 
-            // AnalysisButton
-            // 
-            AnalysisButton.Location = new Point(8, 149);
-            AnalysisButton.Name = "AnalysisButton";
-            AnalysisButton.Size = new Size(314, 57);
-            AnalysisButton.TabIndex = 1;
-            AnalysisButton.Text = "Вибрати контури";
-            AnalysisButton.UseVisualStyleBackColor = true;
-            AnalysisButton.Click += AnalysisButton_Click;
-            // 
             // AnalysisLabel
             // 
             AnalysisLabel.AutoSize = true;
-            AnalysisLabel.Location = new Point(328, 14);
+            AnalysisLabel.Location = new Point(8, 11);
             AnalysisLabel.Name = "AnalysisLabel";
             AnalysisLabel.Size = new Size(63, 25);
             AnalysisLabel.TabIndex = 0;
             AnalysisLabel.Text = "label5";
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ЗберегтиToolStripMenuItem, ВидалитиToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(181, 70);
+            // 
+            // ВидалитиToolStripMenuItem
+            // 
+            ВидалитиToolStripMenuItem.Name = "ВидалитиToolStripMenuItem";
+            ВидалитиToolStripMenuItem.Size = new Size(180, 22);
+            ВидалитиToolStripMenuItem.Text = "Видалити";
+            ВидалитиToolStripMenuItem.Click += ВидалитиToolStripMenuItem_Click;
+            // 
+            // ЗберегтиToolStripMenuItem
+            // 
+            ЗберегтиToolStripMenuItem.Name = "ЗберегтиToolStripMenuItem";
+            ЗберегтиToolStripMenuItem.Size = new Size(180, 22);
+            ЗберегтиToolStripMenuItem.Text = "Зберегти";
+            ЗберегтиToolStripMenuItem.Click += ЗберегтиToolStripMenuItem_Click;
             // 
             // Form1
             // 
@@ -455,6 +522,8 @@
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             tabPage3.ResumeLayout(false);
             tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -483,8 +552,6 @@
         private NumericUpDown numericUpDown3;
         private TabPage tabPage3;
         private Label AnalysisLabel;
-        private Button AnalysisButton;
-        private ListBox AnalysisList;
         private Button button3;
         private CheckBox PrewittcheckBox;
         private CheckBox KirschcheckBox;
@@ -492,5 +559,15 @@
         private CheckBox HedcheckBox;
         private CheckBox ShowContourCheckBox;
         private Button button4;
+        private DataGridView dataGridView1;
+        private Button button2;
+        private DataGridViewTextBoxColumn AlgorithmName;
+        private DataGridViewTextBoxColumn Precision;
+        private DataGridViewTextBoxColumn Recall;
+        private DataGridViewTextBoxColumn F1Score;
+        private DataGridViewTextBoxColumn IoU;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem ВидалитиToolStripMenuItem;
+        private ToolStripMenuItem ЗберегтиToolStripMenuItem;
     }
 }
