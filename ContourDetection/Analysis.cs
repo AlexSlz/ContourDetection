@@ -1,76 +1,66 @@
-﻿namespace ContourDetection
+﻿using Emgu.CV.CvEnum;
+using Emgu.CV;
+using Emgu.CV.Structure;
+using Emgu.CV.Linemod;
+
+namespace ContourDetection
 {
     internal class Analysis
     {
-        int LowerThreshold = 150;
-
-        public (double Precision, double Recall, double F1Score) EvaluateContours(Bitmap detectedContours, Bitmap groundTruthContours)
+        public (double F1Score, double pixelAccuracy, double IoU) CalculateMetrics(Bitmap detectedContours, Bitmap groundTruthContours)
         {
-            int tp = 0; // True Positive
-            int fp = 0; // False Positive
-            int fn = 0; // False Negative
+            bool[,] detectedArray = BitmapToBinaryArray(detectedContours);
+            bool[,] groundTruthArray = BitmapToBinaryArray(groundTruthContours);
 
-            for (int y = 0; y < detectedContours.Height; y++)
+            double tp = CountTruePositive(detectedArray, groundTruthArray);
+            double tn = CountTrueNegative(detectedArray, groundTruthArray);
+            double fp = CountFalsePositive(detectedArray, groundTruthArray);
+            double fn = CountFalseNegative(detectedArray, groundTruthArray);
+
+            var metrics = new Metrics();
+            double meanF1 = metrics.F1Score(tp, fp, fn);
+            double pixelAccuracy = metrics.PixelAccuracy(tp, fp, tn, fn);
+            double iou = metrics.IoU(tp, fp, fn);
+
+            return (Math.Round(meanF1, 3), Math.Round(pixelAccuracy, 3), Math.Round(iou, 3));
+        }
+
+        private static bool[,] BitmapToBinaryArray(Bitmap bitmap)
+        {
+            int width = bitmap.Width;
+            int height = bitmap.Height;
+            bool[,] binaryArray = new bool[height, width];
+
+            for (int y = 0; y < height; y++)
             {
-                for (int x = 0; x < detectedContours.Width; x++)
+                for (int x = 0; x < width; x++)
                 {
-                    bool detected = Check(detectedContours, x, y); 
-                    bool groundTruth = Check(groundTruthContours, x, y);
-
-                    if (detected && groundTruth)
-                    {
-                        tp++;
-                    }
-                    else if (detected && !groundTruth)
-                    {
-                        fp++;
-                    }
-                    else if (!detected && groundTruth)
-                    {
-                        fn++;
-                    }
+                    Color color = bitmap.GetPixel(x, y);
+                    binaryArray[y, x] = color.R < 10 && color.G < 10 && color.B < 10;
                 }
             }
 
-            double precision = tp / (double)(tp + fp);
-            double recall = tp / (double)(tp + fn);
-            double f1Score = 2 * (precision * recall) / (precision + recall);
-
-            return (Math.Round(precision, 3), Math.Round(recall, 3), Math.Round(f1Score, 3));
+            return binaryArray;
         }
 
-        public double CalculateIoU(Bitmap detectedContours, Bitmap groundTruthContours)
+        private int CountTruePositive(bool[,] detected, bool[,] groundTruth)
         {
-            int intersection = 0; // Перетин
-            int union = 0; // Об'єднання
-
-            for (int y = 0; y < detectedContours.Height; y++)
-            {
-                for (int x = 0; x < detectedContours.Width; x++)
-                {
-                    bool detected = Check(detectedContours, x, y);
-                    bool groundTruth = Check(groundTruthContours, x, y);
-
-                    if (detected && groundTruth)
-                    {
-                        intersection++;
-                    }
-
-                    if (detected || groundTruth)
-                    {
-                        union++;
-                    }
-                }
-            }
-
-            double iou = (double)intersection / union;
-
-            return Math.Round(iou, 3);
+            return detected.Cast<bool>().Zip(groundTruth.Cast<bool>(), (d, g) => d && g).Count(b => b);
         }
 
-        private bool Check(Bitmap bitmap, int x, int y)
+        private int CountFalsePositive(bool[,] detected, bool[,] groundTruth)
         {
-            return bitmap.GetPixel(x, y).R >= LowerThreshold && bitmap.GetPixel(x, y).G >= LowerThreshold && bitmap.GetPixel(x, y).B >= LowerThreshold;
+            return detected.Cast<bool>().Zip(groundTruth.Cast<bool>(), (d, g) => d && !g).Count(b => b);
+        }
+
+        private int CountFalseNegative(bool[,] detected, bool[,] groundTruth)
+        {
+            return detected.Cast<bool>().Zip(groundTruth.Cast<bool>(), (d, g) => !d && g).Count(b => b);
+        }
+
+        private int CountTrueNegative(bool[,] detected, bool[,] groundTruth)
+        {
+            return detected.Cast<bool>().Zip(groundTruth.Cast<bool>(), (d, g) => !d && !g).Count(b => b);
         }
     }
 }

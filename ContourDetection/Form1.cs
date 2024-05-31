@@ -1,6 +1,7 @@
 using ContourDetection.Algorithms;
 using ContourDetection.Settings;
-using System.Windows.Forms;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace ContourDetection
 {
@@ -20,14 +21,11 @@ namespace ContourDetection
 
         Contour SelectedContour = null;
 
-        List<Contour> SelectedContourList = new List<Contour>();
-
         List<string> ListAlgorithms = new List<string>();
 
         public Form1()
         {
             InitializeComponent();
-
             pictureBox = new MyCustomPictureBox(pictureBox1);
 
             treeView1.ContextMenuStrip = contextMenuStrip1;
@@ -62,6 +60,7 @@ namespace ContourDetection
         {
             var temp = OpenDialogImage();
             if (temp == null) return;
+
             temp.Show(pictureBox);
 
             Images.Add(temp);
@@ -104,13 +103,16 @@ namespace ContourDetection
 
             _contourDetector.Select(temp);
 
-            var contour = _contourDetector.ApplyAlgorithms(SelectedImage);
+            //var contour = _contourDetector.ApplyAlgorithms(SelectedImage);
 
-            SelectedImage.Contours.Add(contour);
+            var contours = _contourDetector.ApplyAlgorithmsList(SelectedImage);
+
+            SelectedImage.Contours.AddRange(contours);
 
             SelectedImage.DisplayOnTreeView(treeView1);
 
             GC.Collect();
+            tabControl1.SelectTab(0);
         }
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -158,33 +160,23 @@ namespace ContourDetection
         {
             if (tabControl1.SelectedIndex == 2)
             {
-                string res = "Потрібно вибрати зображення.";
+                AnalysisLabel.Text = "Потрібно вибрати зображення.";
 
                 if (SelectedImage != null)
-                    res = $"Вибране зображення: {SelectedImage.FileName}";
-                if (GroundTruthContourImage != null)
-                    res += $" | {GroundTruthContourImage.FileName}";
-
-                AnalysisLabel.Text = res;
+                    AnalysisLabel.Text = $"Вибране зображення: {SelectedImage.FileName}";
             }
         }
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (SelectedImage == null) return;
-            GroundTruthContourImage = OpenDialogImage();
-            if (GroundTruthContourImage == null) return;
 
-            AnalysisLabel.Text += $" | {GroundTruthContourImage.FileName}";
-        }
         private void button3_Click(object sender, EventArgs e)
         {
             if (GroundTruthContourImage == null) return;
             dataGridView1.Rows.Clear();
             foreach (var contour in SelectedImage.Contours)
             {
-                var (precision, recall, f1Score) = _analysis.EvaluateContours(GroundTruthContourImage.Bitmap, contour.Bitmap);
-                var IoUScore = _analysis.CalculateIoU(GroundTruthContourImage.Bitmap, contour.Bitmap);
-                dataGridView1.Rows.Add(contour.GetName(), precision, recall, f1Score, IoUScore);
+                var (F1Score, pixelAccuracy, IoU) = _analysis.CalculateMetrics(contour.Bitmap, GroundTruthContourImage.Bitmap);
+                //var (precision, recall, f1Score) = _analysis.CalculateF1New(GroundTruthContourImage.Bitmap, contour.Bitmap);
+                //var IoUScore = _analysis.CalculateIoU(GroundTruthContourImage.Bitmap, contour.Bitmap);
+                dataGridView1.Rows.Add(contour.GetName(), F1Score, pixelAccuracy, IoU);
             }
         }
 
@@ -261,6 +253,7 @@ namespace ContourDetection
                     try
                     {
                         MyImage image = Images.Find(image => image.Id == treeView1.SelectedNode.Name);
+
                         if (image == null)
                         {
                             image = Images.Find(image => image.Id == treeView1.SelectedNode.Parent.Name);
@@ -282,6 +275,19 @@ namespace ContourDetection
                     }
                 }
             }
+        }
+
+        private void вибратиСправжнєЗображенняToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (SelectedImage == null) return;
+            GroundTruthContourImage = OpenDialogImage();
+            if (GroundTruthContourImage == null) return;
+            GroundTruthContourImage.Show(pictureBox);
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            ExportResult.ExportToExcel(dataGridView1);
         }
     }
 }

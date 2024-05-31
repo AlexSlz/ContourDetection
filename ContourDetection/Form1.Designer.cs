@@ -57,18 +57,18 @@
             checkBox1 = new CheckBox();
             button1 = new Button();
             tabPage3 = new TabPage();
-            button2 = new Button();
             dataGridView1 = new DataGridView();
-            AlgorithmName = new DataGridViewTextBoxColumn();
-            Precision = new DataGridViewTextBoxColumn();
-            Recall = new DataGridViewTextBoxColumn();
-            F1Score = new DataGridViewTextBoxColumn();
-            IoU = new DataGridViewTextBoxColumn();
+            Head1 = new DataGridViewTextBoxColumn();
+            Head2 = new DataGridViewTextBoxColumn();
+            Head3 = new DataGridViewTextBoxColumn();
+            Head4 = new DataGridViewTextBoxColumn();
             button3 = new Button();
             AnalysisLabel = new Label();
             contextMenuStrip1 = new ContextMenuStrip(components);
-            ВидалитиToolStripMenuItem = new ToolStripMenuItem();
             ЗберегтиToolStripMenuItem = new ToolStripMenuItem();
+            ВидалитиToolStripMenuItem = new ToolStripMenuItem();
+            вибратиСправжнєЗображенняToolStripMenuItem = new ToolStripMenuItem();
+            SaveButton = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -393,7 +393,7 @@
             // 
             // tabPage3
             // 
-            tabPage3.Controls.Add(button2);
+            tabPage3.Controls.Add(SaveButton);
             tabPage3.Controls.Add(dataGridView1);
             tabPage3.Controls.Add(button3);
             tabPage3.Controls.Add(AnalysisLabel);
@@ -404,16 +404,6 @@
             tabPage3.Text = "Аналіз";
             tabPage3.UseVisualStyleBackColor = true;
             // 
-            // button2
-            // 
-            button2.Location = new Point(8, 39);
-            button2.Name = "button2";
-            button2.Size = new Size(314, 57);
-            button2.TabIndex = 5;
-            button2.Text = "Вибрати Справжнє Зображення";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
-            // 
             // dataGridView1
             // 
             dataGridView1.AllowUserToAddRows = false;
@@ -421,47 +411,41 @@
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { AlgorithmName, Precision, Recall, F1Score, IoU });
-            dataGridView1.Location = new Point(8, 165);
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Head1, Head2, Head3, Head4 });
+            dataGridView1.Location = new Point(8, 102);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            dataGridView1.Size = new Size(760, 350);
+            dataGridView1.Size = new Size(760, 413);
             dataGridView1.TabIndex = 4;
             // 
-            // AlgorithmName
+            // Head1
             // 
-            AlgorithmName.HeaderText = "AlgorithmName";
-            AlgorithmName.Name = "AlgorithmName";
-            AlgorithmName.Width = 171;
+            Head1.HeaderText = "AlgorithmName";
+            Head1.Name = "Head1";
+            Head1.Width = 171;
             // 
-            // Precision
+            // Head2
             // 
-            Precision.HeaderText = "Precision";
-            Precision.Name = "Precision";
-            Precision.Width = 114;
+            Head2.HeaderText = "F1Score";
+            Head2.Name = "Head2";
+            Head2.Width = 103;
             // 
-            // Recall
+            // Head3
             // 
-            Recall.HeaderText = "Recall";
-            Recall.Name = "Recall";
-            Recall.Width = 86;
+            Head3.HeaderText = "PixelAccuracy";
+            Head3.Name = "Head3";
+            Head3.Width = 153;
             // 
-            // F1Score
+            // Head4
             // 
-            F1Score.HeaderText = "F1Score";
-            F1Score.Name = "F1Score";
-            F1Score.Width = 103;
-            // 
-            // IoU
-            // 
-            IoU.HeaderText = "IoU";
-            IoU.Name = "IoU";
-            IoU.Width = 66;
+            Head4.HeaderText = "IoU";
+            Head4.Name = "Head4";
+            Head4.Width = 66;
             // 
             // button3
             // 
-            button3.Location = new Point(8, 102);
+            button3.Location = new Point(8, 39);
             button3.Name = "button3";
             button3.Size = new Size(314, 57);
             button3.TabIndex = 3;
@@ -480,23 +464,40 @@
             // 
             // contextMenuStrip1
             // 
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ЗберегтиToolStripMenuItem, ВидалитиToolStripMenuItem });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ЗберегтиToolStripMenuItem, ВидалитиToolStripMenuItem, вибратиСправжнєЗображенняToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(181, 70);
-            // 
-            // ВидалитиToolStripMenuItem
-            // 
-            ВидалитиToolStripMenuItem.Name = "ВидалитиToolStripMenuItem";
-            ВидалитиToolStripMenuItem.Size = new Size(180, 22);
-            ВидалитиToolStripMenuItem.Text = "Видалити";
-            ВидалитиToolStripMenuItem.Click += ВидалитиToolStripMenuItem_Click;
+            contextMenuStrip1.Size = new Size(252, 70);
             // 
             // ЗберегтиToolStripMenuItem
             // 
             ЗберегтиToolStripMenuItem.Name = "ЗберегтиToolStripMenuItem";
-            ЗберегтиToolStripMenuItem.Size = new Size(180, 22);
+            ЗберегтиToolStripMenuItem.Size = new Size(251, 22);
             ЗберегтиToolStripMenuItem.Text = "Зберегти";
             ЗберегтиToolStripMenuItem.Click += ЗберегтиToolStripMenuItem_Click;
+            // 
+            // ВидалитиToolStripMenuItem
+            // 
+            ВидалитиToolStripMenuItem.Name = "ВидалитиToolStripMenuItem";
+            ВидалитиToolStripMenuItem.Size = new Size(251, 22);
+            ВидалитиToolStripMenuItem.Text = "Видалити";
+            ВидалитиToolStripMenuItem.Click += ВидалитиToolStripMenuItem_Click;
+            // 
+            // вибратиСправжнєЗображенняToolStripMenuItem
+            // 
+            вибратиСправжнєЗображенняToolStripMenuItem.Name = "вибратиСправжнєЗображенняToolStripMenuItem";
+            вибратиСправжнєЗображенняToolStripMenuItem.Size = new Size(251, 22);
+            вибратиСправжнєЗображенняToolStripMenuItem.Text = "Вибрати Справжнє Зображення";
+            вибратиСправжнєЗображенняToolStripMenuItem.Click += вибратиСправжнєЗображенняToolStripMenuItem_Click;
+            // 
+            // SaveButton
+            // 
+            SaveButton.Location = new Point(328, 39);
+            SaveButton.Name = "SaveButton";
+            SaveButton.Size = new Size(314, 57);
+            SaveButton.TabIndex = 5;
+            SaveButton.Text = "Зберегти у Excel";
+            SaveButton.UseVisualStyleBackColor = true;
+            SaveButton.Click += SaveButton_Click;
             // 
             // Form1
             // 
@@ -506,7 +507,7 @@
             Controls.Add(tabControl1);
             MinimumSize = new Size(800, 600);
             Name = "Form1";
-            Text = "Form1";
+            Text = "AlexContourDetection";
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             splitContainer1.Panel1.ResumeLayout(false);
@@ -560,14 +561,14 @@
         private CheckBox ShowContourCheckBox;
         private Button button4;
         private DataGridView dataGridView1;
-        private Button button2;
-        private DataGridViewTextBoxColumn AlgorithmName;
-        private DataGridViewTextBoxColumn Precision;
-        private DataGridViewTextBoxColumn Recall;
-        private DataGridViewTextBoxColumn F1Score;
-        private DataGridViewTextBoxColumn IoU;
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem ВидалитиToolStripMenuItem;
         private ToolStripMenuItem ЗберегтиToolStripMenuItem;
+        private ToolStripMenuItem вибратиСправжнєЗображенняToolStripMenuItem;
+        private DataGridViewTextBoxColumn Head1;
+        private DataGridViewTextBoxColumn Head2;
+        private DataGridViewTextBoxColumn Head3;
+        private DataGridViewTextBoxColumn Head4;
+        private Button SaveButton;
     }
 }

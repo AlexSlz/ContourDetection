@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace ContourDetection
+﻿namespace ContourDetection
 {
     internal abstract class GraphicElement
     {

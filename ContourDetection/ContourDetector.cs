@@ -26,5 +26,20 @@ namespace ContourDetection
             findContour.TimeToFind = _stopwatch.Elapsed;
             return findContour;
         }
+
+        public List<Contour> ApplyAlgorithmsList(MyImage image)
+        {
+            List<Contour> contours = new List<Contour>();
+            foreach (var algorithm in SelectedAlgorithms)
+            {
+                _stopwatch.Restart();
+                _stopwatch.Start();
+                var contour = algorithm.Apply(image);
+                _stopwatch.Stop();
+                contour.TimeToFind = _stopwatch.Elapsed;
+                contours.Add(contour);
+            }
+            return contours;
+        }
     }
 }
