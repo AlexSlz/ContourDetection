@@ -57,18 +57,19 @@
             checkBox1 = new CheckBox();
             button1 = new Button();
             tabPage3 = new TabPage();
+            SaveButton = new Button();
             dataGridView1 = new DataGridView();
-            Head1 = new DataGridViewTextBoxColumn();
-            Head2 = new DataGridViewTextBoxColumn();
-            Head3 = new DataGridViewTextBoxColumn();
-            Head4 = new DataGridViewTextBoxColumn();
             button3 = new Button();
             AnalysisLabel = new Label();
             contextMenuStrip1 = new ContextMenuStrip(components);
             ЗберегтиToolStripMenuItem = new ToolStripMenuItem();
             ВидалитиToolStripMenuItem = new ToolStripMenuItem();
             вибратиСправжнєЗображенняToolStripMenuItem = new ToolStripMenuItem();
-            SaveButton = new Button();
+            Head1 = new DataGridViewTextBoxColumn();
+            Head2 = new DataGridViewTextBoxColumn();
+            Head3 = new DataGridViewTextBoxColumn();
+            Head4 = new DataGridViewTextBoxColumn();
+            Head5 = new DataGridViewTextBoxColumn();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -404,6 +405,16 @@
             tabPage3.Text = "Аналіз";
             tabPage3.UseVisualStyleBackColor = true;
             // 
+            // SaveButton
+            // 
+            SaveButton.Location = new Point(328, 39);
+            SaveButton.Name = "SaveButton";
+            SaveButton.Size = new Size(314, 57);
+            SaveButton.TabIndex = 5;
+            SaveButton.Text = "Зберегти у Excel";
+            SaveButton.UseVisualStyleBackColor = true;
+            SaveButton.Click += SaveButton_Click;
+            // 
             // dataGridView1
             // 
             dataGridView1.AllowUserToAddRows = false;
@@ -411,37 +422,13 @@
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Head1, Head2, Head3, Head4 });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Head1, Head2, Head3, Head4, Head5 });
             dataGridView1.Location = new Point(8, 102);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
             dataGridView1.Size = new Size(760, 413);
             dataGridView1.TabIndex = 4;
-            // 
-            // Head1
-            // 
-            Head1.HeaderText = "AlgorithmName";
-            Head1.Name = "Head1";
-            Head1.Width = 171;
-            // 
-            // Head2
-            // 
-            Head2.HeaderText = "F1Score";
-            Head2.Name = "Head2";
-            Head2.Width = 103;
-            // 
-            // Head3
-            // 
-            Head3.HeaderText = "PixelAccuracy";
-            Head3.Name = "Head3";
-            Head3.Width = 153;
-            // 
-            // Head4
-            // 
-            Head4.HeaderText = "IoU";
-            Head4.Name = "Head4";
-            Head4.Width = 66;
             // 
             // button3
             // 
@@ -489,15 +476,35 @@
             вибратиСправжнєЗображенняToolStripMenuItem.Text = "Вибрати Справжнє Зображення";
             вибратиСправжнєЗображенняToolStripMenuItem.Click += вибратиСправжнєЗображенняToolStripMenuItem_Click;
             // 
-            // SaveButton
+            // Head1
             // 
-            SaveButton.Location = new Point(328, 39);
-            SaveButton.Name = "SaveButton";
-            SaveButton.Size = new Size(314, 57);
-            SaveButton.TabIndex = 5;
-            SaveButton.Text = "Зберегти у Excel";
-            SaveButton.UseVisualStyleBackColor = true;
-            SaveButton.Click += SaveButton_Click;
+            Head1.HeaderText = "AlgorithmName";
+            Head1.Name = "Head1";
+            Head1.Width = 171;
+            // 
+            // Head2
+            // 
+            Head2.HeaderText = "F1Score";
+            Head2.Name = "Head2";
+            Head2.Width = 103;
+            // 
+            // Head3
+            // 
+            Head3.HeaderText = "PixelAccuracy";
+            Head3.Name = "Head3";
+            Head3.Width = 153;
+            // 
+            // Head4
+            // 
+            Head4.HeaderText = "IoU";
+            Head4.Name = "Head4";
+            Head4.Width = 66;
+            // 
+            // Head5
+            // 
+            Head5.HeaderText = "TotalScore";
+            Head5.Name = "Head5";
+            Head5.Width = 124;
             // 
             // Form1
             // 
@@ -565,10 +572,11 @@
         private ToolStripMenuItem ВидалитиToolStripMenuItem;
         private ToolStripMenuItem ЗберегтиToolStripMenuItem;
         private ToolStripMenuItem вибратиСправжнєЗображенняToolStripMenuItem;
+        private Button SaveButton;
         private DataGridViewTextBoxColumn Head1;
         private DataGridViewTextBoxColumn Head2;
         private DataGridViewTextBoxColumn Head3;
         private DataGridViewTextBoxColumn Head4;
-        private Button SaveButton;
+        private DataGridViewTextBoxColumn Head5;
     }
 }

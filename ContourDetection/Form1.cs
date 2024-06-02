@@ -174,9 +174,10 @@ namespace ContourDetection
             foreach (var contour in SelectedImage.Contours)
             {
                 var (F1Score, pixelAccuracy, IoU) = _analysis.CalculateMetrics(contour.Bitmap, GroundTruthContourImage.Bitmap);
-                //var (precision, recall, f1Score) = _analysis.CalculateF1New(GroundTruthContourImage.Bitmap, contour.Bitmap);
-                //var IoUScore = _analysis.CalculateIoU(GroundTruthContourImage.Bitmap, contour.Bitmap);
-                dataGridView1.Rows.Add(contour.GetName(), F1Score, pixelAccuracy, IoU);
+
+                var total = (F1Score + pixelAccuracy + IoU) / 3;
+                
+                dataGridView1.Rows.Add(contour.GetName(), F1Score, pixelAccuracy, IoU, Math.Round(total, 3));
             }
         }
 
