@@ -1,0 +1,9 @@
+*.pyc
+
+__pycache__/
+train/__pycache__/
+
+models/
+results_train/
+train/dataset/
+results/
