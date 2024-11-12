@@ -71,12 +71,13 @@
             button3 = new Button();
             AnalysisLabel = new Label();
             tabPage4 = new TabPage();
+            button7 = new Button();
+            button6 = new Button();
             dataGridView2 = new DataGridView();
             contextMenuStrip1 = new ContextMenuStrip(components);
             ЗберегтиToolStripMenuItem = new ToolStripMenuItem();
             ВидалитиToolStripMenuItem = new ToolStripMenuItem();
             вибратиСправжнєЗображенняToolStripMenuItem = new ToolStripMenuItem();
-            button6 = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -254,7 +255,8 @@
             // 
             // ImageSizeNumeric
             // 
-            ImageSizeNumeric.Location = new Point(270, 241);
+            ImageSizeNumeric.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            ImageSizeNumeric.Location = new Point(270, 240);
             ImageSizeNumeric.Maximum = new decimal(new int[] { 700, 0, 0, 0 });
             ImageSizeNumeric.Minimum = new decimal(new int[] { 128, 0, 0, 0 });
             ImageSizeNumeric.Name = "ImageSizeNumeric";
@@ -265,8 +267,9 @@
             // 
             // label8
             // 
+            label8.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label8.AutoSize = true;
-            label8.Location = new Point(81, 243);
+            label8.Location = new Point(81, 242);
             label8.Name = "label8";
             label8.Size = new Size(183, 25);
             label8.TabIndex = 19;
@@ -274,8 +277,9 @@
             // 
             // label7
             // 
+            label7.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label7.AutoSize = true;
-            label7.Location = new Point(142, 400);
+            label7.Location = new Point(142, 399);
             label7.Name = "label7";
             label7.Size = new Size(122, 25);
             label7.TabIndex = 18;
@@ -283,11 +287,12 @@
             // 
             // OptimizerComboBox
             // 
+            OptimizerComboBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             OptimizerComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             OptimizerComboBox.FormattingEnabled = true;
             OptimizerComboBox.ImeMode = ImeMode.NoControl;
             OptimizerComboBox.Items.AddRange(new object[] { "Auto", "AdamW", "SGD" });
-            OptimizerComboBox.Location = new Point(270, 397);
+            OptimizerComboBox.Location = new Point(270, 396);
             OptimizerComboBox.Name = "OptimizerComboBox";
             OptimizerComboBox.Size = new Size(165, 33);
             OptimizerComboBox.TabIndex = 17;
@@ -295,7 +300,8 @@
             // 
             // ImageLimitNumeric
             // 
-            ImageLimitNumeric.Location = new Point(270, 202);
+            ImageLimitNumeric.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            ImageLimitNumeric.Location = new Point(270, 201);
             ImageLimitNumeric.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             ImageLimitNumeric.Name = "ImageLimitNumeric";
             ImageLimitNumeric.Size = new Size(165, 33);
@@ -304,8 +310,9 @@
             // 
             // label6
             // 
+            label6.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label6.AutoSize = true;
-            label6.Location = new Point(18, 204);
+            label6.Location = new Point(18, 203);
             label6.Name = "label6";
             label6.Size = new Size(246, 25);
             label6.TabIndex = 14;
@@ -313,8 +320,9 @@
             // 
             // checkBoxGraph
             // 
+            checkBoxGraph.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             checkBoxGraph.AutoSize = true;
-            checkBoxGraph.Location = new Point(177, 436);
+            checkBoxGraph.Location = new Point(177, 435);
             checkBoxGraph.Name = "checkBoxGraph";
             checkBoxGraph.Size = new Size(258, 29);
             checkBoxGraph.TabIndex = 13;
@@ -324,8 +332,8 @@
             // 
             // TrainingButton
             // 
-            TrainingButton.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            TrainingButton.Location = new Point(8, 471);
+            TrainingButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            TrainingButton.Location = new Point(8, 470);
             TrainingButton.Name = "TrainingButton";
             TrainingButton.Size = new Size(760, 45);
             TrainingButton.TabIndex = 12;
@@ -335,8 +343,9 @@
             // 
             // label5
             // 
+            label5.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label5.AutoSize = true;
-            label5.Location = new Point(119, 360);
+            label5.Location = new Point(119, 359);
             label5.Name = "label5";
             label5.Size = new Size(145, 25);
             label5.TabIndex = 11;
@@ -344,9 +353,10 @@
             // 
             // LearningRateNumeric
             // 
+            LearningRateNumeric.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             LearningRateNumeric.DecimalPlaces = 4;
             LearningRateNumeric.Increment = new decimal(new int[] { 1, 0, 0, 393216 });
-            LearningRateNumeric.Location = new Point(270, 358);
+            LearningRateNumeric.Location = new Point(270, 357);
             LearningRateNumeric.Maximum = new decimal(new int[] { 1, 0, 0, 0 });
             LearningRateNumeric.Minimum = new decimal(new int[] { 1, 0, 0, 393216 });
             LearningRateNumeric.Name = "LearningRateNumeric";
@@ -358,7 +368,8 @@
             // 
             // BatchSizeNumeric
             // 
-            BatchSizeNumeric.Location = new Point(270, 319);
+            BatchSizeNumeric.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            BatchSizeNumeric.Location = new Point(270, 318);
             BatchSizeNumeric.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             BatchSizeNumeric.Name = "BatchSizeNumeric";
             BatchSizeNumeric.Size = new Size(165, 33);
@@ -368,8 +379,9 @@
             // 
             // label4
             // 
+            label4.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label4.AutoSize = true;
-            label4.Location = new Point(155, 321);
+            label4.Location = new Point(155, 320);
             label4.Name = "label4";
             label4.Size = new Size(109, 25);
             label4.TabIndex = 8;
@@ -377,7 +389,8 @@
             // 
             // EpochsNumeric
             // 
-            EpochsNumeric.Location = new Point(270, 280);
+            EpochsNumeric.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            EpochsNumeric.Location = new Point(270, 279);
             EpochsNumeric.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             EpochsNumeric.Name = "EpochsNumeric";
             EpochsNumeric.Size = new Size(165, 33);
@@ -387,8 +400,9 @@
             // 
             // label3
             // 
+            label3.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label3.AutoSize = true;
-            label3.Location = new Point(129, 282);
+            label3.Location = new Point(129, 281);
             label3.Name = "label3";
             label3.Size = new Size(135, 25);
             label3.TabIndex = 6;
@@ -396,10 +410,11 @@
             // 
             // datasetPathLabel
             // 
+            datasetPathLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             datasetPathLabel.AutoSize = true;
             datasetPathLabel.Font = new Font("Segoe UI", 14.25F, FontStyle.Underline, GraphicsUnit.Point, 204);
             datasetPathLabel.ForeColor = SystemColors.MenuHighlight;
-            datasetPathLabel.Location = new Point(270, 170);
+            datasetPathLabel.Location = new Point(270, 169);
             datasetPathLabel.Name = "datasetPathLabel";
             datasetPathLabel.Size = new Size(133, 25);
             datasetPathLabel.TabIndex = 5;
@@ -408,8 +423,9 @@
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label2.AutoSize = true;
-            label2.Location = new Point(184, 170);
+            label2.Location = new Point(184, 169);
             label2.Name = "label2";
             label2.Size = new Size(80, 25);
             label2.TabIndex = 4;
@@ -546,6 +562,7 @@
             // 
             // tabPage4
             // 
+            tabPage4.Controls.Add(button7);
             tabPage4.Controls.Add(button6);
             tabPage4.Controls.Add(dataGridView2);
             tabPage4.Location = new Point(4, 34);
@@ -554,6 +571,26 @@
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Результати навчання";
             tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // button7
+            // 
+            button7.Location = new Point(8, 3);
+            button7.Name = "button7";
+            button7.Size = new Size(107, 44);
+            button7.TabIndex = 8;
+            button7.Text = "button7";
+            button7.UseVisualStyleBackColor = true;
+            button7.Click += button7_Click;
+            // 
+            // button6
+            // 
+            button6.Location = new Point(658, 55);
+            button6.Name = "button6";
+            button6.Size = new Size(110, 49);
+            button6.TabIndex = 6;
+            button6.Text = "button6";
+            button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
             // 
             // dataGridView2
             // 
@@ -595,16 +632,6 @@
             вибратиСправжнєЗображенняToolStripMenuItem.Size = new Size(251, 22);
             вибратиСправжнєЗображенняToolStripMenuItem.Text = "Вибрати Справжнє Зображення";
             вибратиСправжнєЗображенняToolStripMenuItem.Click += вибратиСправжнєЗображенняToolStripMenuItem_Click;
-            // 
-            // button6
-            // 
-            button6.Location = new Point(385, 55);
-            button6.Name = "button6";
-            button6.Size = new Size(110, 49);
-            button6.TabIndex = 6;
-            button6.Text = "button6";
-            button6.UseVisualStyleBackColor = true;
-            button6.Click += button6_Click;
             // 
             // Form1
             // 
@@ -689,5 +716,6 @@
         private TabPage tabPage4;
         private DataGridView dataGridView2;
         private Button button6;
+        private Button button7;
     }
 }

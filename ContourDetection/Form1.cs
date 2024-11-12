@@ -373,5 +373,25 @@ namespace ContourDetection
                 }
             }
         }
+        private LossForm lossFormInstance;
+        private void lossFormInstance_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            lossFormInstance = null;
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            string[] a = { "Train_loss", "Val_loss" };
+            if (lossFormInstance == null || lossFormInstance.IsDisposed)
+            {
+                lossFormInstance = new LossForm(dataGridView2, a);
+                lossFormInstance.FormClosed += lossFormInstance_FormClosed;
+                lossFormInstance.Show();
+            }
+            else
+            {
+                lossFormInstance.BringToFront();
+            }
+        }
     }
 }
