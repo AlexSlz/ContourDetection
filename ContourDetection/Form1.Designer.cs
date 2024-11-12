@@ -38,38 +38,45 @@
             DescriptionLabel = new Label();
             pictureBox1 = new PictureBox();
             tabPage2 = new TabPage();
-            HedcheckBox = new CheckBox();
-            DexiNedcheckBox = new CheckBox();
-            KirschcheckBox = new CheckBox();
-            PrewittcheckBox = new CheckBox();
-            label3 = new Label();
-            numericUpDown3 = new NumericUpDown();
-            comboBox2 = new ComboBox();
-            comboBox1 = new ComboBox();
+            button5 = new Button();
+            label9 = new Label();
+            ImageSizeNumeric = new NumericUpDown();
+            label8 = new Label();
+            label7 = new Label();
+            OptimizerComboBox = new ComboBox();
+            ImageLimitNumeric = new NumericUpDown();
+            label6 = new Label();
+            checkBoxGraph = new CheckBox();
+            TrainingButton = new Button();
+            label5 = new Label();
+            LearningRateNumeric = new NumericUpDown();
+            BatchSizeNumeric = new NumericUpDown();
             label4 = new Label();
-            checkBox4 = new CheckBox();
-            listBox1 = new ListBox();
-            checkBox2 = new CheckBox();
-            numericUpDown2 = new NumericUpDown();
-            numericUpDown1 = new NumericUpDown();
+            EpochsNumeric = new NumericUpDown();
+            label3 = new Label();
+            datasetPathLabel = new Label();
             label2 = new Label();
             label1 = new Label();
-            checkBox1 = new CheckBox();
+            button2 = new Button();
+            comboBox1 = new ComboBox();
             button1 = new Button();
             tabPage3 = new TabPage();
             SaveButton = new Button();
             dataGridView1 = new DataGridView();
-            button3 = new Button();
-            AnalysisLabel = new Label();
-            contextMenuStrip1 = new ContextMenuStrip(components);
-            ЗберегтиToolStripMenuItem = new ToolStripMenuItem();
-            ВидалитиToolStripMenuItem = new ToolStripMenuItem();
-            вибратиСправжнєЗображенняToolStripMenuItem = new ToolStripMenuItem();
             Head1 = new DataGridViewTextBoxColumn();
             Head2 = new DataGridViewTextBoxColumn();
             Head3 = new DataGridViewTextBoxColumn();
             Head4 = new DataGridViewTextBoxColumn();
             Head5 = new DataGridViewTextBoxColumn();
+            button3 = new Button();
+            AnalysisLabel = new Label();
+            tabPage4 = new TabPage();
+            dataGridView2 = new DataGridView();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            ЗберегтиToolStripMenuItem = new ToolStripMenuItem();
+            ВидалитиToolStripMenuItem = new ToolStripMenuItem();
+            вибратиСправжнєЗображенняToolStripMenuItem = new ToolStripMenuItem();
+            button6 = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -78,11 +85,15 @@
             splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ImageSizeNumeric).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ImageLimitNumeric).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)LearningRateNumeric).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)BatchSizeNumeric).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)EpochsNumeric).BeginInit();
             tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -91,6 +102,7 @@
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage3);
+            tabControl1.Controls.Add(tabPage4);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 204);
             tabControl1.Location = new Point(0, 0);
@@ -190,23 +202,27 @@
             // tabPage2
             // 
             tabPage2.AutoScroll = true;
-            tabPage2.Controls.Add(HedcheckBox);
-            tabPage2.Controls.Add(DexiNedcheckBox);
-            tabPage2.Controls.Add(KirschcheckBox);
-            tabPage2.Controls.Add(PrewittcheckBox);
-            tabPage2.Controls.Add(label3);
-            tabPage2.Controls.Add(numericUpDown3);
-            tabPage2.Controls.Add(comboBox2);
-            tabPage2.Controls.Add(comboBox1);
+            tabPage2.Controls.Add(button5);
+            tabPage2.Controls.Add(label9);
+            tabPage2.Controls.Add(ImageSizeNumeric);
+            tabPage2.Controls.Add(label8);
+            tabPage2.Controls.Add(label7);
+            tabPage2.Controls.Add(OptimizerComboBox);
+            tabPage2.Controls.Add(ImageLimitNumeric);
+            tabPage2.Controls.Add(label6);
+            tabPage2.Controls.Add(checkBoxGraph);
+            tabPage2.Controls.Add(TrainingButton);
+            tabPage2.Controls.Add(label5);
+            tabPage2.Controls.Add(LearningRateNumeric);
+            tabPage2.Controls.Add(BatchSizeNumeric);
             tabPage2.Controls.Add(label4);
-            tabPage2.Controls.Add(checkBox4);
-            tabPage2.Controls.Add(listBox1);
-            tabPage2.Controls.Add(checkBox2);
-            tabPage2.Controls.Add(numericUpDown2);
-            tabPage2.Controls.Add(numericUpDown1);
+            tabPage2.Controls.Add(EpochsNumeric);
+            tabPage2.Controls.Add(label3);
+            tabPage2.Controls.Add(datasetPathLabel);
             tabPage2.Controls.Add(label2);
             tabPage2.Controls.Add(label1);
-            tabPage2.Controls.Add(checkBox1);
+            tabPage2.Controls.Add(button2);
+            tabPage2.Controls.Add(comboBox1);
             tabPage2.Controls.Add(button1);
             tabPage2.Location = new Point(4, 34);
             tabPage2.Name = "tabPage2";
@@ -216,177 +232,226 @@
             tabPage2.Text = "Алгоритми";
             tabPage2.UseVisualStyleBackColor = true;
             // 
-            // HedcheckBox
+            // button5
             // 
-            HedcheckBox.AutoSize = true;
-            HedcheckBox.Location = new Point(8, 360);
-            HedcheckBox.Name = "HedcheckBox";
-            HedcheckBox.Size = new Size(65, 29);
-            HedcheckBox.TabIndex = 23;
-            HedcheckBox.Text = "Hed";
-            HedcheckBox.UseVisualStyleBackColor = true;
+            button5.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            button5.Location = new Point(734, 16);
+            button5.Name = "button5";
+            button5.Size = new Size(34, 33);
+            button5.TabIndex = 22;
+            button5.Text = "X";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
             // 
-            // DexiNedcheckBox
+            // label9
             // 
-            DexiNedcheckBox.AutoSize = true;
-            DexiNedcheckBox.Location = new Point(8, 325);
-            DexiNedcheckBox.Name = "DexiNedcheckBox";
-            DexiNedcheckBox.Size = new Size(103, 29);
-            DexiNedcheckBox.TabIndex = 21;
-            DexiNedcheckBox.Text = "DexiNed";
-            DexiNedcheckBox.UseVisualStyleBackColor = true;
+            label9.AutoSize = true;
+            label9.Location = new Point(25, 53);
+            label9.Name = "label9";
+            label9.Size = new Size(23, 25);
+            label9.TabIndex = 21;
+            label9.Text = "./";
             // 
-            // KirschcheckBox
+            // ImageSizeNumeric
             // 
-            KirschcheckBox.AutoSize = true;
-            KirschcheckBox.Location = new Point(8, 290);
-            KirschcheckBox.Name = "KirschcheckBox";
-            KirschcheckBox.Size = new Size(82, 29);
-            KirschcheckBox.TabIndex = 20;
-            KirschcheckBox.Text = "Kirsch";
-            KirschcheckBox.UseVisualStyleBackColor = true;
+            ImageSizeNumeric.Location = new Point(270, 241);
+            ImageSizeNumeric.Maximum = new decimal(new int[] { 700, 0, 0, 0 });
+            ImageSizeNumeric.Minimum = new decimal(new int[] { 128, 0, 0, 0 });
+            ImageSizeNumeric.Name = "ImageSizeNumeric";
+            ImageSizeNumeric.Size = new Size(165, 33);
+            ImageSizeNumeric.TabIndex = 20;
+            ImageSizeNumeric.Value = new decimal(new int[] { 224, 0, 0, 0 });
+            ImageSizeNumeric.ValueChanged += ImageSizeNumeric_ValueChanged;
             // 
-            // PrewittcheckBox
+            // label8
             // 
-            PrewittcheckBox.AutoSize = true;
-            PrewittcheckBox.Location = new Point(8, 255);
-            PrewittcheckBox.Name = "PrewittcheckBox";
-            PrewittcheckBox.Size = new Size(90, 29);
-            PrewittcheckBox.TabIndex = 19;
-            PrewittcheckBox.Text = "Prewitt";
-            PrewittcheckBox.UseVisualStyleBackColor = true;
+            label8.AutoSize = true;
+            label8.Location = new Point(81, 243);
+            label8.Name = "label8";
+            label8.Size = new Size(183, 25);
+            label8.TabIndex = 19;
+            label8.Text = "Розмір зображення";
             // 
-            // label3
+            // label7
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(8, 218);
-            label3.Name = "label3";
-            label3.Size = new Size(75, 25);
-            label3.TabIndex = 18;
-            label3.Text = "Фактор";
+            label7.AutoSize = true;
+            label7.Location = new Point(142, 400);
+            label7.Name = "label7";
+            label7.Size = new Size(122, 25);
+            label7.TabIndex = 18;
+            label7.Text = "Оптимізатор";
             // 
-            // numericUpDown3
+            // OptimizerComboBox
             // 
-            numericUpDown3.Location = new Point(89, 216);
-            numericUpDown3.Maximum = new decimal(new int[] { 1024, 0, 0, 0 });
-            numericUpDown3.Name = "numericUpDown3";
-            numericUpDown3.Size = new Size(172, 33);
-            numericUpDown3.TabIndex = 17;
-            numericUpDown3.Value = new decimal(new int[] { 8, 0, 0, 0 });
+            OptimizerComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            OptimizerComboBox.FormattingEnabled = true;
+            OptimizerComboBox.ImeMode = ImeMode.NoControl;
+            OptimizerComboBox.Items.AddRange(new object[] { "Auto", "AdamW", "SGD" });
+            OptimizerComboBox.Location = new Point(270, 397);
+            OptimizerComboBox.Name = "OptimizerComboBox";
+            OptimizerComboBox.Size = new Size(165, 33);
+            OptimizerComboBox.TabIndex = 17;
+            OptimizerComboBox.SelectedIndexChanged += OptimizerComboBox_SelectedIndexChanged;
             // 
-            // comboBox2
+            // ImageLimitNumeric
             // 
-            comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Items.AddRange(new object[] { "None", "3x3", "5x5-1", "5x5-2" });
-            comboBox2.Location = new Point(156, 177);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(105, 33);
-            comboBox2.TabIndex = 16;
-            comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
+            ImageLimitNumeric.Location = new Point(270, 202);
+            ImageLimitNumeric.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            ImageLimitNumeric.Name = "ImageLimitNumeric";
+            ImageLimitNumeric.Size = new Size(165, 33);
+            ImageLimitNumeric.TabIndex = 15;
+            ImageLimitNumeric.ValueChanged += ImageLimitNumeric_ValueChanged;
             // 
-            // comboBox1
+            // label6
             // 
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox1.FormattingEnabled = true;
-            comboBox1.ImeMode = ImeMode.NoControl;
-            comboBox1.Items.AddRange(new object[] { "3x3", "5x5" });
-            comboBox1.Location = new Point(125, 138);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(136, 33);
-            comboBox1.TabIndex = 15;
+            label6.AutoSize = true;
+            label6.Location = new Point(18, 204);
+            label6.Name = "label6";
+            label6.Size = new Size(246, 25);
+            label6.TabIndex = 14;
+            label6.Text = "Ліміт зображень у датасеті";
+            // 
+            // checkBoxGraph
+            // 
+            checkBoxGraph.AutoSize = true;
+            checkBoxGraph.Location = new Point(177, 436);
+            checkBoxGraph.Name = "checkBoxGraph";
+            checkBoxGraph.Size = new Size(258, 29);
+            checkBoxGraph.TabIndex = 13;
+            checkBoxGraph.Text = "Зберегти графік навчання";
+            checkBoxGraph.UseVisualStyleBackColor = true;
+            checkBoxGraph.CheckedChanged += checkBoxGraph_CheckedChanged;
+            // 
+            // TrainingButton
+            // 
+            TrainingButton.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            TrainingButton.Location = new Point(8, 471);
+            TrainingButton.Name = "TrainingButton";
+            TrainingButton.Size = new Size(760, 45);
+            TrainingButton.TabIndex = 12;
+            TrainingButton.Text = "Почати навчання";
+            TrainingButton.UseVisualStyleBackColor = true;
+            TrainingButton.Click += TrainingButton_Click;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(119, 360);
+            label5.Name = "label5";
+            label5.Size = new Size(145, 25);
+            label5.TabIndex = 11;
+            label5.Text = "Темп навчання";
+            // 
+            // LearningRateNumeric
+            // 
+            LearningRateNumeric.DecimalPlaces = 4;
+            LearningRateNumeric.Increment = new decimal(new int[] { 1, 0, 0, 393216 });
+            LearningRateNumeric.Location = new Point(270, 358);
+            LearningRateNumeric.Maximum = new decimal(new int[] { 1, 0, 0, 0 });
+            LearningRateNumeric.Minimum = new decimal(new int[] { 1, 0, 0, 393216 });
+            LearningRateNumeric.Name = "LearningRateNumeric";
+            LearningRateNumeric.Size = new Size(165, 33);
+            LearningRateNumeric.TabIndex = 10;
+            LearningRateNumeric.ThousandsSeparator = true;
+            LearningRateNumeric.Value = new decimal(new int[] { 3, 0, 0, 262144 });
+            LearningRateNumeric.ValueChanged += LearningRateNumeric_ValueChanged;
+            // 
+            // BatchSizeNumeric
+            // 
+            BatchSizeNumeric.Location = new Point(270, 319);
+            BatchSizeNumeric.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            BatchSizeNumeric.Name = "BatchSizeNumeric";
+            BatchSizeNumeric.Size = new Size(165, 33);
+            BatchSizeNumeric.TabIndex = 9;
+            BatchSizeNumeric.Value = new decimal(new int[] { 2, 0, 0, 0 });
+            BatchSizeNumeric.ValueChanged += BatchSizeNumeric_ValueChanged;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(8, 180);
+            label4.Location = new Point(155, 321);
             label4.Name = "label4";
-            label4.Size = new Size(142, 25);
-            label4.TabIndex = 14;
-            label4.Text = "Матриця Гауса";
+            label4.Size = new Size(109, 25);
+            label4.TabIndex = 8;
+            label4.Text = "BATCH SIZE";
             // 
-            // checkBox4
+            // EpochsNumeric
             // 
-            checkBox4.AutoSize = true;
-            checkBox4.Location = new Point(8, 140);
-            checkBox4.Name = "checkBox4";
-            checkBox4.Size = new Size(111, 29);
-            checkBox4.TabIndex = 12;
-            checkBox4.Text = "Laplacian";
-            checkBox4.UseVisualStyleBackColor = true;
+            EpochsNumeric.Location = new Point(270, 280);
+            EpochsNumeric.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            EpochsNumeric.Name = "EpochsNumeric";
+            EpochsNumeric.Size = new Size(165, 33);
+            EpochsNumeric.TabIndex = 7;
+            EpochsNumeric.Value = new decimal(new int[] { 5, 0, 0, 0 });
+            EpochsNumeric.ValueChanged += EpochsNumeric_ValueChanged;
             // 
-            // listBox1
+            // label3
             // 
-            listBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            listBox1.FormattingEnabled = true;
-            listBox1.ItemHeight = 25;
-            listBox1.Location = new Point(422, 6);
-            listBox1.Name = "listBox1";
-            listBox1.Size = new Size(346, 129);
-            listBox1.TabIndex = 9;
+            label3.AutoSize = true;
+            label3.Location = new Point(129, 282);
+            label3.Name = "label3";
+            label3.Size = new Size(135, 25);
+            label3.TabIndex = 6;
+            label3.Text = "Кількість епох";
             // 
-            // checkBox2
+            // datasetPathLabel
             // 
-            checkBox2.AutoSize = true;
-            checkBox2.Location = new Point(8, 105);
-            checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(78, 29);
-            checkBox2.TabIndex = 8;
-            checkBox2.Text = "Sobel";
-            checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // numericUpDown2
-            // 
-            numericUpDown2.Location = new Point(141, 75);
-            numericUpDown2.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
-            numericUpDown2.Name = "numericUpDown2";
-            numericUpDown2.Size = new Size(120, 33);
-            numericUpDown2.TabIndex = 7;
-            numericUpDown2.Value = new decimal(new int[] { 200, 0, 0, 0 });
-            // 
-            // numericUpDown1
-            // 
-            numericUpDown1.Location = new Point(141, 36);
-            numericUpDown1.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(120, 33);
-            numericUpDown1.TabIndex = 6;
-            numericUpDown1.Value = new decimal(new int[] { 100, 0, 0, 0 });
+            datasetPathLabel.AutoSize = true;
+            datasetPathLabel.Font = new Font("Segoe UI", 14.25F, FontStyle.Underline, GraphicsUnit.Point, 204);
+            datasetPathLabel.ForeColor = SystemColors.MenuHighlight;
+            datasetPathLabel.Location = new Point(270, 170);
+            datasetPathLabel.Name = "datasetPathLabel";
+            datasetPathLabel.Size = new Size(133, 25);
+            datasetPathLabel.TabIndex = 5;
+            datasetPathLabel.Text = "../dataset/VOC";
+            datasetPathLabel.Click += datasetPathLabel_Click;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(8, 77);
+            label2.Location = new Point(184, 170);
             label2.Name = "label2";
-            label2.Size = new Size(130, 25);
-            label2.TabIndex = 5;
-            label2.Text = "Верхній поріг";
+            label2.Size = new Size(80, 25);
+            label2.TabIndex = 4;
+            label2.Text = "Датасет";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(8, 38);
+            label1.Location = new Point(8, 19);
             label1.Name = "label1";
-            label1.Size = new Size(127, 25);
+            label1.Size = new Size(80, 25);
             label1.TabIndex = 3;
-            label1.Text = "Нижній поріг";
+            label1.Text = "Модель";
             // 
-            // checkBox1
+            // button2
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(8, 6);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(84, 29);
-            checkBox1.TabIndex = 1;
-            checkBox1.Text = "Canny";
-            checkBox1.UseVisualStyleBackColor = true;
+            button2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            button2.Location = new Point(441, 16);
+            button2.Name = "button2";
+            button2.Size = new Size(287, 33);
+            button2.TabIndex = 2;
+            button2.Text = "Завантажити ваги моделі";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // comboBox1
+            // 
+            comboBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox1.FormattingEnabled = true;
+            comboBox1.ImeMode = ImeMode.NoControl;
+            comboBox1.Location = new Point(94, 16);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(341, 33);
+            comboBox1.TabIndex = 1;
             // 
             // button1
             // 
-            button1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button1.Location = new Point(422, 138);
+            button1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            button1.Location = new Point(8, 81);
             button1.Name = "button1";
-            button1.Size = new Size(346, 57);
+            button1.Size = new Size(760, 45);
             button1.TabIndex = 0;
             button1.Text = "Застосувати";
             button1.UseVisualStyleBackColor = true;
@@ -430,52 +495,6 @@
             dataGridView1.Size = new Size(760, 413);
             dataGridView1.TabIndex = 4;
             // 
-            // button3
-            // 
-            button3.Location = new Point(8, 39);
-            button3.Name = "button3";
-            button3.Size = new Size(314, 57);
-            button3.TabIndex = 3;
-            button3.Text = "Аналізувати";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
-            // 
-            // AnalysisLabel
-            // 
-            AnalysisLabel.AutoSize = true;
-            AnalysisLabel.Location = new Point(8, 11);
-            AnalysisLabel.Name = "AnalysisLabel";
-            AnalysisLabel.Size = new Size(63, 25);
-            AnalysisLabel.TabIndex = 0;
-            AnalysisLabel.Text = "label5";
-            // 
-            // contextMenuStrip1
-            // 
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ЗберегтиToolStripMenuItem, ВидалитиToolStripMenuItem, вибратиСправжнєЗображенняToolStripMenuItem });
-            contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(252, 70);
-            // 
-            // ЗберегтиToolStripMenuItem
-            // 
-            ЗберегтиToolStripMenuItem.Name = "ЗберегтиToolStripMenuItem";
-            ЗберегтиToolStripMenuItem.Size = new Size(251, 22);
-            ЗберегтиToolStripMenuItem.Text = "Зберегти";
-            ЗберегтиToolStripMenuItem.Click += ЗберегтиToolStripMenuItem_Click;
-            // 
-            // ВидалитиToolStripMenuItem
-            // 
-            ВидалитиToolStripMenuItem.Name = "ВидалитиToolStripMenuItem";
-            ВидалитиToolStripMenuItem.Size = new Size(251, 22);
-            ВидалитиToolStripMenuItem.Text = "Видалити";
-            ВидалитиToolStripMenuItem.Click += ВидалитиToolStripMenuItem_Click;
-            // 
-            // вибратиСправжнєЗображенняToolStripMenuItem
-            // 
-            вибратиСправжнєЗображенняToolStripMenuItem.Name = "вибратиСправжнєЗображенняToolStripMenuItem";
-            вибратиСправжнєЗображенняToolStripMenuItem.Size = new Size(251, 22);
-            вибратиСправжнєЗображенняToolStripMenuItem.Text = "Вибрати Справжнє Зображення";
-            вибратиСправжнєЗображенняToolStripMenuItem.Click += вибратиСправжнєЗображенняToolStripMenuItem_Click;
-            // 
             // Head1
             // 
             Head1.HeaderText = "AlgorithmName";
@@ -506,6 +525,87 @@
             Head5.Name = "Head5";
             Head5.Width = 124;
             // 
+            // button3
+            // 
+            button3.Location = new Point(8, 39);
+            button3.Name = "button3";
+            button3.Size = new Size(314, 57);
+            button3.TabIndex = 3;
+            button3.Text = "Аналізувати";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
+            // AnalysisLabel
+            // 
+            AnalysisLabel.AutoSize = true;
+            AnalysisLabel.Location = new Point(8, 11);
+            AnalysisLabel.Name = "AnalysisLabel";
+            AnalysisLabel.Size = new Size(63, 25);
+            AnalysisLabel.TabIndex = 0;
+            AnalysisLabel.Text = "label5";
+            // 
+            // tabPage4
+            // 
+            tabPage4.Controls.Add(button6);
+            tabPage4.Controls.Add(dataGridView2);
+            tabPage4.Location = new Point(4, 34);
+            tabPage4.Name = "tabPage4";
+            tabPage4.Size = new Size(776, 523);
+            tabPage4.TabIndex = 3;
+            tabPage4.Text = "Результати навчання";
+            tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView2
+            // 
+            dataGridView2.AllowUserToAddRows = false;
+            dataGridView2.AllowUserToDeleteRows = false;
+            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView2.Dock = DockStyle.Bottom;
+            dataGridView2.Location = new Point(0, 110);
+            dataGridView2.Name = "dataGridView2";
+            dataGridView2.RowTemplate.Height = 25;
+            dataGridView2.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            dataGridView2.Size = new Size(776, 413);
+            dataGridView2.TabIndex = 5;
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ЗберегтиToolStripMenuItem, ВидалитиToolStripMenuItem, вибратиСправжнєЗображенняToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(252, 70);
+            // 
+            // ЗберегтиToolStripMenuItem
+            // 
+            ЗберегтиToolStripMenuItem.Name = "ЗберегтиToolStripMenuItem";
+            ЗберегтиToolStripMenuItem.Size = new Size(251, 22);
+            ЗберегтиToolStripMenuItem.Text = "Зберегти";
+            ЗберегтиToolStripMenuItem.Click += ЗберегтиToolStripMenuItem_Click;
+            // 
+            // ВидалитиToolStripMenuItem
+            // 
+            ВидалитиToolStripMenuItem.Name = "ВидалитиToolStripMenuItem";
+            ВидалитиToolStripMenuItem.Size = new Size(251, 22);
+            ВидалитиToolStripMenuItem.Text = "Видалити";
+            ВидалитиToolStripMenuItem.Click += ВидалитиToolStripMenuItem_Click;
+            // 
+            // вибратиСправжнєЗображенняToolStripMenuItem
+            // 
+            вибратиСправжнєЗображенняToolStripMenuItem.Name = "вибратиСправжнєЗображенняToolStripMenuItem";
+            вибратиСправжнєЗображенняToolStripMenuItem.Size = new Size(251, 22);
+            вибратиСправжнєЗображенняToolStripMenuItem.Text = "Вибрати Справжнє Зображення";
+            вибратиСправжнєЗображенняToolStripMenuItem.Click += вибратиСправжнєЗображенняToolStripMenuItem_Click;
+            // 
+            // button6
+            // 
+            button6.Location = new Point(385, 55);
+            button6.Name = "button6";
+            button6.Size = new Size(110, 49);
+            button6.TabIndex = 6;
+            button6.Text = "button6";
+            button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -525,12 +625,16 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ImageSizeNumeric).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ImageLimitNumeric).EndInit();
+            ((System.ComponentModel.ISupportInitialize)LearningRateNumeric).EndInit();
+            ((System.ComponentModel.ISupportInitialize)BatchSizeNumeric).EndInit();
+            ((System.ComponentModel.ISupportInitialize)EpochsNumeric).EndInit();
             tabPage3.ResumeLayout(false);
             tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            tabPage4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -544,27 +648,10 @@
         private SplitContainer splitContainer1;
         private TreeView treeView1;
         private PictureBox pictureBox1;
-        private Label label2;
-        private Label label1;
-        private NumericUpDown numericUpDown1;
-        private NumericUpDown numericUpDown2;
-        private CheckBox checkBox2;
-        private CheckBox checkBox1;
-        private ListBox listBox1;
         private Label DescriptionLabel;
-        private CheckBox checkBox4;
-        private Label label4;
-        private ComboBox comboBox1;
-        private ComboBox comboBox2;
-        private Label label3;
-        private NumericUpDown numericUpDown3;
         private TabPage tabPage3;
         private Label AnalysisLabel;
         private Button button3;
-        private CheckBox PrewittcheckBox;
-        private CheckBox KirschcheckBox;
-        private CheckBox DexiNedcheckBox;
-        private CheckBox HedcheckBox;
         private CheckBox ShowContourCheckBox;
         private Button button4;
         private DataGridView dataGridView1;
@@ -578,5 +665,29 @@
         private DataGridViewTextBoxColumn Head3;
         private DataGridViewTextBoxColumn Head4;
         private DataGridViewTextBoxColumn Head5;
+        private ComboBox comboBox1;
+        private Button button2;
+        private Label label1;
+        private Label label2;
+        private Label datasetPathLabel;
+        private Label label3;
+        private NumericUpDown EpochsNumeric;
+        private NumericUpDown LearningRateNumeric;
+        private NumericUpDown BatchSizeNumeric;
+        private Label label4;
+        private Label label5;
+        private Button TrainingButton;
+        private CheckBox checkBoxGraph;
+        private NumericUpDown ImageLimitNumeric;
+        private Label label6;
+        private Label label7;
+        private ComboBox OptimizerComboBox;
+        private NumericUpDown ImageSizeNumeric;
+        private Label label8;
+        private Label label9;
+        private Button button5;
+        private TabPage tabPage4;
+        private DataGridView dataGridView2;
+        private Button button6;
     }
 }

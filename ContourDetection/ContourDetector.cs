@@ -4,42 +4,22 @@ namespace ContourDetection
 {
     internal class ContourDetector
     {
-        private List<IAlgorithm> SelectedAlgorithms;
+        private IAlgorithm SelectedAlgorithm;
         Stopwatch _stopwatch = new Stopwatch();
 
-        public void Select(List<IAlgorithm> algorithms)
+        public void Select(IAlgorithm algorithm)
         {
-            SelectedAlgorithms = new List<IAlgorithm>();
-            SelectedAlgorithms.AddRange(algorithms);
+            SelectedAlgorithm = algorithm;
         }
 
-        public Contour ApplyAlgorithms(MyImage image)
+        public List<Contour> ApplyAlgorithm(MyImage image)
         {
             _stopwatch.Restart();
             _stopwatch.Start();
-            var findContour = SelectedAlgorithms[0].Apply(image);
-            for (int i = 1; i < SelectedAlgorithms.Count; i++)
-            {
-                findContour.Update(SelectedAlgorithms[i].Apply(findContour));
-            }
+            var findContour = SelectedAlgorithm.Apply(image);
             _stopwatch.Stop();
-            findContour.TimeToFind = _stopwatch.Elapsed;
+            findContour[0].TimeToFind = _stopwatch.Elapsed;
             return findContour;
-        }
-
-        public List<Contour> ApplyAlgorithmsList(MyImage image)
-        {
-            List<Contour> contours = new List<Contour>();
-            foreach (var algorithm in SelectedAlgorithms)
-            {
-                _stopwatch.Restart();
-                _stopwatch.Start();
-                var contour = algorithm.Apply(image);
-                _stopwatch.Stop();
-                contour.TimeToFind = _stopwatch.Elapsed;
-                contours.Add(contour);
-            }
-            return contours;
         }
     }
 }

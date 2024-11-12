@@ -4,6 +4,7 @@
     {
         string Name { get; }
         string ToString();
-        Contour Apply(GraphicElement image);
+        List<Contour> Apply(GraphicElement image);
+        void Train();
     }
 }

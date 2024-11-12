@@ -1,4 +1,6 @@
-﻿namespace ContourDetection
+﻿using Emgu.CV;
+
+namespace ContourDetection
 {
     internal class Contour : GraphicElement
     {
@@ -6,28 +8,30 @@
 
         public Bitmap ContourOnImage;
 
-        public List<IAlgorithm> Algorithms;
+        public IAlgorithm Algorithm;
         public Contour(IAlgorithm algorithm, Bitmap bitmap)
         {
-            Algorithms = new List<IAlgorithm>() { algorithm };
+            Algorithm = algorithm;
             Id = Guid.NewGuid().ToString();
             Bitmap = bitmap;
         }
 
-        public void Update(Contour contour)
+        public Contour(IAlgorithm algorithm, string fileName, int width, int height)
         {
-            Algorithms.AddRange(contour.Algorithms);
-            Bitmap = contour.Bitmap;
+            Id = Guid.NewGuid().ToString();
+            Algorithm = algorithm;
+            Bitmap = new Bitmap(fileName);
+            Bitmap = new Bitmap(Bitmap, width, height);
         }
 
         public string GetName()
         {
-            return String.Join("+", Algorithms.Select(item => item.Name));
+            return String.Join("+", Algorithm.Name);
         }
 
         public string GetDescription()
         {
-            return String.Join("\n", Algorithms.Select(item => item.ToString()))+ $"\nКонтури були знайдені за {GetTime()}";
+            return String.Join("\n", Algorithm.ToString())+ $"\nКонтури були знайдені за {GetTime()}";
         }
 
 

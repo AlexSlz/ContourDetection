@@ -2,10 +2,11 @@ using ContourDetection.Algorithms;
 using ContourDetection.Settings;
 using Newtonsoft.Json;
 using System.IO;
+using System.Windows.Forms;
 
 namespace ContourDetection
 {
-    public partial class Form1 : Form
+    internal partial class Form1 : Form
     {
         ContourDetector _contourDetector = new ContourDetector();
         ContourDisplay _contourDisplay = new ContourDisplay();
@@ -21,26 +22,30 @@ namespace ContourDetection
 
         Contour SelectedContour = null;
 
-        List<string> ListAlgorithms = new List<string>();
+        List<IAlgorithm> AlgorithmList = new List<IAlgorithm>()
+            {
+                new MaskRCNN(),
+                new DeepLabv3(),
+                new FCN(),
+                new Yolo()
+            };
 
         public Form1()
         {
             InitializeComponent();
             pictureBox = new MyCustomPictureBox(pictureBox1);
 
-            treeView1.ContextMenuStrip = contextMenuStrip1;
+
+            foreach (var algorithm in AlgorithmList)
+            {
+                comboBox1.Items.Add(algorithm.Name);
+            }
 
             comboBox1.SelectedIndex = 0;
-            comboBox2.SelectedIndex = 0;
+            OptimizerComboBox.SelectedIndex = 0;
+            checkBoxGraph.Checked = TrainHelper.CreateGraph;
 
-            checkBox1.CheckedChanged += (object sender, EventArgs e) => checkBox_CheckedChanged(checkBox1, "Canny");
-            checkBox2.CheckedChanged += (object sender, EventArgs e) => checkBox_CheckedChanged(checkBox2, "Sobel");
-            checkBox4.CheckedChanged += (object sender, EventArgs e) => checkBox_CheckedChanged(checkBox4, "Laplacian");
-
-            KirschcheckBox.CheckedChanged += (object sender, EventArgs e) => checkBox_CheckedChanged(KirschcheckBox, "Kirsch");
-            PrewittcheckBox.CheckedChanged += (object sender, EventArgs e) => checkBox_CheckedChanged(PrewittcheckBox, "Prewitt");
-            DexiNedcheckBox.CheckedChanged += (object sender, EventArgs e) => checkBox_CheckedChanged(DexiNedcheckBox, "DexiNed");
-            HedcheckBox.CheckedChanged += (object sender, EventArgs e) => checkBox_CheckedChanged(HedcheckBox, "Hed");
+            treeView1.ContextMenuStrip = contextMenuStrip1;
         }
         string filter = "Image Files(*.jpg; *.jpeg; *.png; *.bmp)|*.jpg; *.jpeg; *.png; *.bmp";
         private MyImage OpenDialogImage()
@@ -81,31 +86,29 @@ namespace ContourDetection
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (SelectedImage == null || ListAlgorithms.Count == 0)
+            IAlgorithm algorithm = AlgorithmList.Find(item => item.Name == comboBox1.Text);
+
+            if (algorithm == null)
             {
-                MessageBox.Show("Треба вибрати зображення та алгоритм.");
+                MessageBox.Show("Такого алгаритму не знайдено.");
                 return;
             }
 
-            var temp = new List<IAlgorithm>()
+            if (SelectedImage == null)
             {
-                new Canny((double)numericUpDown1.Value, (double)numericUpDown2.Value),
-                new Sobel(),
-                new Laplacian(comboBox1.SelectedIndex, comboBox2.SelectedIndex, (int)numericUpDown3.Value),
-                new Kirsch(),
-                new Prewitt(),
-                new DexiNed(),
-                new Hed()
-            };
-            temp.RemoveAll(item => !ListAlgorithms.Contains(item.Name));
+                MessageBox.Show("Спочатку потрібно завантажити зображення.");
+                return;
+            }
+            var FindContours = SelectedImage.Contours.Find(item => item.Algorithm.Name == algorithm.Name);
+            if (FindContours != null)
+            {
+                SelectedImage.Contours.Remove(FindContours);
+                return;
+            }
 
-            temp = temp.OrderBy(item => ListAlgorithms.IndexOf(item.Name)).ToList();
+            _contourDetector.Select(algorithm);
 
-            _contourDetector.Select(temp);
-
-            //var contour = _contourDetector.ApplyAlgorithms(SelectedImage);
-
-            var contours = _contourDetector.ApplyAlgorithmsList(SelectedImage);
+            var contours = _contourDetector.ApplyAlgorithm(SelectedImage);
 
             SelectedImage.Contours.AddRange(contours);
 
@@ -115,6 +118,15 @@ namespace ContourDetection
             tabControl1.SelectTab(0);
         }
 
+        public MyImage FindImageInTreeView(TreeNode selectedNode)
+        {
+            var node = selectedNode.Parent;
+            while (node.Level != 0)
+                node = node.Parent;
+
+            return Images.Find(image => image.Id == node.Name);
+        }
+
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
@@ -122,7 +134,7 @@ namespace ContourDetection
             MyImage image = Images.Find(image => image.Id == e.Node.Name);
             if (image == null)
             {
-                image = Images.Find(image => image.Id == e.Node.Parent.Name);
+                image = FindImageInTreeView(e.Node);
                 var find = image.Contours.Find(contour => contour.Id == e.Node.Name);
                 find.Show(pictureBox);
                 DescriptionLabel.Text = find.GetDescription();
@@ -135,25 +147,6 @@ namespace ContourDetection
             }
 
             SelectedImage = image;
-        }
-
-        private void checkBox_CheckedChanged(CheckBox checkBox, string Name)
-        {
-            if (checkBox.Checked)
-            {
-                ListAlgorithms.Add(Name);
-                listBox1.Items.Add(Name);
-            }
-            else
-            {
-                ListAlgorithms.Remove(Name);
-                listBox1.Items.Remove(Name);
-            }
-        }
-
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            numericUpDown3.Enabled = comboBox2.SelectedIndex > 0;
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -171,12 +164,13 @@ namespace ContourDetection
         {
             if (GroundTruthContourImage == null) return;
             dataGridView1.Rows.Clear();
-            foreach (var contour in SelectedImage.Contours)
+            var groupedItems = SelectedImage.Contours.GroupBy(item => item.Algorithm.Name).Where(group => group.Count() > 1).Select(group => group.First()).ToList();
+            foreach (var contour in groupedItems)
             {
                 var (F1Score, pixelAccuracy, IoU) = _analysis.CalculateMetrics(contour.Bitmap, GroundTruthContourImage.Bitmap);
 
                 var total = (F1Score + pixelAccuracy + IoU) / 3;
-                
+
                 dataGridView1.Rows.Add(contour.GetName(), F1Score, pixelAccuracy, IoU, Math.Round(total, 3));
             }
         }
@@ -217,6 +211,19 @@ namespace ContourDetection
             }
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog fileDialog = new OpenFileDialog())
+            {
+                fileDialog.Filter = "PyTorch Train Files(*.pt; *.pth)|*.pt; *.pth";
+                if (fileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    TrainHelper.SelectedWeight = fileDialog.FileName;
+                    label9.Text = "Вибрані ваги: " + TrainHelper.GetLastFolders(fileDialog.FileName);
+                }
+            }
+        }
+
         private void ВидалитиToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (treeView1.SelectedNode != null)
@@ -228,7 +235,7 @@ namespace ContourDetection
                 MyImage image = Images.Find(image => image.Id == treeView1.SelectedNode.Name);
                 if (image == null)
                 {
-                    image = Images.Find(image => image.Id == treeView1.SelectedNode.Parent.Name);
+                    image = FindImageInTreeView(treeView1.SelectedNode);
                     var find = image.Contours.Find(contour => contour.Id == treeView1.SelectedNode.Name);
                     image.Contours.Remove(find);
                 }
@@ -257,7 +264,7 @@ namespace ContourDetection
 
                         if (image == null)
                         {
-                            image = Images.Find(image => image.Id == treeView1.SelectedNode.Parent.Name);
+                            image = FindImageInTreeView(treeView1.SelectedNode);
                             var find = image.Contours.Find(contour => contour.Id == treeView1.SelectedNode.Name);
 
                             if (find.ContourOnImage != null)
@@ -289,6 +296,82 @@ namespace ContourDetection
         private void SaveButton_Click(object sender, EventArgs e)
         {
             ExportResult.ExportToExcel(dataGridView1);
+        }
+
+        private void datasetPathLabel_Click(object sender, EventArgs e)
+        {
+            using (var fbd = new FolderBrowserDialog())
+            {
+                DialogResult result = fbd.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    TrainHelper.DataSetPath = fbd.SelectedPath;
+
+
+                    datasetPathLabel.Text = TrainHelper.GetLastFolders();
+                }
+            }
+        }
+
+        private void ImageLimitNumeric_ValueChanged(object sender, EventArgs e)
+        {
+            TrainHelper.ImageLimit = (int)ImageLimitNumeric.Value;
+        }
+
+        private void EpochsNumeric_ValueChanged(object sender, EventArgs e)
+        {
+            TrainHelper.Epochs = (int)EpochsNumeric.Value;
+        }
+
+        private void BatchSizeNumeric_ValueChanged(object sender, EventArgs e)
+        {
+            TrainHelper.BatchSize = (int)BatchSizeNumeric.Value;
+        }
+
+        private void LearningRateNumeric_ValueChanged(object sender, EventArgs e)
+        {
+            TrainHelper.LearningRate = Double.Parse(LearningRateNumeric.Value.ToString());
+        }
+
+        private void OptimizerComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TrainHelper.Optimizer = OptimizerComboBox.Text;
+        }
+
+        private void checkBoxGraph_CheckedChanged(object sender, EventArgs e)
+        {
+            TrainHelper.CreateGraph = checkBoxGraph.Checked;
+        }
+
+        private void ImageSizeNumeric_ValueChanged(object sender, EventArgs e)
+        {
+            TrainHelper.ImageSize = (int)ImageSizeNumeric.Value;
+        }
+
+        private void TrainingButton_Click(object sender, EventArgs e)
+        {
+            IAlgorithm algorithm = AlgorithmList.Find(item => item.Name == comboBox1.Text);
+
+            algorithm.Train();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            TrainHelper.SelectedWeight = "";
+            label9.Text = "";
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog fileDialog = new OpenFileDialog())
+            {
+                fileDialog.Filter = "PyTorch Train Files(*.txt;)|*.txt";
+                if (fileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    TrainHelper.LoadMetricsToDataGridView(fileDialog.FileName, dataGridView2);
+                }
+            }
         }
     }
 }

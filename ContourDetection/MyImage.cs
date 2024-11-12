@@ -17,10 +17,18 @@
 
         public void DisplayOnTreeView(TreeView treeView)
         {
-            treeView.Nodes.Find(Id, false)[0].Nodes.Clear();
-            foreach (var contour in Contours)
+            var mainNode = treeView.Nodes.Find(Id, false)[0];
+            mainNode.Nodes.Clear();
+            var groupedItems = Contours.GroupBy(item => item.Algorithm.Name).Where(group => group.Count() > 1).Select(group => group.ToList()).ToList();
+            
+            foreach (var algorithm  in groupedItems)
             {
-                treeView.Nodes.Find(Id, false)[0].Nodes.Add(contour.Id, contour.GetName());
+                var secondNode = treeView.Nodes.Find(Id, false)[0].Nodes.Add(algorithm[0].Id, algorithm[0].GetName());
+                int i = 1;
+                foreach (var contour in algorithm.Skip(1))
+                {
+                    secondNode.Nodes.Add(contour.Id, contour.GetName() + i++);
+                }
             }
         }
     }
