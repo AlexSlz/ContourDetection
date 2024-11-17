@@ -6,8 +6,6 @@ namespace ContourDetection
     {
         public TimeSpan TimeToFind = TimeSpan.Zero;
 
-        public Bitmap ContourOnImage;
-
         public IAlgorithm Algorithm;
         public Contour(IAlgorithm algorithm, Bitmap bitmap)
         {

@@ -43,9 +43,10 @@ namespace ContourDetection
 
             comboBox1.SelectedIndex = 0;
             OptimizerComboBox.SelectedIndex = 0;
-            checkBoxGraph.Checked = TrainHelper.CreateGraph;
+            checkBoxGraph.Checked = TrainHelper.SaveTxt;
 
             treeView1.ContextMenuStrip = contextMenuStrip1;
+            label9.Text = TrainHelper.SelectedWeight;
         }
         string filter = "Image Files(*.jpg; *.jpeg; *.png; *.bmp)|*.jpg; *.jpeg; *.png; *.bmp";
         private MyImage OpenDialogImage()
@@ -103,7 +104,6 @@ namespace ContourDetection
             if (FindContours != null)
             {
                 SelectedImage.Contours.Remove(FindContours);
-                return;
             }
 
             _contourDetector.Select(algorithm);
@@ -122,7 +122,9 @@ namespace ContourDetection
         {
             var node = selectedNode.Parent;
             while (node.Level != 0)
+            {
                 node = node.Parent;
+            }
 
             return Images.Find(image => image.Id == node.Name);
         }
@@ -130,22 +132,27 @@ namespace ContourDetection
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button != MouseButtons.Left) return;
-            ShowContourCheckBox.Checked = false;
+            treeView1.SelectedNode = e.Node;
             MyImage image = Images.Find(image => image.Id == e.Node.Name);
             if (image == null)
             {
                 image = FindImageInTreeView(e.Node);
                 var find = image.Contours.Find(contour => contour.Id == e.Node.Name);
+                var SelectedMainContour = find;
+                if (e.Node.Level != 1)
+                    SelectedMainContour = image.Contours.Find(contour => contour.Id == e.Node.Parent.Name);
                 find.Show(pictureBox);
-                DescriptionLabel.Text = find.GetDescription();
+                DescriptionLabel.Text = SelectedMainContour.GetDescription();
                 SelectedContour = find;
             }
             else
             {
                 image.Show(pictureBox);
+                DescriptionLabel.Text = "";
                 SelectedContour = null;
             }
-
+            if(SelectedImage != null)
+                SelectedImage.ShowOnImage = null;
             SelectedImage = image;
         }
 
@@ -153,10 +160,12 @@ namespace ContourDetection
         {
             if (tabControl1.SelectedIndex == 2)
             {
-                AnalysisLabel.Text = "Потрібно вибрати зображення.";
+                AnalysisLabel.Text = "Потрібно вибрати зображення та Істинне зображення для перевірки.";
 
                 if (SelectedImage != null)
                     AnalysisLabel.Text = $"Вибране зображення: {SelectedImage.FileName}";
+                if (GroundTruthContourImage != null)
+                    AnalysisLabel.Text += $"\nІстинне зображення: {GroundTruthContourImage.FileName}";
             }
         }
 
@@ -175,20 +184,28 @@ namespace ContourDetection
             }
         }
 
-        private void ShowContourCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void DrawContoursOrMasks(Func<MyImage, List<Contour>, Bitmap> drawFunction)
         {
-            var state = ShowContourCheckBox.Checked;
-            if (SelectedContour == null) return;
+            if (SelectedImage == null || SelectedContour == null) return;
 
-            if (state)
-            {
-                SelectedContour.ContourOnImage = _contourDisplay.DrawContours(SelectedImage, SelectedContour);
-                GraphicElement.Show(pictureBox, SelectedContour.ContourOnImage);
-            }
-            if (!state)
-            {
-                SelectedContour.Show(pictureBox);
-            }
+            List<Contour> contours = SelectedImage.Contours.FindAll(contour => contour.Algorithm.Name == SelectedContour.Algorithm.Name);
+            if (contours.Count == 0) return;
+            
+            SelectedImage.ShowOnImage = drawFunction(SelectedImage, contours);
+
+            GraphicElement.Show(pictureBox, SelectedImage.ShowOnImage);
+
+            GC.Collect();
+        }
+
+        private void DrawContours(object sender, EventArgs e)
+        {
+            DrawContoursOrMasks(_contourDisplay.DrawContours);
+        }
+
+        private void DrawMasks(object sender, EventArgs e)
+        {
+            DrawContoursOrMasks(_contourDisplay.DrawMasks);
         }
 
         private Form2 form2Instance;
@@ -201,7 +218,7 @@ namespace ContourDetection
         {
             if (form2Instance == null || form2Instance.IsDisposed)
             {
-                form2Instance = new Form2(_contourDisplay);
+                form2Instance = new Form2(_contourDisplay, DrawContours, DrawMasks);
                 form2Instance.FormClosed += Form2Instance_FormClosed;
                 form2Instance.Show();
             }
@@ -267,8 +284,8 @@ namespace ContourDetection
                             image = FindImageInTreeView(treeView1.SelectedNode);
                             var find = image.Contours.Find(contour => contour.Id == treeView1.SelectedNode.Name);
 
-                            if (find.ContourOnImage != null)
-                                find.ContourOnImage.Save(saveFileDialog.FileName);
+                            if (image.ShowOnImage != null)
+                                image.ShowOnImage.Save(saveFileDialog.FileName);
                             else
                                 find.Bitmap.Save(saveFileDialog.FileName);
                         }
@@ -332,6 +349,14 @@ namespace ContourDetection
         private void LearningRateNumeric_ValueChanged(object sender, EventArgs e)
         {
             TrainHelper.LearningRate = Double.Parse(LearningRateNumeric.Value.ToString());
+            string value = LearningRateNumeric.Value.ToString();
+
+            int decimalPlaces = 0;
+            if (value.Contains(','))
+            {
+                decimalPlaces = value.Split(',')[1].Length;
+            }
+            LearningRateNumeric.DecimalPlaces = decimalPlaces;
         }
 
         private void OptimizerComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -341,7 +366,7 @@ namespace ContourDetection
 
         private void checkBoxGraph_CheckedChanged(object sender, EventArgs e)
         {
-            TrainHelper.CreateGraph = checkBoxGraph.Checked;
+            TrainHelper.SaveTxt = checkBoxGraph.Checked;
         }
 
         private void ImageSizeNumeric_ValueChanged(object sender, EventArgs e)
@@ -382,9 +407,20 @@ namespace ContourDetection
         private void button7_Click(object sender, EventArgs e)
         {
             string[] a = { "Train_loss", "Val_loss" };
+            OpenGraph(a);
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            string[] a = { "Train_Dice", "Val_Dice" };
+            OpenGraph(a);
+        }
+
+        private void OpenGraph(string[] metricName)
+        {
             if (lossFormInstance == null || lossFormInstance.IsDisposed)
             {
-                lossFormInstance = new LossForm(dataGridView2, a);
+                lossFormInstance = new LossForm(dataGridView2, metricName);
                 lossFormInstance.FormClosed += lossFormInstance_FormClosed;
                 lossFormInstance.Show();
             }

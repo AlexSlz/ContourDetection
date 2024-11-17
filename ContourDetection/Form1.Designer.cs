@@ -34,7 +34,6 @@
             splitContainer1 = new SplitContainer();
             treeView1 = new TreeView();
             button4 = new Button();
-            ShowContourCheckBox = new CheckBox();
             DescriptionLabel = new Label();
             pictureBox1 = new PictureBox();
             tabPage2 = new TabPage();
@@ -61,7 +60,6 @@
             comboBox1 = new ComboBox();
             button1 = new Button();
             tabPage3 = new TabPage();
-            SaveButton = new Button();
             dataGridView1 = new DataGridView();
             Head1 = new DataGridViewTextBoxColumn();
             Head2 = new DataGridViewTextBoxColumn();
@@ -71,6 +69,8 @@
             button3 = new Button();
             AnalysisLabel = new Label();
             tabPage4 = new TabPage();
+            button8 = new Button();
+            label10 = new Label();
             button7 = new Button();
             button6 = new Button();
             dataGridView2 = new DataGridView();
@@ -139,7 +139,6 @@
             // 
             splitContainer1.Panel2.BackColor = Color.DarkGray;
             splitContainer1.Panel2.Controls.Add(button4);
-            splitContainer1.Panel2.Controls.Add(ShowContourCheckBox);
             splitContainer1.Panel2.Controls.Add(DescriptionLabel);
             splitContainer1.Panel2.Controls.Add(pictureBox1);
             splitContainer1.Panel2.DoubleClick += splitContainer1_Panel2_DoubleClick;
@@ -160,25 +159,13 @@
             // button4
             // 
             button4.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            button4.Location = new Point(355, 481);
+            button4.Location = new Point(3, 484);
             button4.Name = "button4";
             button4.Size = new Size(30, 30);
             button4.TabIndex = 13;
             button4.Text = "+";
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
-            // 
-            // ShowContourCheckBox
-            // 
-            ShowContourCheckBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            ShowContourCheckBox.AutoSize = true;
-            ShowContourCheckBox.Location = new Point(3, 483);
-            ShowContourCheckBox.Name = "ShowContourCheckBox";
-            ShowContourCheckBox.Size = new Size(346, 29);
-            ShowContourCheckBox.TabIndex = 12;
-            ShowContourCheckBox.Text = "Відобразити контури на зображенні";
-            ShowContourCheckBox.UseVisualStyleBackColor = true;
-            ShowContourCheckBox.CheckedChanged += ShowContourCheckBox_CheckedChanged;
             // 
             // DescriptionLabel
             // 
@@ -322,11 +309,11 @@
             // 
             checkBoxGraph.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             checkBoxGraph.AutoSize = true;
-            checkBoxGraph.Location = new Point(177, 435);
+            checkBoxGraph.Location = new Point(148, 435);
             checkBoxGraph.Name = "checkBoxGraph";
-            checkBoxGraph.Size = new Size(258, 29);
+            checkBoxGraph.Size = new Size(287, 29);
             checkBoxGraph.TabIndex = 13;
-            checkBoxGraph.Text = "Зберегти графік навчання";
+            checkBoxGraph.Text = "Зберегти результат навчання";
             checkBoxGraph.UseVisualStyleBackColor = true;
             checkBoxGraph.CheckedChanged += checkBoxGraph_CheckedChanged;
             // 
@@ -475,7 +462,6 @@
             // 
             // tabPage3
             // 
-            tabPage3.Controls.Add(SaveButton);
             tabPage3.Controls.Add(dataGridView1);
             tabPage3.Controls.Add(button3);
             tabPage3.Controls.Add(AnalysisLabel);
@@ -485,16 +471,6 @@
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Аналіз";
             tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // SaveButton
-            // 
-            SaveButton.Location = new Point(328, 39);
-            SaveButton.Name = "SaveButton";
-            SaveButton.Size = new Size(314, 57);
-            SaveButton.TabIndex = 5;
-            SaveButton.Text = "Зберегти у Excel";
-            SaveButton.UseVisualStyleBackColor = true;
-            SaveButton.Click += SaveButton_Click;
             // 
             // dataGridView1
             // 
@@ -513,9 +489,9 @@
             // 
             // Head1
             // 
-            Head1.HeaderText = "AlgorithmName";
+            Head1.HeaderText = "Name";
             Head1.Name = "Head1";
-            Head1.Width = 171;
+            Head1.Width = 87;
             // 
             // Head2
             // 
@@ -543,9 +519,9 @@
             // 
             // button3
             // 
-            button3.Location = new Point(8, 39);
+            button3.Location = new Point(8, 63);
             button3.Name = "button3";
-            button3.Size = new Size(314, 57);
+            button3.Size = new Size(314, 33);
             button3.TabIndex = 3;
             button3.Text = "Аналізувати";
             button3.UseVisualStyleBackColor = true;
@@ -562,6 +538,8 @@
             // 
             // tabPage4
             // 
+            tabPage4.Controls.Add(button8);
+            tabPage4.Controls.Add(label10);
             tabPage4.Controls.Add(button7);
             tabPage4.Controls.Add(button6);
             tabPage4.Controls.Add(dataGridView2);
@@ -572,23 +550,42 @@
             tabPage4.Text = "Результати навчання";
             tabPage4.UseVisualStyleBackColor = true;
             // 
+            // button8
+            // 
+            button8.Location = new Point(302, 58);
+            button8.Name = "button8";
+            button8.Size = new Size(107, 44);
+            button8.TabIndex = 10;
+            button8.Text = "Dice";
+            button8.UseVisualStyleBackColor = true;
+            button8.Click += button8_Click;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(8, 68);
+            label10.Name = "label10";
+            label10.Size = new Size(175, 25);
+            label10.TabIndex = 9;
+            label10.Text = "Побудувати графік";
+            // 
             // button7
             // 
-            button7.Location = new Point(8, 3);
+            button7.Location = new Point(189, 58);
             button7.Name = "button7";
             button7.Size = new Size(107, 44);
             button7.TabIndex = 8;
-            button7.Text = "button7";
+            button7.Text = "Loss";
             button7.UseVisualStyleBackColor = true;
             button7.Click += button7_Click;
             // 
             // button6
             // 
-            button6.Location = new Point(658, 55);
+            button6.Location = new Point(8, 3);
             button6.Name = "button6";
-            button6.Size = new Size(110, 49);
+            button6.Size = new Size(208, 49);
             button6.TabIndex = 6;
-            button6.Text = "button6";
+            button6.Text = "Завантажити";
             button6.UseVisualStyleBackColor = true;
             button6.Click += button6_Click;
             // 
@@ -610,27 +607,27 @@
             // 
             contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ЗберегтиToolStripMenuItem, ВидалитиToolStripMenuItem, вибратиСправжнєЗображенняToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(252, 70);
+            contextMenuStrip1.Size = new Size(235, 70);
             // 
             // ЗберегтиToolStripMenuItem
             // 
             ЗберегтиToolStripMenuItem.Name = "ЗберегтиToolStripMenuItem";
-            ЗберегтиToolStripMenuItem.Size = new Size(251, 22);
+            ЗберегтиToolStripMenuItem.Size = new Size(234, 22);
             ЗберегтиToolStripMenuItem.Text = "Зберегти";
             ЗберегтиToolStripMenuItem.Click += ЗберегтиToolStripMenuItem_Click;
             // 
             // ВидалитиToolStripMenuItem
             // 
             ВидалитиToolStripMenuItem.Name = "ВидалитиToolStripMenuItem";
-            ВидалитиToolStripMenuItem.Size = new Size(251, 22);
+            ВидалитиToolStripMenuItem.Size = new Size(234, 22);
             ВидалитиToolStripMenuItem.Text = "Видалити";
             ВидалитиToolStripMenuItem.Click += ВидалитиToolStripMenuItem_Click;
             // 
             // вибратиСправжнєЗображенняToolStripMenuItem
             // 
             вибратиСправжнєЗображенняToolStripMenuItem.Name = "вибратиСправжнєЗображенняToolStripMenuItem";
-            вибратиСправжнєЗображенняToolStripMenuItem.Size = new Size(251, 22);
-            вибратиСправжнєЗображенняToolStripMenuItem.Text = "Вибрати Справжнє Зображення";
+            вибратиСправжнєЗображенняToolStripMenuItem.Size = new Size(234, 22);
+            вибратиСправжнєЗображенняToolStripMenuItem.Text = "Вибрати Істинне зображення";
             вибратиСправжнєЗображенняToolStripMenuItem.Click += вибратиСправжнєЗображенняToolStripMenuItem_Click;
             // 
             // Form1
@@ -661,6 +658,7 @@
             tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             tabPage4.ResumeLayout(false);
+            tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
@@ -679,19 +677,12 @@
         private TabPage tabPage3;
         private Label AnalysisLabel;
         private Button button3;
-        private CheckBox ShowContourCheckBox;
         private Button button4;
         private DataGridView dataGridView1;
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem ВидалитиToolStripMenuItem;
         private ToolStripMenuItem ЗберегтиToolStripMenuItem;
         private ToolStripMenuItem вибратиСправжнєЗображенняToolStripMenuItem;
-        private Button SaveButton;
-        private DataGridViewTextBoxColumn Head1;
-        private DataGridViewTextBoxColumn Head2;
-        private DataGridViewTextBoxColumn Head3;
-        private DataGridViewTextBoxColumn Head4;
-        private DataGridViewTextBoxColumn Head5;
         private ComboBox comboBox1;
         private Button button2;
         private Label label1;
@@ -717,5 +708,12 @@
         private DataGridView dataGridView2;
         private Button button6;
         private Button button7;
+        private DataGridViewTextBoxColumn Head1;
+        private DataGridViewTextBoxColumn Head2;
+        private DataGridViewTextBoxColumn Head3;
+        private DataGridViewTextBoxColumn Head4;
+        private DataGridViewTextBoxColumn Head5;
+        private Label label10;
+        private Button button8;
     }
 }

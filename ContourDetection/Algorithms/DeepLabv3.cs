@@ -16,7 +16,14 @@ namespace ContourDetection.Algorithms
 
         public List<Contour> Apply(GraphicElement image)
         {
-            var result = PyUtils.Run("py deeplabv3.py", image, "deeplabv3");
+            var cmd = "py deeplabv3.py";
+
+            if (TrainHelper.SelectedWeight != "")
+            {
+                cmd += $" --modelPath={TrainHelper.SelectedWeight}";
+            }
+
+            var result = PyUtils.Run(cmd, image, "deeplabv3");
 
             var masks = PyUtils.GetMasksList("deeplabv3");
             var contours = MyUtils.CreateContourList(this, result, masks, image.Bitmap);

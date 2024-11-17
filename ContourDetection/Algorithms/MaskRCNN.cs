@@ -26,7 +26,7 @@ namespace ContourDetection.Algorithms
 
         public void Train()
         {
-            throw new NotImplementedException();
+            var result = PyUtils.RunTrain($"py train_maskRCNN.py", Name);
         }
     }
 }

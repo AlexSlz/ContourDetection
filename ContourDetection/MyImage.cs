@@ -6,6 +6,8 @@
         public string FilePath;
         public List<Contour> Contours;
 
+        public Bitmap ShowOnImage = null;
+
         public MyImage(string fileName)
         {
             Id = Guid.NewGuid().ToString();

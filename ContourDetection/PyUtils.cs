@@ -60,8 +60,8 @@ namespace ContourDetection
                 $" --o {TrainHelper.Optimizer}" +
                 $" --dpath {TrainHelper.DataSetPath}" +
                 $" --model {folderName}";
-            if(TrainHelper.CreateGraph)
-                args += " --graph";
+            if(TrainHelper.SaveTxt)
+                args += " --saveTxt";
             if (!TrainHelper.DataSetPath.Contains("VOC", StringComparison.OrdinalIgnoreCase))
                 args += " --customDataSet";
 

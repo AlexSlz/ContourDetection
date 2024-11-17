@@ -18,7 +18,7 @@ namespace ContourDetection
         public static int BatchSize = 2;
         public static double LearningRate = 3e-4;
         public static string Optimizer = "Auto";
-        public static bool CreateGraph = true;
+        public static bool SaveTxt = true;
 
         public static string GetLR()
         {
