@@ -5,5 +5,5 @@ train/__pycache__/
 
 models/
 results_train/
-train/dataset/
+train/datasets/
 results/

@@ -25,7 +25,7 @@ num_masks = masks_data.shape[0]
 
 combined_mask = masks.data[0].cpu().numpy()
 
-for i in range(1, num_masks):
+for i in range(0, num_masks):
     binary_mask = masks.data[i].cpu().numpy() 
     mask = (binary_mask * 255).astype("uint8")
     cv2.imwrite(f"{folderName}/masks/mask_{i}.png", mask) 

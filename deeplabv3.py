@@ -1,12 +1,25 @@
 import torch
-from PIL import Image
+from torch import nn
 import torchvision.transforms as T
 import numpy as np
 import os
 import cv2
 import shutil
+import torchvision
+import argparse
 
-model = torch.load('models/deeplabv3.pt')
+parser = argparse.ArgumentParser()
+
+parser.add_argument("--modelPath", help="DATA_PATH", default=None)
+
+args = parser.parse_args()
+print(args)
+
+model = torchvision.models.segmentation.deeplabv3_resnet50(weights='DEFAULT') #torch.load('models/deeplabv3.pt')
+
+if(args.modelPath != None):
+    model.load_state_dict(torch.load(args.modelPath, weights_only=True, map_location=torch.device('cpu')))
+
 model.eval()
 
 directory = os.path.dirname(os.path.abspath(__file__))

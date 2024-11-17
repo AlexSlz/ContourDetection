@@ -15,13 +15,13 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("--lr", type=float, help="learning_rate", default=3e-4)
 parser.add_argument("--isize", type=int, help="Image Size", default=224)
-parser.add_argument("--bsize", type=int, help="BATCH_SIZE", default=2)
+parser.add_argument("--bsize", type=int, help="BATCH_SIZE", default=16)
 parser.add_argument("--e", type=int, help="EPOCHS", default=5)
 parser.add_argument("--o", help="Optimizer: AdamW, SGD", default='AdamW')
-parser.add_argument("--dpath", help="DATA_PATH", default="train/voc")
-parser.add_argument("--model", help="MODEL_NAME: Deeplabv3, FCN", default="Deeplabv3")
-parser.add_argument("--ilimit", type=int, help="ImageLimit", default=0)
-parser.add_argument("--graph", action="store_true", help="buildGraph")
+parser.add_argument("--dpath", help="DATA_PATH", default="train/datasets/voc")
+parser.add_argument("--model", help="MODEL_NAME: Deeplabv3, FCN", default="DeepLabv3")
+parser.add_argument("--ilimit", type=int, help="ImageLimit", default=5)
+parser.add_argument("--saveTxt", action="store_true", help="saveTxt")
 parser.add_argument("--customDataSet", action="store_true")
 
 args = parser.parse_args()
@@ -45,18 +45,18 @@ if(args.customDataSet):
     generator = torch.Generator().manual_seed(42)
     train_dataset, val_dataset = random_split(train_dataset, [0.8, 0.2], generator=generator)
 else:
-    train_dataset = VOCDataset(args.dpath, True, transform, limit=imageLimit)
-    val_dataset = VOCDataset(args.dpath, False, transform, limit=imageLimit)
+    train_dataset = VOCDataset(args.dpath, True, transform, limit=imageLimit, classes=21)
+    val_dataset = VOCDataset(args.dpath, False, transform, limit=imageLimit, classes=21)
 
 train_dataloader = DataLoader(dataset=train_dataset, batch_size=args.bsize, shuffle=True)
 val_dataloader = DataLoader(dataset=val_dataset, batch_size=args.bsize, shuffle=True)
 
 if args.model == "DeepLabv3":
     model = torchvision.models.segmentation.deeplabv3_resnet50(weights='DEFAULT').to(device)
-    model.classifier[4] = nn.Conv2d(256, 1, kernel_size=(1, 1))
+    #model.classifier[4] = nn.Conv2d(256, 1, kernel_size=(1, 1))
 elif args.model == "FCN":
     model = torchvision.models.segmentation.fcn_resnet50(weights='DEFAULT').to(device)
-    model.classifier[4] = nn.Conv2d(512, 1, kernel_size=(1, 1))
+    #model.classifier[4] = nn.Conv2d(512, 1, kernel_size=(1, 1))
 
 if(args.o == "SGD"):
     optimizer = optim.SGD(model.parameters(), lr=args.lr)
@@ -83,6 +83,8 @@ for epoch in range(args.e):
     train_running_metrics = {metric: 0 for metric in metrics.keys()}
     for idx, (images, targets) in enumerate(tqdm(train_dataloader)):
         images, targets = images.float().to(device), targets.float().to(device)
+        print(images.shape)
+
         predictions = model(images)['out']
         
         optimizer.zero_grad()
@@ -124,23 +126,10 @@ for epoch in range(args.e):
 
 torch.save(model.state_dict(), os.path.join(RESULT_PATH, f'{args.model}_e{args.e}.pth'))
 
-import matplotlib.pyplot as plt
+import sys
+if(args.saveTxt): sys.exit()
+
 epochs_list = list(range(1, args.e + 1))
-
-plt.figure(figsize=(15, 7))
-
-for idx, metric_name in enumerate(metrics.keys()):
-    plt.subplot(1, 2, idx + 1)
-    plt.plot(epochs_list, train_metrics[metric_name], label='Train')
-    plt.plot(epochs_list, val_metrics[metric_name], label='Validation')
-    plt.xticks(ticks=list(range(1, args.e + 1, 1)))
-    plt.title(f'{metric_name.capitalize()} over Epochs')
-    plt.xlabel('Epochs')
-    plt.ylabel(metric_name.capitalize())
-    plt.grid()
-    plt.legend()
-
-plt.tight_layout()
 
 metrics_file_path = os.path.join(RESULT_PATH, f"{args.model}_metrics.txt")
 
@@ -156,7 +145,3 @@ with open(metrics_file_path, 'w') as f:
         row += "\n"
 
         f.write(row)
-
-if(args.graph):
-    plt.savefig(os.path.join(RESULT_PATH, f"{args.model}_graph.png"))
-#plt.show()

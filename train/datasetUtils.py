@@ -11,6 +11,41 @@ from torchvision.transforms.v2 import functional as F
 import matplotlib.pyplot as plt
 import numpy as np
 
+VOC_COLORMAP = [
+    [0, 0, 0],
+    [128, 0, 0],
+    [0, 128, 0],
+    [128, 128, 0],
+    [0, 0, 128],
+    [128, 0, 128],
+    [0, 128, 128],
+    [128, 128, 128],
+    [64, 0, 0],
+    [192, 0, 0],
+    [64, 128, 0],
+    [192, 128, 0],
+    [64, 0, 128],
+    [192, 0, 128],
+    [64, 128, 128],
+    [192, 128, 128],
+    [0, 64, 0],
+    [128, 64, 0],
+    [0, 192, 0],
+    [128, 192, 0],
+    [0, 64, 128],
+]
+
+def convert_to_segmentation_mask(mask):
+    height, width = mask.shape[:2]
+        # Initialize an empty mask with a channel for each class
+    segmentation_mask = np.zeros((height, width, len(VOC_COLORMAP)))
+        
+        # Create a mask for each class label
+    for label_index, label in enumerate(VOC_COLORMAP):
+        segmentation_mask[:, :, label_index] = np.all(mask == label, axis=-1).astype(float)
+        
+    return segmentation_mask
+
 class DatasetLoader(Dataset):
     def __init__(self, root_path, transform, limit=None):
         self.root_path = root_path
@@ -42,7 +77,7 @@ class DatasetLoaderv2(Dataset):
     def __init__(self, root, transform, limit = None):
         self.root = root
         self.transforms = transform
-        self.limit = 30
+        self.limit = limit
         # load all image files, sorting them to
         # ensure that they are aligned
         self.images = list(sorted(os.listdir(os.path.join(root, "train"))))[:self.limit]
@@ -87,9 +122,9 @@ class VOCDatasetv2(Dataset):
                  is_train=True, transform=None, classes=None, limit=None):
         # Choose the file for training or validation images
         if is_train:
-            img_root = os.path.join(root, "ImageSets", "Segmentation", "train.txt")
+            img_root = os.path.join(root, "train.txt")
         else:
-            img_root = os.path.join(root, "ImageSets", "Segmentation", "val.txt")
+            img_root = os.path.join(root, "val.txt")
         
         # Get image names into list
         img_names = []
@@ -119,6 +154,7 @@ class VOCDatasetv2(Dataset):
 
         obj_ids = obj_ids[1:]
         num_objs = len(obj_ids)
+
         masks = (mask == obj_ids[:, None, None]).to(dtype=torch.uint8)
 
         boxes = masks_to_boxes(masks)
@@ -134,35 +170,11 @@ class VOCDatasetv2(Dataset):
 
         target = {'masks': masks_torch, 'labels': labels_torch, 'boxes': boxes_torch}
 
-
         if self.transform is not None:
             img, target = self.transform(img, target)
 
         return img, target
 
-VOC_COLORMAP = [
-    [0, 0, 0],
-    [128, 0, 0],
-    [0, 128, 0],
-    [128, 128, 0],
-    [0, 0, 128],
-    [128, 0, 128],
-    [0, 128, 128],
-    [128, 128, 128],
-    [64, 0, 0],
-    [192, 0, 0],
-    [64, 128, 0],
-    [192, 128, 0],
-    [64, 0, 128],
-    [192, 0, 128],
-    [64, 128, 128],
-    [192, 128, 128],
-    [0, 64, 0],
-    [128, 64, 0],
-    [0, 192, 0],
-    [128, 192, 0],
-    [0, 64, 128],
-]
 import cv2
 class VOCDataset(Dataset):
     def __init__(self, root,
@@ -191,17 +203,6 @@ class VOCDataset(Dataset):
     def __len__(self):
         return len(self.img_names)
     
-    def _convert_to_segmentation_mask(self, mask):
-        height, width = mask.shape[:2]
-        # Initialize an empty mask with a channel for each class
-        segmentation_mask = np.zeros((height, width, len(VOC_COLORMAP)))
-        
-        # Create a mask for each class label
-        for label_index, label in enumerate(VOC_COLORMAP):
-            segmentation_mask[:, :, label_index] = np.all(mask == label, axis=-1).astype(float)
-        
-        return segmentation_mask
-    
     def __getitem__(self, item):
         img_name = self.img_names[item]
  
@@ -217,7 +218,7 @@ class VOCDataset(Dataset):
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
         if(self.classes > 1):
-            mask = self._convert_to_segmentation_mask(mask)
+            mask = convert_to_segmentation_mask(mask)
         
         # Apply transformations if specified
         if self.transform:
