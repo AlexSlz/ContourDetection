@@ -100,10 +100,13 @@ namespace ContourDetection
                 MessageBox.Show("Спочатку потрібно завантажити зображення.");
                 return;
             }
-            var FindContours = SelectedImage.Contours.Find(item => item.Algorithm.Name == algorithm.Name);
+            var FindContours = SelectedImage.Contours.FindAll(item => item.Algorithm.Name == algorithm.Name);
             if (FindContours != null)
             {
-                SelectedImage.Contours.Remove(FindContours);
+                foreach (var findContour in FindContours)
+                {
+                    SelectedImage.Contours.Remove(findContour);
+                }
             }
 
             _contourDetector.Select(algorithm);

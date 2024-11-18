@@ -28,6 +28,11 @@ namespace ContourDetection
 
             image.Bitmap.Save(imageFile, ImageFormat.Jpeg);
 
+            if (TrainHelper.SelectedWeight != "")
+            {
+                cmdCommand += $" --modelPath={TrainHelper.SelectedWeight}";
+            }
+
             ProcessStartInfo processInfo = new ProcessStartInfo("cmd.exe", "/c " + cmdCommand)
             {
                 WorkingDirectory = workingDirectory,

@@ -350,7 +350,7 @@
             LearningRateNumeric.Size = new Size(165, 33);
             LearningRateNumeric.TabIndex = 10;
             LearningRateNumeric.ThousandsSeparator = true;
-            LearningRateNumeric.Value = new decimal(new int[] { 3, 0, 0, 262144 });
+            LearningRateNumeric.Value = new decimal(new int[] { 119, 0, 0, 393216 });
             LearningRateNumeric.ValueChanged += LearningRateNumeric_ValueChanged;
             // 
             // BatchSizeNumeric
