@@ -3,9 +3,21 @@ import cv2
 import numpy as np
 import os
 import shutil
+import argparse
 
+parser = argparse.ArgumentParser()
 
-model = YOLO("models/yolov8m-seg.pt") 
+parser.add_argument("--modelPath", help="DATA_PATH", default=None)
+
+args = parser.parse_args()
+print(args)
+
+if(args.modelPath != None):
+    model_path = args.modelPath
+else:
+    model_path = "models/yolov8m-seg.pt"
+
+model = YOLO(model_path) 
 
 directory = os.path.dirname(os.path.abspath(__file__))
 image_path = os.path.join(directory, "image")

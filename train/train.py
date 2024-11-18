@@ -7,7 +7,6 @@ from torch.utils.data import DataLoader, random_split
 import os
 from datasetUtils import DatasetLoader, VOCDataset
 from metrics import dice_coefficient, iou, pixel_accuracy
-import segmentation_models_pytorch as smp
 from torchvision import transforms
 import argparse
 
@@ -83,7 +82,7 @@ for epoch in range(args.e):
     train_running_metrics = {metric: 0 for metric in metrics.keys()}
     for idx, (images, targets) in enumerate(tqdm(train_dataloader)):
         images, targets = images.float().to(device), targets.float().to(device)
-        print(images.shape)
+        #print(images.shape)
 
         predictions = model(images)['out']
         
@@ -127,7 +126,7 @@ for epoch in range(args.e):
 torch.save(model.state_dict(), os.path.join(RESULT_PATH, f'{args.model}_e{args.e}.pth'))
 
 import sys
-if(args.saveTxt): sys.exit()
+if(args.saveTxt == False): sys.exit()
 
 epochs_list = list(range(1, args.e + 1))
 

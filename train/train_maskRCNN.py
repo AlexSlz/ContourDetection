@@ -7,7 +7,6 @@ from torch.utils.data import DataLoader, random_split
 from torchvision.transforms import v2 as T
 from datasetUtils import VOCDatasetv2, DatasetLoaderv2
 import torchvision.models.detection.mask_rcnn
-import matplotlib.pyplot as plt
 import os
 from metrics import dice_coefficient_mask
 import argparse
@@ -138,7 +137,7 @@ for epoch in range(args.e):
 torch.save(model.state_dict(), os.path.join(RESULT_PATH, f'MaskRCNN_e{args.e}.pth'))
 
 import sys
-if(args.saveTxt): sys.exit()
+if(args.saveTxt == False): sys.exit()
 
 metrics_file_path = os.path.join(RESULT_PATH, f"{args.model}_metrics.txt")
 epochs_list = list(range(1, args.e + 1))

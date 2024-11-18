@@ -1,18 +1,8 @@
 from ultralytics import YOLO
 import torch
-import torch.nn as nn
-import cv2
-from torchvision import transforms
-from datasetUtils import VOCDataset
-from torch.utils.data import DataLoader
-from metrics import dice_coefficient, dice_coefficient_yolo, loss_yolo
-from tqdm import tqdm
-import matplotlib.pyplot as plt
 import os
 import shutil
-import io
 import sys
-import torch.nn.functional as F
 import pandas as pd
 import argparse
 
@@ -62,18 +52,18 @@ else:
     shutil.copyfile(train_file, new_train_file)
     shutil.copyfile(val_file, new_val_file)
 
-
-model_path = f"{directory}/../models/yolo11n-seg.pt"
+model_path = f"{directory}/../models/yolov8m-seg.pt"
 model = YOLO(model_path)
+if(args.o.lower() == 'auto'):
+    optim = args.o.lower()
+else:
+    optim = args.o #if args.o.lower() != 'auto' else 'AdamW'
 
-optim = args.o if args.o.lower() != 'auto' else 'AdamW'
-
-
-results = model.train(data='VOCYolo.yaml', epochs=args.e, imgsz=args.isize, optimizer=optim, batch=args.bsize, val=True, lr0=args.lr, plots=True, single_cls=False, pretrained=False)
-shutil.move(os.path.join(results.save_dir, "weights", "best.pt"), os.path.join(RESULT_PATH, f'{args.model}_e{args.e}.pth'))
+results = model.train(data='VOCYolo.yaml', epochs=args.e, imgsz=args.isize, optimizer=optim, batch=args.bsize, val=True, lr0=args.lr, plots=True, single_cls=False, pretrained=True)
+shutil.move(os.path.join(results.save_dir, "weights", "best.pt"), os.path.join(RESULT_PATH, f'{args.model}_e{args.e}.pt'))
 
 import sys
-if(args.saveTxt): sys.exit()
+if(args.saveTxt == False): sys.exit()
 
 csv_path = os.path.join(results.save_dir, "results.csv")
 df = pd.read_csv(csv_path)
