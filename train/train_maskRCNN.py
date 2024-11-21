@@ -10,6 +10,8 @@ import torchvision.models.detection.mask_rcnn
 import os
 from metrics import dice_coefficient_mask
 import argparse
+import sys
+from log import LogFile
 
 parser = argparse.ArgumentParser()
 
@@ -30,8 +32,11 @@ print(args)
 
 directory = os.path.dirname(os.path.abspath(__file__))
 RESULT_PATH = os.path.join(directory, f"../results_train/{args.model}")
-
 os.makedirs(os.path.join(RESULT_PATH), exist_ok=True)
+
+log_file = open(os.path.join(RESULT_PATH, "console_log.txt"), "w")
+
+sys.stdout = LogFile(sys.__stdout__, log_file)
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -76,7 +81,7 @@ train_losses = []
 train_dices = []
 val_losses = []
 val_dices = []
-
+space = 12
 for epoch in range(args.e):
     print("-" * 15 + f" Epoch {epoch + 1} " + "-" * 15)
 
@@ -126,22 +131,26 @@ for epoch in range(args.e):
 
     print("-" * 39)
     print(f"EPOCH {epoch + 1}/{args.e}:")
+    print(f"{'Metric':<{space}}{'Train':<{space}}{'Validation':<{space}}")
+    print(f"{'Dice':<{space}}{train_dice:<{space}.4f}{val_dice:<{space}.4f}")
+    print(f"{'Loss':<{space}}{train_loss:<{space}.4f}{val_loss:<{space}.4f}")
+    '''
     print("\tTrain:")
     print(f"\t Loss: {train_loss:.4f}")
     print(f"\t Dice: {train_dice:.4f}")
     print("\tValidation:")
     print(f"\t Loss: {val_loss:.4f}")
     print(f"\t Dice: {val_dice:.4f}")
+    '''
     print("-"*39)
 
-torch.save(model.state_dict(), os.path.join(RESULT_PATH, f'MaskRCNN_e{args.e}.pth'))
+torch.save(model.state_dict(), os.path.join(RESULT_PATH, f'MaskRCNN.pth'))
 
-import sys
 if(args.saveTxt == False): sys.exit()
 
 metrics_file_path = os.path.join(RESULT_PATH, f"{args.model}_metrics.txt")
 epochs_list = list(range(1, args.e + 1))
-# Открываем файл для записи
+
 with open(metrics_file_path, 'w') as f:
 
     header = "Epoch\tTrain_Loss\tTrain_Dice\tVal_Loss\tVal_Dice\n"
@@ -153,3 +162,7 @@ with open(metrics_file_path, 'w') as f:
         row += f"{round(val_losses[epoch], 4)}\t{round(val_dices[epoch], 4)}\n"
 
         f.write(row)
+
+sys.stdout = sys.__stdout__
+
+log_file.close()

@@ -5,6 +5,7 @@ import os
 import cv2
 import shutil
 import argparse
+import torchvision
 
 parser = argparse.ArgumentParser()
 
@@ -13,23 +14,21 @@ parser.add_argument("--modelPath", help="DATA_PATH", default=None)
 args = parser.parse_args()
 print(args)
 
-
-model = torch.load('models/fcn.pt')
-
-if(args.modelPath != None):
-    model.load_state_dict(torch.load(args.modelPath, weights_only=True, map_location=torch.device('cpu')))
-
-model.eval()
-
-directory = os.path.dirname(os.path.abspath(__file__))
-image_path = os.path.join(directory, "image")
 methodName = 'fcn'
+directory = os.path.dirname(os.path.abspath(__file__))
 
 folderName = os.path.join(directory, 'results', methodName)
 if os.path.exists(folderName):
     shutil.rmtree(folderName)
 os.makedirs(folderName)
 os.makedirs(f"{folderName}/masks")
+
+model = torchvision.models.segmentation.fcn_resnet50(weights='DEFAULT')
+model.load_state_dict(torch.load("models/fcn.pt", weights_only=True, map_location=torch.device('cpu')))
+if(args.modelPath != None):
+    model.load_state_dict(torch.load(args.modelPath, weights_only=True, map_location=torch.device('cpu')))
+
+model.eval()
 
 img_path = os.path.join(directory, 'input.jpg')
 img = cv2.imread(img_path)
@@ -50,6 +49,7 @@ output_predictions = output.argmax(0).cpu().numpy()
 
 canvas = np.zeros((img.shape[2], img.shape[3]), dtype=np.uint8)
 unique_classes = np.unique(output_predictions)
+print(len(unique_classes[1:]))
 for cls in unique_classes[1:]:
     mask = (output_predictions == cls).astype(np.uint8) * 255
     cv2.imwrite(f"{folderName}/masks/mask_{cls}.png", mask) 

@@ -5,6 +5,7 @@ import shutil
 import sys
 import pandas as pd
 import argparse
+from log import LogFile
 
 parser = argparse.ArgumentParser()
 
@@ -24,10 +25,14 @@ print(args)
 
 directory = os.path.dirname(os.path.abspath(__file__))
 RESULT_PATH = os.path.join(directory, f"../results_train/{args.model}")
+os.makedirs(os.path.join(RESULT_PATH), exist_ok=True)
+
+log_file = open(os.path.join(RESULT_PATH, "console_log.txt"), "w")
+
+sys.stdout = LogFile(sys.__stdout__, log_file)
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-os.makedirs(os.path.join(RESULT_PATH), exist_ok=True)
 
 def copy_first_n_lines(input_file, output_file, n):
     with open(input_file, 'r', encoding='utf-8') as infile:
@@ -60,9 +65,8 @@ else:
     optim = args.o #if args.o.lower() != 'auto' else 'AdamW'
 
 results = model.train(data='VOCYolo.yaml', epochs=args.e, imgsz=args.isize, optimizer=optim, batch=args.bsize, val=True, lr0=args.lr, plots=True, single_cls=False, pretrained=True)
-shutil.move(os.path.join(results.save_dir, "weights", "best.pt"), os.path.join(RESULT_PATH, f'{args.model}_e{args.e}.pt'))
+shutil.move(os.path.join(results.save_dir, "weights", "best.pt"), os.path.join(RESULT_PATH, f'{args.model}.pt'))
 
-import sys
 if(args.saveTxt == False): sys.exit()
 
 csv_path = os.path.join(results.save_dir, "results.csv")
@@ -71,15 +75,10 @@ df = pd.read_csv(csv_path)
 def normalize(series):
     return (series - series.min()) / (series.max() - series.min())
 
-df['train/seg_loss'] = normalize(df['train/seg_loss'])
-df['val/seg_loss'] = normalize(df['val/seg_loss'])
-df['metrics/precision(B)'] = normalize(df['metrics/precision(B)'])
-df['metrics/recall(B)'] = normalize(df['metrics/recall(B)'])
-df['metrics/precision(M)'] = normalize(df['metrics/precision(M)'])
-df['metrics/recall(M)'] = normalize(df['metrics/recall(M)'])
 
 df['train_dice'] = 2 * df['metrics/precision(B)'] * df['metrics/recall(B)'] / (df['metrics/precision(B)'] + df['metrics/recall(B)'])
 df['val_dice'] = 2 * df['metrics/precision(M)'] * df['metrics/recall(M)'] / (df['metrics/precision(M)'] + df['metrics/recall(M)'])
+
 
 metrics_file_path = os.path.join(RESULT_PATH, f"{args.model}_metrics.txt")
 
@@ -98,6 +97,8 @@ with open(metrics_file_path, 'w') as f:
 
 
 #shutil.rmtree('runs')
+
+log_file.close()
 
 '''
 

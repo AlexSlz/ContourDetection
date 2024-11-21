@@ -9,6 +9,8 @@ from datasetUtils import DatasetLoader, VOCDataset
 from metrics import dice_coefficient, iou, pixel_accuracy
 from torchvision import transforms
 import argparse
+import sys
+from log import LogFile
 
 parser = argparse.ArgumentParser()
 
@@ -19,7 +21,7 @@ parser.add_argument("--e", type=int, help="EPOCHS", default=5)
 parser.add_argument("--o", help="Optimizer: AdamW, SGD", default='AdamW')
 parser.add_argument("--dpath", help="DATA_PATH", default="train/datasets/voc")
 parser.add_argument("--model", help="MODEL_NAME: Deeplabv3, FCN", default="DeepLabv3")
-parser.add_argument("--ilimit", type=int, help="ImageLimit", default=5)
+parser.add_argument("--ilimit", type=int, help="ImageLimit", default=6)
 parser.add_argument("--saveTxt", action="store_true", help="saveTxt")
 parser.add_argument("--customDataSet", action="store_true")
 
@@ -30,6 +32,10 @@ directory = os.path.dirname(os.path.abspath(__file__))
 RESULT_PATH = os.path.join(directory, f"../results_train/{args.model}")
 
 os.makedirs(RESULT_PATH, exist_ok=True)
+
+log_file = open(os.path.join(RESULT_PATH, "console_log.txt"), "w")
+
+sys.stdout = LogFile(sys.__stdout__, log_file)
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -71,7 +77,7 @@ metrics = {
     #'accuracy': pixel_accuracy,
     'loss': criterion
 }
-
+space = 12
 train_metrics = {metric: [] for metric in metrics.keys()}
 val_metrics = {metric: [] for metric in metrics.keys()}
 
@@ -115,17 +121,23 @@ for epoch in range(args.e):
 
     print("-" * 39)
     print(f"EPOCH {epoch + 1}/{args.e}:")
+    print(f"{'Metric':<{space}}{'Train':<{space}}{'Validation':<{space}}")
+    for metric_name in metrics.keys():
+        train_value = train_metrics[metric_name][-1]
+        val_value = val_metrics[metric_name][-1]
+        print(f"{metric_name.capitalize():<{space}}{train_value:<{space}.4f}{val_value:<{space}.4f}")
+    '''
     print("\tTrain:")
     for metric_name in metrics.keys():
         print(f"\t {metric_name.capitalize()}: {train_metrics[metric_name][-1]:.4f}")
     print("\tValidation:")
     for metric_name in metrics.keys():
         print(f"\t {metric_name.capitalize()}: {val_metrics[metric_name][-1]:.4f}")
+    '''
     print("-" * 39)
 
-torch.save(model.state_dict(), os.path.join(RESULT_PATH, f'{args.model}_e{args.e}.pth'))
+torch.save(model.state_dict(), os.path.join(RESULT_PATH, f'{args.model}.pth'))
 
-import sys
 if(args.saveTxt == False): sys.exit()
 
 epochs_list = list(range(1, args.e + 1))
@@ -144,3 +156,5 @@ with open(metrics_file_path, 'w') as f:
         row += "\n"
 
         f.write(row)
+
+log_file.close()

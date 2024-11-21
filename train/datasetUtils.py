@@ -179,13 +179,11 @@ import cv2
 class VOCDataset(Dataset):
     def __init__(self, root,
                  is_train=True, transform=None, classes=1, limit=None):
-        # Choose the file for training or validation images
         if is_train:
             img_root = os.path.join(root, "train.txt")
         else:
             img_root = os.path.join(root, "val.txt")
-        
-        # Get image names into list
+
         img_names = []
         with open(img_root, 'r') as rf:
             names = [name.replace('\n','') for name in rf.readlines()]
@@ -219,11 +217,11 @@ class VOCDataset(Dataset):
 
         if(self.classes > 1):
             mask = convert_to_segmentation_mask(mask)
-        
-        # Apply transformations if specified
+
         if self.transform:
             img = self.transform(img)
             mask = self.transform(mask)
+            mask.argmax(dim=2).squeeze()
 
         
         return img, mask
