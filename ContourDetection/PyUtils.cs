@@ -46,7 +46,17 @@ namespace ContourDetection
                 process.WaitForExit();
             }
 
-            return Directory.GetFiles($"{workingDirectory}/results/{folderName}")[0];
+            List<string> Files = Directory.GetFiles($"{workingDirectory}/results/{folderName}").ToList();
+            if(Files.Count <= 0)
+            {
+                return "not found";
+            }
+            else
+            {
+                return Files[0];
+            }
+
+            //return Directory.GetFiles($"{workingDirectory}/results/{folderName}")[0];
         }
 
         public static string RunTrain(string cmdCommand, string folderName)

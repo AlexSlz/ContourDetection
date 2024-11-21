@@ -18,7 +18,8 @@ namespace ContourDetection
             _stopwatch.Start();
             var findContour = SelectedAlgorithm.Apply(image);
             _stopwatch.Stop();
-            findContour[0].TimeToFind = _stopwatch.Elapsed;
+            if (findContour != null)
+                findContour[0].TimeToFind = _stopwatch.Elapsed;
             return findContour;
         }
     }

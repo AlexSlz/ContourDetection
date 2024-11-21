@@ -17,7 +17,10 @@ namespace ContourDetection.Algorithms
         public List<Contour> Apply(GraphicElement image)
         {
             var result = PyUtils.Run("py fcn.py", image, "fcn");
-
+            if (result == "not found")
+            {
+                return null;
+            }
             var masks = PyUtils.GetMasksList("fcn");
             var contours = MyUtils.CreateContourList(this, result, masks, image.Bitmap);
             

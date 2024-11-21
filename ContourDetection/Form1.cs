@@ -112,13 +112,17 @@ namespace ContourDetection
             _contourDetector.Select(algorithm);
 
             var contours = _contourDetector.ApplyAlgorithm(SelectedImage);
-
-            SelectedImage.Contours.AddRange(contours);
-
-            SelectedImage.DisplayOnTreeView(treeView1);
-
+            if (contours != null && contours?.Count != 0)
+            {
+                SelectedImage.Contours.AddRange(contours);
+                SelectedImage.DisplayOnTreeView(treeView1);
+                tabControl1.SelectTab(0);
+            }
+            else
+            {
+                MessageBox.Show("Нічого не знайдено!");
+            }
             GC.Collect();
-            tabControl1.SelectTab(0);
         }
 
         public MyImage FindImageInTreeView(TreeNode selectedNode)

@@ -18,6 +18,11 @@ namespace ContourDetection.Algorithms
         {
             var result = PyUtils.Run("py deeplabv3.py", image, "deeplabv3");
 
+            if(result == "not found")
+            {
+                return null;
+            }
+
             var masks = PyUtils.GetMasksList("deeplabv3");
             var contours = MyUtils.CreateContourList(this, result, masks, image.Bitmap);
             
