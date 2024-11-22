@@ -11,7 +11,7 @@ namespace ContourDetection
     {
         public static string SelectedWeight = "";
 
-        public static string DataSetPath = "./";
+        public static string DataSetPath = "datasets/voc";
         public static int ImageLimit = 0;
         public static int ImageSize = 224;
         public static int Epochs = 5;
@@ -64,6 +64,10 @@ namespace ContourDetection
                 while ((line = sr.ReadLine()) != null)
                 {
                     string[] values = line.Split('\t');
+                    for (int i = 1; i < values.Length; i++)
+                    {
+                        values[i] = values[i].Replace(".", ",");
+                    }
                     dataGridView.Rows.Add(values);
                 }
             }

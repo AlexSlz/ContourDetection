@@ -47,6 +47,7 @@ namespace ContourDetection
 
             treeView1.ContextMenuStrip = contextMenuStrip1;
             label9.Text = TrainHelper.SelectedWeight;
+            datasetPathLabel.Text = TrainHelper.DataSetPath;
         }
         string filter = "Image Files(*.jpg; *.jpeg; *.png; *.bmp)|*.jpg; *.jpeg; *.png; *.bmp";
         private MyImage OpenDialogImage()
@@ -402,6 +403,7 @@ namespace ContourDetection
                 if (fileDialog.ShowDialog() == DialogResult.OK)
                 {
                     TrainHelper.LoadMetricsToDataGridView(fileDialog.FileName, dataGridView2);
+                    label11.Text = TrainHelper.GetLastFolders(fileDialog.FileName);
                 }
             }
         }

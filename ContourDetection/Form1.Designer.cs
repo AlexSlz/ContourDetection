@@ -78,6 +78,7 @@
             ЗберегтиToolStripMenuItem = new ToolStripMenuItem();
             ВидалитиToolStripMenuItem = new ToolStripMenuItem();
             вибратиСправжнєЗображенняToolStripMenuItem = new ToolStripMenuItem();
+            label11 = new Label();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -538,6 +539,7 @@
             // 
             // tabPage4
             // 
+            tabPage4.Controls.Add(label11);
             tabPage4.Controls.Add(button8);
             tabPage4.Controls.Add(label10);
             tabPage4.Controls.Add(button7);
@@ -630,6 +632,15 @@
             вибратиСправжнєЗображенняToolStripMenuItem.Text = "Вибрати Істинне зображення";
             вибратиСправжнєЗображенняToolStripMenuItem.Click += вибратиСправжнєЗображенняToolStripMenuItem_Click;
             // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(222, 15);
+            label11.Name = "label11";
+            label11.Size = new Size(23, 25);
+            label11.TabIndex = 11;
+            label11.Text = "./";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -715,5 +726,6 @@
         private DataGridViewTextBoxColumn Head5;
         private Label label10;
         private Button button8;
+        private Label label11;
     }
 }
