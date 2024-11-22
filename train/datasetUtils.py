@@ -120,13 +120,11 @@ class DatasetLoaderv2(Dataset):
 class VOCDatasetv2(Dataset):
     def __init__(self, root,
                  is_train=True, transform=None, classes=None, limit=None):
-        # Choose the file for training or validation images
         if is_train:
             img_root = os.path.join(root, "train.txt")
         else:
             img_root = os.path.join(root, "val.txt")
-        
-        # Get image names into list
+
         img_names = []
         with open(img_root, 'r') as rf:
             names = [name.replace('\n','') for name in rf.readlines()]
@@ -148,7 +146,7 @@ class VOCDatasetv2(Dataset):
         img_name = self.img_names[item]
  
         img = read_image(os.path.join(self.root, "JPEGImages", img_name + ".jpg"))
-        mask = read_image(os.path.join(self.root, "SegmentationClass", img_name + ".png"))
+        mask = read_image(os.path.join(self.root, "SegmentationObject", img_name + ".png"))
         
         obj_ids = torch.unique(mask)
 
@@ -207,10 +205,10 @@ class VOCDataset(Dataset):
         img = cv2.imread(os.path.join(self.root, "JPEGImages", img_name + ".jpg"))
 
         if(self.classes > 1):
-            mask = cv2.imread(os.path.join(self.root, "SegmentationClass", img_name + ".png"))
+            mask = cv2.imread(os.path.join(self.root, "SegmentationObject", img_name + ".png"))
             mask = cv2.cvtColor(mask, cv2.COLOR_BGR2RGB)
         else:
-            mask = Image.open(os.path.join(self.root, "SegmentationClass", img_name + ".png")).convert("L")
+            mask = Image.open(os.path.join(self.root, "SegmentationObject", img_name + ".png")).convert("L")
             mask = mask.point(lambda p: 255 if p > 0 else 0)
             
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)

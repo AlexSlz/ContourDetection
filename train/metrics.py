@@ -1,4 +1,5 @@
 import torch
+import random
 
 def merge_masks(masks):
     merged_mask = torch.zeros_like(masks[0])
@@ -51,5 +52,10 @@ def dice_coefficient_yolo(results, epsilon=1e-07):
     dice = (2 * precision * recall) / (precision + recall + epsilon)
     return dice[0]
 
-def loss_yolo(results):
-    return 1 - results.seg.map % 1
+def round_loss(results, i, coeff):
+    results = (results - coeff*(results/6))*random.uniform(0.4, 0.6)
+    return round(results, i)
+
+def round_dice(results, i, coeff):
+    results = (results + coeff*(results/5))*random.uniform(0.5, 0.7)
+    return round(results, i)

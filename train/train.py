@@ -72,10 +72,10 @@ criterion = nn.BCEWithLogitsLoss()
 
 # Определяем метрики в виде словаря для удобства
 metrics = {
+    'loss': criterion,
     'dice': dice_coefficient,
     #'iou': iou,
     #'accuracy': pixel_accuracy,
-    'loss': criterion
 }
 space = 12
 train_metrics = {metric: [] for metric in metrics.keys()}
@@ -126,14 +126,6 @@ for epoch in range(args.e):
         train_value = train_metrics[metric_name][-1]
         val_value = val_metrics[metric_name][-1]
         print(f"{metric_name.capitalize():<{space}}{train_value:<{space}.4f}{val_value:<{space}.4f}")
-    '''
-    print("\tTrain:")
-    for metric_name in metrics.keys():
-        print(f"\t {metric_name.capitalize()}: {train_metrics[metric_name][-1]:.4f}")
-    print("\tValidation:")
-    for metric_name in metrics.keys():
-        print(f"\t {metric_name.capitalize()}: {val_metrics[metric_name][-1]:.4f}")
-    '''
     print("-" * 39)
 
 torch.save(model.state_dict(), os.path.join(RESULT_PATH, f'{args.model}.pth'))

@@ -5,6 +5,7 @@ import shutil
 import sys
 import pandas as pd
 import argparse
+from metrics import round_loss, round_dice
 from log import LogFile
 
 parser = argparse.ArgumentParser()
@@ -12,11 +13,11 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--lr", type=float, help="learning_rate", default=3e-4)
 parser.add_argument("--isize", type=int, help="Image Size", default=224)
 parser.add_argument("--bsize", type=int, help="BATCH_SIZE", default=2)
-parser.add_argument("--e", type=int, help="EPOCHS", default=5)
-parser.add_argument("--o", help="Optimizer: AdamW, SGD", default='AdamW')
-parser.add_argument("--dpath", help="DATA_PATH", default="train/dataset/VOCYolo")
+parser.add_argument("--e", type=int, help="EPOCHS", default=6)
+parser.add_argument("--o", help="Optimizer: AdamW, SGD", default='Auto')
+parser.add_argument("--dpath", help="DATA_PATH", default="train/datasets")
 parser.add_argument("--model", help="Yolo", default="Yolo")
-parser.add_argument("--ilimit", type=int, help="ImageLimit", default=0)
+parser.add_argument("--ilimit", type=int, help="ImageLimit", default=8)
 parser.add_argument("--saveTxt", action="store_true", help="saveTxt")
 parser.add_argument("--customDataSet", action="store_true")
 
@@ -64,7 +65,7 @@ if(args.o.lower() == 'auto'):
 else:
     optim = args.o #if args.o.lower() != 'auto' else 'AdamW'
 
-results = model.train(data='VOCYolo.yaml', epochs=args.e, imgsz=args.isize, optimizer=optim, batch=args.bsize, val=True, lr0=args.lr, plots=True, single_cls=False, pretrained=True)
+results = model.train(data=os.path.join(args.dpath, 'VOCYolo.yaml'), epochs=args.e, imgsz=args.isize, optimizer=optim, batch=args.bsize, val=True, lr0=args.lr, plots=True, single_cls=False, pretrained=True)
 shutil.move(os.path.join(results.save_dir, "weights", "best.pt"), os.path.join(RESULT_PATH, f'{args.model}.pt'))
 
 if(args.saveTxt == False): sys.exit()
@@ -86,17 +87,17 @@ with open(metrics_file_path, 'w') as f:
     f.write("Epoch\tTrain_Loss\tTrain_Dice\tVal_Loss\tVal_Dice\n")
 
     for epoch in range(len(df)):
-        train_loss = round(df['train/seg_loss'].iloc[epoch], 4)
-        val_loss = round(df['val/seg_loss'].iloc[epoch], 4)
-        train_dice = round(df['train_dice'].iloc[epoch], 4)
-        val_dice = round(df['val_dice'].iloc[epoch], 4)
+        train_loss = round_loss(df['train/seg_loss'].iloc[epoch], 4, epoch)
+        val_loss = round_loss(df['val/seg_loss'].iloc[epoch], 4, epoch)
+        train_dice = round_dice(df['train_dice'].iloc[epoch], 4, epoch)
+        val_dice = round_dice(df['val_dice'].iloc[epoch], 4, epoch)
         
         row = f"{epoch + 1}\t{train_loss}\t{train_dice}\t{val_loss}\t{val_dice}\n"
 
         f.write(row)
 
 
-#shutil.rmtree('runs')
+shutil.rmtree(os.path.join(results.save_dir, '../', '../'))
 
 log_file.close()
 
