@@ -61,14 +61,10 @@
             button1 = new Button();
             tabPage3 = new TabPage();
             dataGridView1 = new DataGridView();
-            Head1 = new DataGridViewTextBoxColumn();
-            Head2 = new DataGridViewTextBoxColumn();
-            Head3 = new DataGridViewTextBoxColumn();
-            Head4 = new DataGridViewTextBoxColumn();
-            Head5 = new DataGridViewTextBoxColumn();
             button3 = new Button();
             AnalysisLabel = new Label();
             tabPage4 = new TabPage();
+            label11 = new Label();
             button8 = new Button();
             label10 = new Label();
             button7 = new Button();
@@ -78,7 +74,12 @@
             ЗберегтиToolStripMenuItem = new ToolStripMenuItem();
             ВидалитиToolStripMenuItem = new ToolStripMenuItem();
             вибратиСправжнєЗображенняToolStripMenuItem = new ToolStripMenuItem();
-            label11 = new Label();
+            Head1 = new DataGridViewTextBoxColumn();
+            Head2 = new DataGridViewTextBoxColumn();
+            Head3 = new DataGridViewTextBoxColumn();
+            Head4 = new DataGridViewTextBoxColumn();
+            Head5 = new DataGridViewTextBoxColumn();
+            Column1 = new DataGridViewTextBoxColumn();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -480,43 +481,13 @@
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Head1, Head2, Head3, Head4, Head5 });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Head1, Head2, Head3, Head4, Head5, Column1 });
             dataGridView1.Location = new Point(8, 102);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
             dataGridView1.Size = new Size(760, 413);
             dataGridView1.TabIndex = 4;
-            // 
-            // Head1
-            // 
-            Head1.HeaderText = "Name";
-            Head1.Name = "Head1";
-            Head1.Width = 87;
-            // 
-            // Head2
-            // 
-            Head2.HeaderText = "F1Score";
-            Head2.Name = "Head2";
-            Head2.Width = 103;
-            // 
-            // Head3
-            // 
-            Head3.HeaderText = "PixelAccuracy";
-            Head3.Name = "Head3";
-            Head3.Width = 153;
-            // 
-            // Head4
-            // 
-            Head4.HeaderText = "IoU";
-            Head4.Name = "Head4";
-            Head4.Width = 66;
-            // 
-            // Head5
-            // 
-            Head5.HeaderText = "TotalScore";
-            Head5.Name = "Head5";
-            Head5.Width = 124;
             // 
             // button3
             // 
@@ -551,6 +522,15 @@
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Результати навчання";
             tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(222, 15);
+            label11.Name = "label11";
+            label11.Size = new Size(23, 25);
+            label11.TabIndex = 11;
+            label11.Text = "./";
             // 
             // button8
             // 
@@ -632,14 +612,41 @@
             вибратиСправжнєЗображенняToolStripMenuItem.Text = "Вибрати Істинне зображення";
             вибратиСправжнєЗображенняToolStripMenuItem.Click += вибратиСправжнєЗображенняToolStripMenuItem_Click;
             // 
-            // label11
+            // Head1
             // 
-            label11.AutoSize = true;
-            label11.Location = new Point(222, 15);
-            label11.Name = "label11";
-            label11.Size = new Size(23, 25);
-            label11.TabIndex = 11;
-            label11.Text = "./";
+            Head1.HeaderText = "Name";
+            Head1.Name = "Head1";
+            Head1.Width = 87;
+            // 
+            // Head2
+            // 
+            Head2.HeaderText = "F1Score";
+            Head2.Name = "Head2";
+            Head2.Width = 103;
+            // 
+            // Head3
+            // 
+            Head3.HeaderText = "PixelAccuracy";
+            Head3.Name = "Head3";
+            Head3.Width = 153;
+            // 
+            // Head4
+            // 
+            Head4.HeaderText = "IoU";
+            Head4.Name = "Head4";
+            Head4.Width = 66;
+            // 
+            // Head5
+            // 
+            Head5.HeaderText = "TotalScore";
+            Head5.Name = "Head5";
+            Head5.Width = 124;
+            // 
+            // Column1
+            // 
+            Column1.HeaderText = "Time";
+            Column1.Name = "Column1";
+            Column1.Width = 78;
             // 
             // Form1
             // 
@@ -719,13 +726,14 @@
         private DataGridView dataGridView2;
         private Button button6;
         private Button button7;
+        private Label label10;
+        private Button button8;
+        private Label label11;
         private DataGridViewTextBoxColumn Head1;
         private DataGridViewTextBoxColumn Head2;
         private DataGridViewTextBoxColumn Head3;
         private DataGridViewTextBoxColumn Head4;
         private DataGridViewTextBoxColumn Head5;
-        private Label label10;
-        private Button button8;
-        private Label label11;
+        private DataGridViewTextBoxColumn Column1;
     }
 }

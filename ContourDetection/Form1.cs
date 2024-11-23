@@ -24,9 +24,9 @@ namespace ContourDetection
 
         List<IAlgorithm> AlgorithmList = new List<IAlgorithm>()
             {
-                new MaskRCNN(),
                 new DeepLabv3(),
                 new FCN(),
+                new MaskRCNN(),
                 new Yolo()
             };
 
@@ -176,7 +176,6 @@ namespace ContourDetection
                     AnalysisLabel.Text += $"\nІстинне зображення: {GroundTruthContourImage.FileName}";
             }
         }
-
         private void button3_Click(object sender, EventArgs e)
         {
             if (GroundTruthContourImage == null) return;
@@ -188,7 +187,7 @@ namespace ContourDetection
 
                 var total = (F1Score + pixelAccuracy + IoU) / 3;
 
-                dataGridView1.Rows.Add(contour.GetName(), F1Score, pixelAccuracy, IoU, Math.Round(total, 3));
+                dataGridView1.Rows.Add(contour.GetName(), F1Score, pixelAccuracy, IoU, Math.Round(total, 4), contour.TimeToFind.Seconds);
             }
         }
 
@@ -315,6 +314,7 @@ namespace ContourDetection
             if (SelectedImage == null) return;
             GroundTruthContourImage = OpenDialogImage();
             if (GroundTruthContourImage == null) return;
+            GroundTruthContourImage.Bitmap = MyUtils.ToBlackWhite(GroundTruthContourImage.Bitmap);
             GroundTruthContourImage.Show(pictureBox);
         }
 
