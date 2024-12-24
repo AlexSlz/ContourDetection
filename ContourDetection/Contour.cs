@@ -1,6 +1,4 @@
-﻿using Emgu.CV;
-
-namespace ContourDetection
+﻿namespace ContourDetection
 {
     internal class Contour : GraphicElement
     {
