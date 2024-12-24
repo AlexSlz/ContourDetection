@@ -118,8 +118,8 @@ for epoch in range(args.e):
         train_running_loss += loss.item()
         train_running_dice += dice.item()
 
-    train_loss = train_running_loss / (idx + 1)# * 0.5
-    train_dice = train_running_dice / (idx + 1) #* 1.2
+    train_loss = train_running_loss / (idx + 1)
+    train_dice = train_running_dice / (idx + 1)
     train_losses.append(train_loss)
     train_dices.append(train_dice)
 
@@ -138,8 +138,8 @@ for epoch in range(args.e):
         val_running_loss += loss.item()
         val_running_dice += dice.item()
             
-    val_loss = val_running_loss / (idx + 1) #* 0.4
-    val_dice = val_running_dice / (idx + 1) #* 1.2
+    val_loss = val_running_loss / (idx + 1) 
+    val_dice = val_running_dice / (idx + 1)
     val_losses.append(val_loss)
     val_dices.append(val_dice)
 

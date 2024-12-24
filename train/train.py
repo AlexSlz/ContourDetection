@@ -6,7 +6,7 @@ from tqdm import tqdm
 from torch.utils.data import DataLoader, random_split
 import os
 from datasetUtils import DatasetLoader, VOCDataset
-from metrics import dice_coefficient, iou, pixel_accuracy
+from metrics import dice_coefficient
 from torchvision import transforms
 import argparse
 import sys
@@ -21,7 +21,7 @@ parser.add_argument("--e", type=int, help="EPOCHS", default=5)
 parser.add_argument("--o", help="Optimizer: AdamW, SGD", default='AdamW')
 parser.add_argument("--dpath", help="DATA_PATH", default="train/datasets/voc")
 parser.add_argument("--model", help="MODEL_NAME: Deeplabv3, FCN", default="DeepLabv3")
-parser.add_argument("--ilimit", type=int, help="ImageLimit", default=6)
+parser.add_argument("--ilimit", type=int, help="ImageLimit", default=500)
 parser.add_argument("--saveTxt", action="store_true", help="saveTxt")
 parser.add_argument("--customDataSet", action="store_true")
 
@@ -70,7 +70,6 @@ else:
 
 criterion = nn.BCEWithLogitsLoss()
 
-# Определяем метрики в виде словаря для удобства
 metrics = {
     'loss': criterion,
     'dice': dice_coefficient,

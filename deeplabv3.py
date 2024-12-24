@@ -28,7 +28,6 @@ model = torchvision.models.segmentation.deeplabv3_resnet50(weights='DEFAULT') #t
 model.load_state_dict(torch.load("models/deeplabv3.pt", weights_only=True, map_location=torch.device('cpu')))
 if(args.modelPath != None):
     model.load_state_dict(torch.load(args.modelPath, weights_only=True, map_location=torch.device('cpu')))
-    model = torchvision.models.segmentation.deeplabv3_mobilenet_v3_large(weights='DEFAULT')
 
 model.eval()
 
@@ -43,7 +42,6 @@ transform = T.Compose([
 img = transform(img)
 
 img = img.unsqueeze(0)
-
 
 with torch.no_grad():
     output = model(img)['out'][0]

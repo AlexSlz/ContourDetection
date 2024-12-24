@@ -37,10 +37,8 @@ VOC_COLORMAP = [
 
 def convert_to_segmentation_mask(mask):
     height, width = mask.shape[:2]
-        # Initialize an empty mask with a channel for each class
     segmentation_mask = np.zeros((height, width, len(VOC_COLORMAP)))
-        
-        # Create a mask for each class label
+
     for label_index, label in enumerate(VOC_COLORMAP):
         segmentation_mask[:, :, label_index] = np.all(mask == label, axis=-1).astype(float)
         
@@ -78,8 +76,6 @@ class DatasetLoaderv2(Dataset):
         self.root = root
         self.transforms = transform
         self.limit = limit
-        # load all image files, sorting them to
-        # ensure that they are aligned
         self.images = list(sorted(os.listdir(os.path.join(root, "train"))))[:self.limit]
         self.masks = list(sorted(os.listdir(os.path.join(root, "train_mask"))))[:self.limit]
         if self.limit is None:
@@ -220,6 +216,5 @@ class VOCDataset(Dataset):
             img = self.transform(img)
             mask = self.transform(mask)
             mask.argmax(dim=2).squeeze()
-
-        
+            
         return img, mask
