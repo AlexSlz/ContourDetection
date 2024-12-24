@@ -1,9 +1,4 @@
-﻿using Emgu.CV.CvEnum;
-using Emgu.CV;
-using Emgu.CV.Structure;
-using Emgu.CV.Linemod;
-
-namespace ContourDetection
+﻿namespace ContourDetection.Metrics
 {
     internal class Analysis
     {
@@ -12,10 +7,10 @@ namespace ContourDetection
             bool[,] detectedArray = BitmapToBinaryArray(detectedContours);
             bool[,] groundTruthArray = BitmapToBinaryArray(groundTruthContours);
 
-            var metrics = new Metrics(detectedArray, groundTruthArray);
-            double meanF1 = metrics.F1Score();
-            double pixelAccuracy = metrics.PixelAccuracy();
-            double iou = metrics.IoU();
+            //var metrics = new Metrics(detectedArray, groundTruthArray);
+            double meanF1 = new F1Score(detectedArray, groundTruthArray).Analysis();
+            double pixelAccuracy = new PixelAccuracy(detectedArray, groundTruthArray).Analysis();
+            double iou = new IoU(detectedArray, groundTruthArray).Analysis();
 
             return (Math.Round(meanF1, 4), Math.Round(pixelAccuracy, 4), Math.Round(iou, 4));
         }

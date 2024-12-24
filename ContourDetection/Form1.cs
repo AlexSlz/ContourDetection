@@ -1,8 +1,6 @@
 using ContourDetection.Algorithms;
+using ContourDetection.Metrics;
 using ContourDetection.Settings;
-using Newtonsoft.Json;
-using System.IO;
-using System.Windows.Forms;
 
 namespace ContourDetection
 {
@@ -85,7 +83,7 @@ namespace ContourDetection
         {
             LoadDefaultImage();
         }
-
+        //Контури
         private void button1_Click(object sender, EventArgs e)
         {
             IAlgorithm algorithm = AlgorithmList.Find(item => item.Name == comboBox1.Text);
@@ -176,6 +174,8 @@ namespace ContourDetection
                     AnalysisLabel.Text += $"\nІстинне зображення: {GroundTruthContourImage.FileName}";
             }
         }
+
+        //Аналіз
         private void button3_Click(object sender, EventArgs e)
         {
             if (GroundTruthContourImage == null) return;

@@ -1,26 +1,21 @@
-﻿using Emgu.CV;
-using Emgu.CV.Structure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ContourDetection
+﻿namespace ContourDetection.Metrics
 {
-    internal class Metrics
+    internal abstract class Metrics
     {
-        private readonly bool[,] detectedArray;
-        private readonly bool[,] groundTruthArray;
-        private readonly int height;
-        private readonly int width;
+        protected readonly bool[,] detectedArray;
+        protected readonly bool[,] groundTruthArray;
+        protected readonly int height;
+        protected readonly int width;
         public Metrics(bool[,] detectedArray, bool[,] groundTruthArray)
         {
             this.detectedArray = detectedArray;
             this.groundTruthArray = groundTruthArray;
-            this.height = detectedArray.GetLength(0);
-            this.width = detectedArray.GetLength(1);
+            height = detectedArray.GetLength(0);
+            width = detectedArray.GetLength(1);
         }
+
+        public abstract double Analysis();
+
         public double IoU()
         {
             int intersection = 0;
