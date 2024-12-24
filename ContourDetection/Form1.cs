@@ -1,6 +1,7 @@
 using ContourDetection.Algorithms;
 using ContourDetection.Metrics;
 using ContourDetection.Settings;
+using static Emgu.CV.XImgproc.SupperpixelSLIC;
 
 namespace ContourDetection
 {
@@ -83,6 +84,7 @@ namespace ContourDetection
         {
             LoadDefaultImage();
         }
+
         //Контури
         private void button1_Click(object sender, EventArgs e)
         {
@@ -99,14 +101,7 @@ namespace ContourDetection
                 MessageBox.Show("Спочатку потрібно завантажити зображення.");
                 return;
             }
-            var FindContours = SelectedImage.Contours.FindAll(item => item.Algorithm.Name == algorithm.Name);
-            if (FindContours != null)
-            {
-                foreach (var findContour in FindContours)
-                {
-                    SelectedImage.Contours.Remove(findContour);
-                }
-            }
+            DeleteExistContour(algorithm);
 
             _contourDetector.Select(algorithm);
 
@@ -122,6 +117,18 @@ namespace ContourDetection
                 MessageBox.Show("Нічого не знайдено!");
             }
             GC.Collect();
+        }
+
+        private void DeleteExistContour(IAlgorithm algorithm)
+        {
+            var FindContours = SelectedImage.Contours.FindAll(item => item.Algorithm.Name == algorithm.Name);
+            if (FindContours != null)
+            {
+                foreach (var findContour in FindContours)
+                {
+                    SelectedImage.Contours.Remove(findContour);
+                }
+            }
         }
 
         public MyImage FindImageInTreeView(TreeNode selectedNode)
@@ -382,6 +389,7 @@ namespace ContourDetection
             TrainHelper.ImageSize = (int)ImageSizeNumeric.Value;
         }
 
+        //Тренування
         private void TrainingButton_Click(object sender, EventArgs e)
         {
             IAlgorithm algorithm = AlgorithmList.Find(item => item.Name == comboBox1.Text);
