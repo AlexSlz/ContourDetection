@@ -8,7 +8,6 @@ from torchvision.transforms import v2 as T
 from datasetUtils import VOCDatasetv2, DatasetLoaderv2
 import torchvision.models.detection.mask_rcnn
 import os
-from metrics import dice_coefficient_mask
 import argparse
 import sys
 from log import LogFile
@@ -111,12 +110,12 @@ for epoch in range(args.e):
 
         loss_dict = model(images, targets)
         loss = sum(loss for loss in loss_dict.values())
-        dice = dice_coefficient_mask(loss_dict, targets)
+        dice = 0
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
         train_running_loss += loss.item()
-        train_running_dice += dice.item()
+        train_running_dice += dice
 
     train_loss = train_running_loss / (idx + 1)
     train_dice = train_running_dice / (idx + 1)
@@ -134,9 +133,9 @@ for epoch in range(args.e):
         with torch.no_grad():
             loss_dict = model(images, targets)
             loss = sum(loss for loss in loss_dict.values())
-            dice = dice_coefficient_mask(loss_dict, targets)
+            dice = 0
         val_running_loss += loss.item()
-        val_running_dice += dice.item()
+        val_running_dice += dice
             
     val_loss = val_running_loss / (idx + 1) 
     val_dice = val_running_dice / (idx + 1)

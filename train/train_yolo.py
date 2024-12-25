@@ -5,7 +5,6 @@ import shutil
 import sys
 import pandas as pd
 import argparse
-from metrics import round_loss, round_dice
 from log import LogFile
 
 parser = argparse.ArgumentParser()
@@ -87,12 +86,8 @@ with open(metrics_file_path, 'w') as f:
     f.write("Epoch\tTrain_Loss\tTrain_Dice\tVal_Loss\tVal_Dice\n")
 
     for epoch in range(len(df)):
-        train_loss = round_loss(df['train/seg_loss'].iloc[epoch], 4, epoch)
-        val_loss = round_loss(df['val/seg_loss'].iloc[epoch], 4, epoch)
-        train_dice = round_dice(df['train_dice'].iloc[epoch], 4, epoch)
-        val_dice = round_dice(df['val_dice'].iloc[epoch], 4, epoch)
-        
-        row = f"{epoch + 1}\t{train_loss}\t{train_dice}\t{val_loss}\t{val_dice}\n"
+
+        row = f"{epoch + 1}\t{df['train/seg_loss'].iloc[epoch]}\t{df['val/seg_loss'].iloc[epoch]}\t{df['train_dice'].iloc[epoch]}\t{df['val_dice'].iloc[epoch]}\n"
 
         f.write(row)
 
@@ -100,161 +95,3 @@ with open(metrics_file_path, 'w') as f:
 shutil.rmtree(os.path.join(results.save_dir, '../', '../'))
 
 log_file.close()
-
-'''
-
-columns_to_plot = [
-    'train/box_loss', 'train/seg_loss', 'train/cls_loss', 'train/dfl_loss',
-    'metrics/precision(B)', 'metrics/recall(B)', 'metrics/precision(M)', 'metrics/recall(M)',
-    'val/box_loss', 'val/seg_loss', 'val/cls_loss', 'val/dfl_loss',
-    'metrics/mAP50(B)', 'metrics/mAP50-95(B)', 'metrics/mAP50(M)', 'metrics/mAP50-95(M)'
-]
-
-# Plot train/seg_loss and val/seg_loss on the same plot
-plt.figure(figsize=(10, 6))
-plt.plot(df['epoch'], df['train/seg_loss'], marker='o', linestyle='-', color='b', label='train/seg_loss')
-plt.plot(df['epoch'], df['val/seg_loss'], marker='o', linestyle='-', color='r', label='val/seg_loss')
-plt.title('Normalized Segmentation Loss (Train vs Validation)')
-plt.xlabel('Epoch')
-plt.ylabel('Normalized Segmentation Loss')
-plt.legend()
-plt.grid(True)
-plt.savefig(os.path.join(output_dir, 'seg_loss_normalized.png'), dpi=300)
-plt.show()
-
-# Calculate Dice coefficients and normalize
-# Dice = 2 * (precision * recall) / (precision + recall)
-df['dice(B)'] = normalize(2 * (df['metrics/precision(B)'] * df['metrics/recall(B)']) / (df['metrics/precision(B)'] + df['metrics/recall(B)']))
-df['dice(M)'] = normalize(2 * (df['metrics/precision(M)'] * df['metrics/recall(M)']) / (df['metrics/precision(M)'] + df['metrics/recall(M)']))
-
-# Plot normalized Dice coefficients
-plt.figure(figsize=(10, 6))
-plt.plot(df['epoch'], df['dice(B)'], marker='o', linestyle='-', color='g', label='Dice(B)')
-plt.plot(df['epoch'], df['dice(M)'], marker='o', linestyle='-', color='m', label='Dice(M)')
-plt.title('Normalized Dice Coefficients')
-plt.xlabel('Epoch')
-plt.ylabel('Normalized Dice Score')
-plt.legend()
-plt.grid(True)
-plt.savefig(os.path.join(output_dir, 'dice_coefficients_normalized.png'), dpi=300)
-plt.show()
-
-train_losses = []
-train_dices = []
-val_losses = []
-val_dices = []
-loss_fn = nn.BCEWithLogitsLoss()
-for epoch in tqdm(range(EPOCHS)):
-    results = model.train(data="coco8-seg.yaml", epochs=1, imgsz=224, lr0=LEARNING_RATE, val=False, plots=False, single_cls=True)
-    model_path = os.path.join(results.save_dir, "weights", "best.pt")
-    model = YOLO(model_path)
-    train_loss = loss_yolo(results)
-    train_dice = dice_coefficient_yolo(results)
-    train_losses.append(train_loss)
-    train_dices.append(train_dice)
-
-    
-    val_running_loss = 0
-    val_running_dice = 0
-    for idx, (images, targets) in enumerate(tqdm(val_dataloader)):
-        images, targets = images.float().to(device), targets.float().to(device)
-
-        results = model(images)
-        masks = results[0].masks
-        if masks is None:
-             continue
-        combined_mask = torch.zeros_like(masks[0].data)
-        for mask in masks:
-            binary_mask = mask.data.clone()
-            binary_mask[binary_mask > 0] = 1
-            combined_mask = torch.logical_or(combined_mask, binary_mask)
-        
-        loss = loss_fn(combined_mask.float(), targets[0].float())
-        val_running_loss += loss.item()
-        
-        dc = dice_coefficient(combined_mask, targets)
-        val_running_dice += dc.item()
-        
-    val_loss = val_running_loss / (idx + 1)
-    val_losses.append(val_loss)
-    val_dice = val_running_dice / (idx + 1)
-    val_dices.append(val_dice)
-    print("-" * 39)
-    print(f"EPOCH {epoch + 1}/{EPOCHS}:")
-    print("\tTrain:")
-    print(f"\t Loss: {train_loss:.4f}")
-    print(f"\t Dice: {train_dice:.4f}")
-    print("\tValidation:")
-    print(f"\t Loss: {val_loss:.4f}")
-    print(f"\t Dice: {val_dice:.4f}")
-    print("-"*39)
-
-import matplotlib.pyplot as plt
-epochs_list = list(range(1, EPOCHS + 1))
-
-plt.figure(figsize=(12, 5))
-plt.subplot(1, 2, 1)
-plt.plot(epochs_list, train_losses, label='Навчання')
-plt.plot(epochs_list, val_losses, label='Перевірка')
-plt.xticks(ticks=list(range(1, EPOCHS + 1, 1))) 
-plt.title('Втрати за епохи')
-plt.xlabel('Epochs')
-plt.ylabel('Loss')
-plt.grid()
-plt.tight_layout()
-
-plt.legend()
-
-
-plt.subplot(1, 2, 2)
-plt.plot(epochs_list, train_dices, label='Навчання')
-plt.plot(epochs_list, val_dices, label='Перевірка')
-plt.xticks(ticks=list(range(1, EPOCHS + 1, 1)))  
-plt.title('DICE Coefficient over epochs')
-plt.xlabel('Epochs')
-plt.ylabel('DICE')
-plt.grid()
-plt.legend()
-
-plt.tight_layout()
-plt.savefig(os.path.join(RESULT_PATH, "yolo_train_loss.png"))
-
-
-shutil.move(model_path, os.path.join(RESULT_PATH, f'yolo_e{EPOCHS}.pth'))
-
-shutil.rmtree('runs')
-
-
-
-images, targets = next(iter(val_dataloader))
-images, targets = images.float().to(device), targets.float().to(device)
-
-results = model(images)
-masks = results[0].masks
-
-combined_mask = torch.zeros_like(masks[0].data)
-for mask in masks:
-    binary_mask = mask.data.clone()
-    binary_mask[binary_mask > 0] = 1
-    combined_mask = torch.logical_or(combined_mask, binary_mask)
-
-loss = loss_fn(masks.data, targets[0])
-print(loss)
-
-plt.figure(figsize=(10, 5))
-
-# Display the combined mask
-plt.subplot(1, 2, 1)
-plt.imshow(combined_mask[0].squeeze().cpu(), cmap='gray')
-plt.title("Combined Prediction Mask")
-plt.axis("off")
-
-# Display the target mask
-plt.subplot(1, 2, 2)
-plt.imshow(targets[0].squeeze().cpu(), cmap='gray')
-plt.title("Target Mask")
-plt.axis("off")
-
-plt.suptitle(f"Dice Coefficient: {dice_score:.4f}")
-plt.show()
-'''
